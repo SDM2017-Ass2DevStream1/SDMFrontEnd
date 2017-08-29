@@ -20,20 +20,20 @@ var plugins = [
             new webpack.EnvironmentPlugin(['NODE_ENV']),
             new CleanWebpackPlugin(
                 [
-                    'dist/js/app.js', 
-                    'dist/js/app.js.map', 
+                    'dist/js/app.js',
+                    'dist/js/app.js.map',
                     'dist/js/vendor.bundle.js',
                     'dist/js/vendor.bundle.js.map',
-                    'dist/css/index.css', 
+                    'dist/css/index.css',
                     'dist/css/index.css.map'
                 ],
             {
-                
+
             })
     ]
 
 if(isPRODUCTION){
-    externals = 
+    externals =
         {
             "react": "React",
             "react-dom": "ReactDOM",
@@ -87,7 +87,7 @@ module.exports = {
             {
                 test: /.less$/,
                 loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader', 
+                    fallback: 'style-loader',
                     use:[
                         {loader:'css-loader', options: {minimize: isPRODUCTION}},
                         {loader: 'postcss-loader'},
@@ -98,7 +98,7 @@ module.exports = {
             {
                 test: /.css$/,
                 loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader', 
+                    fallback: 'style-loader',
                     use: [
                         {loader: 'css-loader', options: {minimize: isPRODUCTION}}
                     ]
