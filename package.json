@@ -41,7 +41,8 @@
     "postcss-loader": "^2.0.5",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.8",
-    "webpack": "^3.5.5"
+    "webpack": "^3.5.5",
+    "webpack-cleanup-plugin": "^0.5.1"
   },
   "dependencies": {
     "axios": "^0.16.2",
