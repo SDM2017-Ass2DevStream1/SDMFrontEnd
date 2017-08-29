@@ -24,19 +24,28 @@ module.exports = (task, option) ->
       .catch ->
         kit.spawn 'npm', ['install']
 
+  task 'update-lint',
+    'Update eslint-config-airbnb to the newest version.', updateLintTask = ->
+    # ref: https://www.npmjs.com/package/eslint-config-airbnb
+    kit.exec '(
+      export PKG=eslint-config-airbnb;
+      npm info "$PKG@latest" peerDependencies --json |
+      command sed "s/[\{\},]//g ; s/: /@/g" |
+      xargs yarn add "$PKG@latest" -D --save
+    )'
+    .then ({code, stdout}) ->
+      kit.log stdout
+
   task 'lint', 'Lint all js & coffee files.', lintTask = ->
-    kit.glob ['assets/**/*.js']
+    kit.glob ['src/**/*.js', 'server/**/*.js']
     .then (fs) ->
       kit.spawn 'eslint', fs
     .then ->
-      kit.warp [
-        '*.coffee'
-        'js/**/*.coffee'
-      ]
-      .load drives.auto 'lint'
-      .load (f) ->
-        f.set null
-      .run()
+      kit.warp ['*.coffee']
+        .load drives.auto 'lint'
+        .load (f) ->
+          f.set null
+        .run()
     .catch ->
 
   task 'dev', 'Auto rebuild during development.', devTask = (opts) ->
