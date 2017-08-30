@@ -1,2 +1,10 @@
 @import '~normalize.css/normalize.css';
 @import '~bootstrap/dist/css/bootstrap.css';
+
+
+#content {
+  width: 1024px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
