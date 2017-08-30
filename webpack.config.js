@@ -73,7 +73,7 @@ const plugins = [
         path: 'babel-loader',
         query: {
           presets: [
-            'react', 'env',
+            'react', 'stage-0', 'env',
           ],
           plugins: [
             'transform-runtime',
