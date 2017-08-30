@@ -5,8 +5,10 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
+// import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import reducers from './reducers';
+import SearchIndex from './containers/search_index';
 import './styles/index.css';
 
 
@@ -23,7 +25,12 @@ const store = middlewares(createStore)(reducers);
 
 ReactDOM.render(
   <Provider store={store}>
-    <div>Test</div>
+    <div>
+      <header>Header</header>
+      <section>
+        <SearchIndex />
+      </section>
+    </div>
   </Provider>,
   document.getElementById('app'),
 );
