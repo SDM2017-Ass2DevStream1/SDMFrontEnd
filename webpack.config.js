@@ -4,8 +4,10 @@ const kit = require('nokit');
 const webpack = require('webpack');
 const HappyPack = require('happypack');
 const autoprefixer = require('autoprefixer');
+const HtmlPlugin = require('html-webpack-plugin');
 const CleanupPlugin = require('webpack-cleanup-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 
 const { join } = kit.path;
 
@@ -39,6 +41,11 @@ const postcssLoader = {
 };
 
 const plugins = [
+  new CleanupPlugin(['dist'], {
+    root: __dirname,
+    verbose: true,
+  }),
+
   new webpack.DefinePlugin({
     __DEV__: !isProd,
   }),
@@ -51,6 +58,11 @@ const plugins = [
   new webpack.optimize.CommonsChunkPlugin({
     name: 'main',
     minChunks: Infinity,
+  }),
+
+  new HtmlPlugin({
+    template: `${SRC_PATH}/index.html`,
+    filename: 'pages/index.html'
   }),
 
   new HappyPack({
@@ -76,8 +88,6 @@ const plugins = [
 
 if (isProd) {
   plugins.concat([
-    new CleanupPlugin(BUILD_PATH),
-
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
       sourceMap: false,
@@ -89,13 +99,7 @@ if (isProd) {
 }
 
 module.exports = {
-  entry: {
-    app: [
-      'babel-polyfill',
-      './src/index.js',
-      './src/styles/index.css',
-    ],
-  },
+  entry: './src/index.js',
 
   output: {
     path: BUILD_PATH,
