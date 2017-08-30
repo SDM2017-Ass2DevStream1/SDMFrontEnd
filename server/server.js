@@ -1,55 +1,61 @@
-/**
- * This is the entry point for the server when a request is made wherr a server side (pre)render is
- * required. 
- **/
+require('babel-core/register')({
+  presets: ['env'],
+  plugins: ['transform-runtime'],
+});
+
+const _ = require('lodash');
+const kit = require('nokit');
+const http = require('http');
+const chalk = require('chalk');
+const express = require('express');
+const compression = require('compression');
+const { argv } = require('yargs');
+
+const routes = require('./routes');
 
 
-/** since the application is of a modular structure, transformation of modules in the components are
- * required, i.e. compile react components, this essentially allows the application to be server as if it was just
- * a single js and css file
- **/
-require("babel-core/register")({
-    "presets": ["es2015", "react", "stage-1"],
-    "plugins": [
-        [
-            "css-modules-transform", {
-                "generateScopedName": "[name]__[local]___[hash:base64:5]",
-                "extensions": [".css"]
-            }
-        ],
-        ["transform-decorators-legacy"], // needed for the connect module in the components 
-        ["system-import-transformer"]
-    ]
-})
+class Server {
+  constructor(options) {
+    const opts = _.extend({
+      port: 3000,
+      ip: '0.0.0.0',
+    }, options);
+    this.port = opts.port;
+    this.ip = opts.ip;
 
-const express = require("express")
-const app = express();
-const compression = require("compression") // use for content encoding gzip
-const path = require('path')
-    // Route handlers go there
-var index = require("./routes/index")
+    this.initApp();
+    this.initServer();
+  }
 
+  initApp() {
+    const app = express();
 
-app.use(compression()) // compresses the content in gzip 
-app.use(express.static(__dirname + "/../dist"))
+    app.disable('x-powered-by');
+    app.set('views', `${__dirname}/views`);
+    app.set('view engine', 'ejs');
 
-/**
- * This block is for server to server the correct file in the environment 
- * for the purpose of loading vender productions files
- **/
-if (process.env.NODE_ENV === 'production') {
-    app.set('views', "./server/views/production")
-} else {
-    app.set('views', "./server/views/development")
+    // compresses the content in gzip
+    app.use(compression());
+    app.use(express.static(`${__dirname}/../dist`));
+
+    // routes namespaces
+    routes(app);
+
+    this.app = app;
+  }
+
+  initServer() {
+    const { port, ip } = this;
+    const server = http.createServer(this.app);
+    this.server = server.listen(port, ip, () => {
+      kit.log(`App is running in ${chalk.blue(process.env.NODE_ENV)} environment. Please visit: http://${ip}:${port}`);
+    });
+  }
+
+  close() {
+    this.server.close();
+    kit.log(chalk.blue('>> Server closed.'));
+  }
 }
 
-app.set('view engine', 'ejs') // view engine to enable embedded javascript
-
-
-// routes namespaces
-app.use("/", index);
-
-
-app.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function() {
-    console.log("App is running in " + process.env.NODE_ENV + " environment");
-})
+module.export = new Server(argv);
