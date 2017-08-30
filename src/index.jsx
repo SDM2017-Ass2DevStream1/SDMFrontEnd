@@ -27,7 +27,7 @@ ReactDOM.render(
   <Provider store={store}>
     <div>
       <header>Header</header>
-      <section>
+      <section id="content">
         <SearchIndex />
       </section>
     </div>
