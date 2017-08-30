@@ -18,6 +18,9 @@ export const searchArticles = createAsyncAction(
     console.log(`Search term: ${term}`);
 
     return fakeAPI({
+      query: {
+        term,
+      },
       items: [
         {
           title: 'Title 1',
