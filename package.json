@@ -35,6 +35,7 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "happypack": "^4.0.0-beta.5",
+    "html-webpack-plugin": "^2.30.1",
     "image-webpack-loader": "^3.4.0",
     "nodemon": "^1.11.0",
     "nokit": "^0.25.1",

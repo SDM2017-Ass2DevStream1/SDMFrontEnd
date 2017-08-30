@@ -11,8 +11,6 @@ const express = require('express');
 const compression = require('compression');
 const { argv } = require('yargs');
 
-const routes = require('./routes');
-
 
 class Server {
   constructor(options) {
@@ -36,10 +34,8 @@ class Server {
 
     // compresses the content in gzip
     app.use(compression());
-    app.use(express.static(`${__dirname}/../dist`));
-
-    // routes namespaces
-    routes(app);
+    app.use('/static', express.static(`${__dirname}/../dist`));
+    app.use(express.static(`${__dirname}/../dist/pages`));
 
     this.app = app;
   }
