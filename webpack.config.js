@@ -73,10 +73,11 @@ const plugins = [
         path: 'babel-loader',
         query: {
           presets: [
-            'env',
+            'react', 'env',
           ],
           plugins: [
             'transform-runtime',
+            'syntax-object-rest-spread',
           ],
         },
       },
@@ -99,7 +100,7 @@ if (isProd) {
 }
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.jsx',
 
   output: {
     path: BUILD_PATH,
@@ -120,7 +121,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         loader: 'happypack/loader',
         options: {
           id: 'js',

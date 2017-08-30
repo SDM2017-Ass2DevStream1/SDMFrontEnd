@@ -2,5 +2,12 @@
 extends:
   - airbnb
 
+env:
+  browser: true
+
+globals:
+  __DEV__: true
+
 rules:
+  import/prefer-default-export: 0
   import/no-extraneous-dependencies: [error, { devDependencies: true }]

@@ -1,6 +1,6 @@
 require('babel-core/register')({
   presets: ['env'],
-  plugins: ['transform-runtime'],
+  plugins: ['transform-runtime', 'syntax-object-rest-spread'],
 });
 
 const _ = require('lodash');
