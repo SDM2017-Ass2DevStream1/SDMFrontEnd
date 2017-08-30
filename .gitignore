@@ -1,7 +1,24 @@
-/dist/js/**
-/dist/css/**
-/dist/fonts/**
-/dist/images/**
+# Logs and database
 *.log
-/node_modules/**
-/dist/imgs/.DS_Store
+*.db
+*.sql
+*.sqlite
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Redis
+dump.rdb
+
+# Customized
+*.swp
+*.db-journal
+.happypack/
+dist/
+node_modules/

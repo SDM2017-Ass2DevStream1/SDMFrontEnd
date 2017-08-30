@@ -62,7 +62,7 @@ const plugins = [
 
   new HtmlPlugin({
     template: `${SRC_PATH}/index.html`,
-    filename: 'pages/index.html'
+    filename: 'pages/index.html',
   }),
 
   new HappyPack({
