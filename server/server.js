@@ -11,6 +11,8 @@ const express = require('express');
 const compression = require('compression');
 const { argv } = require('yargs');
 
+const routes = require('./routes');
+
 
 class Server {
   constructor(options) {
@@ -36,6 +38,7 @@ class Server {
     app.use(compression());
     app.use('/static', express.static(`${__dirname}/../dist`));
     app.use(express.static(`${__dirname}/../dist/pages`));
+    routes(app);
 
     this.app = app;
   }
