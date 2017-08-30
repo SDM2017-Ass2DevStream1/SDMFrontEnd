@@ -1,136 +1,153 @@
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var CleanWebpackPlugin = require("clean-webpack-plugin");
-var webpack = require('webpack');
+// https://github.com/petehunt/webpack-howto
+// http://christianalfoni.github.io/javascript/2014/12/13/did-you-know-webpack-and-react-is-awesome.html
+const kit = require('nokit');
+const webpack = require('webpack');
+const HappyPack = require('happypack');
+const autoprefixer = require('autoprefixer');
+const CleanupPlugin = require('webpack-cleanup-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const isPRODUCTION = process.env.NODE_ENV === 'production';
+const { join } = kit.path;
 
-console.log("Starting " + process.env.NODE_ENV + " build");
+const BUILD_PATH = join(__dirname, 'dist');
+const SRC_PATH = join(__dirname, 'src');
+const NODE_MODULES_PATH = join(__dirname, 'node_modules');
 
-var externals = {}
+const isProd = kit.isProduction();
 
-var plugins = [
-            new ExtractTextPlugin({
-                filename: 'css/index.css',
-                allChunks: true
-            }),
-            new webpack.optimize.CommonsChunkPlugin({
-                name: "vendor",
-                filename: "js/vendor.bundle.js"
-            }),
-            new webpack.EnvironmentPlugin(['NODE_ENV']),
-            new CleanWebpackPlugin(
-                [
-                    'dist/js/app.js',
-                    'dist/js/app.js.map',
-                    'dist/js/vendor.bundle.js',
-                    'dist/js/vendor.bundle.js.map',
-                    'dist/css/index.css',
-                    'dist/css/index.css.map'
-                ],
-            {
+// FIXME: config CDN address for production
+const publicPath = `${isProd ?
+  'https://d21ps49l69jsm6.cloudfront.net' : ''
+}/static/`;
 
-            })
-    ]
+const cssExtractor = new ExtractTextPlugin({
+  filename: '[name].[contenthash:8].css',
+  allChunks: true,
+});
 
-if(isPRODUCTION){
-    externals =
-        {
-            "react": "React",
-            "react-dom": "ReactDOM",
-            "react-router": "ReactRouter",
-            "react-router-dom": "ReactRouterDOM",
-            "redux": "Redux",
-            "react-redux": "ReactRedux"
-        }
-    plugins = plugins.concat([
-            new webpack.optimize.UglifyJsPlugin({
-                compress: {
-                    warnings: false,
-                    drop_console: true
-                },
-                comments: false
-            }),
-        ])
+const postcssLoader = {
+  loader: 'postcss-loader',
+  options: {
+    plugins: [
+      autoprefixer({
+        browsers: [
+          'last 3 versions',
+        ],
+      }),
+    ],
+  },
+};
+
+const plugins = [
+  new webpack.DefinePlugin({
+    __DEV__: !isProd,
+  }),
+
+  new webpack.optimize.ModuleConcatenationPlugin(),
+
+  new webpack.HashedModuleIdsPlugin(),
+
+  // https://github.com/webpack/webpack/tree/master/examples/two-explicit-vendor-chunks
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'main',
+    minChunks: Infinity,
+  }),
+
+  new HappyPack({
+    id: 'js',
+    threads: 4,
+    loaders: [
+      {
+        path: 'babel-loader',
+        query: {
+          presets: [
+            'env',
+          ],
+          plugins: [
+            'transform-runtime',
+          ],
+        },
+      },
+    ],
+  }),
+
+  cssExtractor,
+];
+
+if (isProd) {
+  plugins.concat([
+    new CleanupPlugin(BUILD_PATH),
+
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      sourceMap: false,
+      compress: {
+        warnings: false,
+      },
+    }),
+  ]);
 }
 
 module.exports = {
-    externals: externals,
-    entry: {
-        app: ['babel-polyfill','./src/main.js', './src/styles/style.js'],
-        vendor: ['redux-thunk', 'redux-logger'],
-    },
-    output: {
-        path: './dist',
-        filename: 'js/[name].js',
-    },
-    plugins: plugins,
-    devtool: 'source-map',
-    module: {
-        loaders:[
+  entry: {
+    app: [
+      'babel-polyfill',
+      './src/index.js',
+      './src/styles/index.css',
+    ],
+  },
+
+  output: {
+    path: BUILD_PATH,
+    filename: '[name].[chunkhash:8].js',
+    publicPath,
+  },
+
+  devtool: false,
+
+  resolve: {
+    modules: [
+      SRC_PATH,
+      NODE_MODULES_PATH,
+    ],
+    extensions: ['.js'],
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: 'happypack/loader',
+        options: {
+          id: 'js',
+        },
+        exclude: /(node_modules|bower_components)/,
+        include: SRC_PATH,
+      },
+      {
+        test: /\.css$/,
+        loader: cssExtractor.extract({
+          fallback: 'style-loader',
+          use: [
             {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
-                query:{
-                    presets:['es2015','react', 'stage-1']
-                }
+              loader: 'css-loader',
+              options: {
+                minimize: isProd,
+              },
             },
-            {
-                test: /.jsx?$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
-                query:{
-                    plugins:['transform-decorators-legacy' ],
-                    presets:['es2015','react','stage-1']
-                }
-            },
-            {
-                test: /.less$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use:[
-                        {loader:'css-loader', options: {minimize: isPRODUCTION}},
-                        {loader: 'postcss-loader'},
-                        {loader: 'less-loader'}
-                    ]
-                })
-            },
-            {
-                test: /.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        {loader: 'css-loader', options: {minimize: isPRODUCTION}}
-                    ]
-                })
-            },
-            {
-                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'url-loader?limit=10000&mimetype=application/font-woff&publicPath=../&outputPath=fonts/'
-            },
-            {
-                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'file-loader?publicPath=../&outputPath=fonts/'
-            },
-            {
-                test: /\.(jpe?g|png|gif)$/i,
-                loaders: [
-                    'file-loader?publicPath=../&outputPath=imgs/',
-                        {
-                            loader: 'image-webpack-loader',
-                            query:{
-                                optipng:{
-                                    optimizationLevel: 7
-                                },
-                                pngquant: {
-                                    quality: '65-80',
-                                    speed: 3
-                                }
-                            }
-                        }
-                    ],
-                exclude: /node_modules/
-            }
-        ]
-    }
-}
+            postcssLoader,
+          ],
+        }),
+      },
+    ],
+  },
+
+  stats: {
+    hash: false,
+    chunks: false,
+    chunkModules: false,
+    children: false,
+  },
+
+  plugins,
+};
