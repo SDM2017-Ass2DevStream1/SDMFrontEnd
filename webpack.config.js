@@ -115,7 +115,7 @@ module.exports = {
       SRC_PATH,
       NODE_MODULES_PATH,
     ],
-    extensions: ['.js'],
+    extensions: ['.js', '.jsx'],
   },
 
   module: {
