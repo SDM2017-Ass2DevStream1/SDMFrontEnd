@@ -1,5 +1,5 @@
 import { createReducer } from 'redux-action-tools';
-import { SEARCH } from '../constants/action_types';
+import { SEARCH_ARTICLES } from '../constants/action_types';
 
 
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const reducer = createReducer()
-  .when(SEARCH)
+  .when(SEARCH_ARTICLES)
   .done(state => state)
   .build(initialState);
 

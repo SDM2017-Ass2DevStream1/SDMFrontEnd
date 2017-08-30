@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import * as searchActions from '../../actions/search';
 
@@ -13,7 +14,7 @@ class SearchIndex extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    console.log(this.searchInput.value);
+    this.props.actions.searchArticles(this.searchInput.value);
   }
 
   render() {
@@ -26,7 +27,7 @@ class SearchIndex extends Component {
           placeholder="Input article title or author names"
         />
         <span className="input-group-btn">
-          <button type="submit" className="btn btn-outline-primary">
+          <button type="submit" className="btn btn-outline-secondary">
             Search
           </button>
         </span>
@@ -34,6 +35,10 @@ class SearchIndex extends Component {
     );
   }
 }
+
+SearchIndex.propTypes = {
+  actions: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = ({ search }) => {
   return { search };
