@@ -136,9 +136,6 @@ module.exports = {
           use: [
             {
               loader: 'css-loader',
-              options: {
-                minimize: isProd,
-              },
             },
             postcssLoader,
           ],
