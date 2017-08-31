@@ -1,23 +1,20 @@
+const _ = require('lodash');
+const faker = require('faker');
 const router = require('express').Router();
 
+
+const { random, lorem } = faker;
 
 router.get('/search', (req, res) => {
   res.jsonp({
     query: {
       term: 'fake_api',
     },
-    items: [
-      {
-        id: '1',
-        title: 'Title 1',
-        desc: 'Description 1',
-      },
-      {
-        id: '2',
-        title: 'Title 2',
-        desc: 'Description 2',
-      },
-    ],
+    items: _.times(10, () => ({
+      id: random.uuid(),
+      title: lorem.sentence(),
+      desc: lorem.sentences(),
+    })),
   });
 });
 
