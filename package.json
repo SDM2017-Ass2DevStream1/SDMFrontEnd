@@ -29,7 +29,7 @@
     "coffee-script": "^1.12.7",
     "coffeelint": "^1.16.0",
     "commander": "^2.11.0",
-    "css-loader": "^0.28.5",
+    "css-loader": "^0.28.7",
     "eslint": "^4.5.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
@@ -72,6 +72,7 @@
     "redux-action-tools": "^1.2.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
+    "styled-components": "^2.1.2",
     "yargs": "^8.0.2"
   }
 }

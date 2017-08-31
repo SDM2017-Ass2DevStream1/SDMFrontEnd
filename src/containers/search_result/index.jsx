@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 
 class SearchResult extends Component {
   renderItems() {
     const { search: { items } } = this.props;
+    const Li = styled.li`
+      background: yellow;
+    `;
+    const Title = styled.h3`
+      font-size: 16px;
+      color: blue;
+    `;
+    const Description = styled.p`
+      color: red;
+    `;
 
     return items.map((item) => {
       return (
-        <li key={item.id}>
-          <h3>{item.title}</h3>
-          <p>{item.desc}</p>
-        </li>
+        <Li key={item.id} className="item {styles.item}">
+          <Title>{item.title}</Title>
+          <Description>{item.desc}</Description>
+        </Li>
       );
     });
   }

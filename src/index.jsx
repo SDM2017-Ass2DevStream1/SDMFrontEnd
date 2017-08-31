@@ -9,7 +9,7 @@ import { createLogger } from 'redux-logger';
 
 import reducers from './reducers';
 import SearchIndex from './containers/search_index';
-import './styles/index.css';
+import './styles/global.css';
 
 
 // ref: https://medium.com/@zalmoxis/improve-your-development-workflow-with-redux-devtools-extension-f0379227ff83
