@@ -9,16 +9,18 @@ const http = require('http');
 const chalk = require('chalk');
 const express = require('express');
 const compression = require('compression');
+const bodyPaser = require('body-parser');
 const { argv } = require('yargs');
 
+const cfg = require('./config');
 const routes = require('./routes');
 
 
 class Server {
   constructor(options) {
     const opts = _.extend({
-      port: 3000,
-      ip: '0.0.0.0',
+      port: cfg.port,
+      ip: cfg.ip,
     }, options);
     this.port = opts.port;
     this.ip = opts.ip;
@@ -36,9 +38,10 @@ class Server {
 
     // compresses the content in gzip
     app.use(compression());
+    app.use(bodyPaser());
     app.use('/static', express.static(`${__dirname}/../dist`));
     app.use(express.static(`${__dirname}/../dist/pages`));
-    routes(app);
+    app.use(routes);
 
     this.app = app;
   }

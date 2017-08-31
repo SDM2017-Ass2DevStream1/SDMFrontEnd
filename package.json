@@ -54,6 +54,7 @@
     "axios": "^0.16.2",
     "babel-core": "^6.26.0",
     "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.17.2",
     "bootstrap": "4.0.0-beta",
     "chalk": "^2.1.0",
     "compression": "^1.6.2",
