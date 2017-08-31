@@ -9,11 +9,10 @@ const initialState = {
 
 const reducer = createReducer()
   .when(SEARCH_ARTICLES)
-  .done((state, { payload: { query, items } }) => {
+  .done((state, { payload: { data } }) => {
     return {
       ...state,
-      query,
-      items,
+      ...data,
     };
   })
   .build(initialState);
