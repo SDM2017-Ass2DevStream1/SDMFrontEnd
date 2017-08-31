@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import SearchResult from '../search_result';
-import * as searchActions from '../../actions/search';
+import SearchResult from './search_result';
+import * as searchActions from '../actions/search';
 
 
 class SearchIndex extends Component {

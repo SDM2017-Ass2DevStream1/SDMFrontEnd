@@ -42,8 +42,6 @@
     "image-webpack-loader": "^3.4.0",
     "nodemon": "^1.11.0",
     "nokit": "^0.25.1",
-    "postcss": "^6.0.2",
-    "postcss-cssnext": "^3.0.2",
     "postcss-loader": "^2.0.5",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.8",
