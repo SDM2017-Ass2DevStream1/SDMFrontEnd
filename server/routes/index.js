@@ -1,13 +1,7 @@
-module.exports = (app) => {
-  app.use('/api', (req, res, next) => {
-    req.headers.accept = 'application/json';
-    next();
-  });
+const router = require('express').Router();
+const cfg = require('../config');
 
-  app.get('/api/test', (req, res) => {
-    res.jsonp({
-      code: 1,
-      data: 'test',
-    });
-  });
-};
+
+router.use('/api', cfg.useFakeApi ? require('./fake_api') : require('./api'));
+
+module.exports = router;

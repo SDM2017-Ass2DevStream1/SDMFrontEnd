@@ -22,3 +22,4 @@ dump.rdb
 .happypack/
 dist/
 node_modules/
+server/local_config.js
