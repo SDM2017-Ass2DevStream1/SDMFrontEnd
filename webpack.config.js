@@ -4,9 +4,9 @@ const kit = require('nokit');
 const webpack = require('webpack');
 const HappyPack = require('happypack');
 const autoprefixer = require('autoprefixer');
-const HtmlPlugin = require('html-webpack-plugin');
 const CleanupPlugin = require('webpack-cleanup-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 
 const { join } = kit.path;
@@ -16,11 +16,6 @@ const SRC_PATH = join(__dirname, 'src');
 const NODE_MODULES_PATH = join(__dirname, 'node_modules');
 
 const isProd = kit.isProduction();
-
-// FIXME: config CDN address for production
-const publicPath = `${isProd ?
-  'https://d21ps49l69jsm6.cloudfront.net' : ''
-}/static/`;
 
 const cssExtractor = new ExtractTextPlugin({
   filename: '[name].[contenthash:8].css',
@@ -41,10 +36,7 @@ const postcssLoader = {
 };
 
 const plugins = [
-  new CleanupPlugin(['dist'], {
-    root: __dirname,
-    verbose: true,
-  }),
+  new CleanupPlugin('dist'),
 
   new webpack.DefinePlugin({
     __DEV__: !isProd,
@@ -58,11 +50,6 @@ const plugins = [
   new webpack.optimize.CommonsChunkPlugin({
     name: 'main',
     minChunks: Infinity,
-  }),
-
-  new HtmlPlugin({
-    template: `${SRC_PATH}/index.html`,
-    filename: 'pages/index.html',
   }),
 
   new HappyPack({
@@ -83,6 +70,8 @@ const plugins = [
       },
     ],
   }),
+
+  new ManifestPlugin(),
 
   cssExtractor,
 ];
@@ -105,7 +94,7 @@ module.exports = {
   output: {
     path: BUILD_PATH,
     filename: '[name].[chunkhash:8].js',
-    publicPath,
+    publicPath: '/static/',
   },
 
   devtool: false,

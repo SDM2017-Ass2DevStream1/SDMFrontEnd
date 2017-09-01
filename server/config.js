@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const kit = require('nokit');
 
 
 const cfg = {
@@ -8,11 +7,13 @@ const cfg = {
   useFakeApi: false,
 };
 
-let localCfg = {};
-if (kit.fileExists('./local_config.js')) {
-  /* eslint-disable */
+let localCfg;
+/* eslint-disable */
+try {
   localCfg = require('./local_config');
-  /* eslint-enable */
+} catch (err) {
+  localCfg = {};
 }
+/* eslint-enable */
 
 module.exports = _.merge(cfg, localCfg);
