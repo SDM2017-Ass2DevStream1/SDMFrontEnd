@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 
@@ -34,10 +33,6 @@ class SearchResult extends Component {
     );
   }
 }
-
-SearchResult.propTypes = {
-  search: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = ({ search }) => {
   return { search };

@@ -7,7 +7,7 @@
     "dev-server": "NODE_ENV=development nodemon ./server/server.js",
     "prod": "no prod",
     "prod-server": "NODE_ENV=production node ./server/server.js",
-    "lint": "no lint"
+    "lint": "eslint **/*.js **/*.jsx && coffeelint ."
   },
   "author": "SDM2017-Ass2DevStream1",
   "license": "ISC",
@@ -62,7 +62,6 @@
     "lodash": "^4.17.4",
     "material-ui": "^0.19.0",
     "minireset.css": "^0.0.3",
-    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
