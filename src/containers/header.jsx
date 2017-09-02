@@ -43,14 +43,20 @@ const Logged = (props) => {
 Logged.muiName = 'IconMenu';
 
 class Header extends Component {
+  componentDidMount() {
+    this.props.actions.getCurrentUser();
+  }
+
   render() {
+    const { user } = this.props;
+
     return (
       <AppBar
         title={<span style={styles.title}>SERLER</span>}
         iconStyleLeft={{
           display: 'none',
         }}
-        iconElementRight={<Login />}
+        iconElementRight={user ? <Logged /> : <Login />}
       />
     );
   }

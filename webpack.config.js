@@ -130,6 +130,21 @@ module.exports = {
           ],
         }),
       },
+      {
+        test: /\.less$/,
+        loader: cssExtractor.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+            },
+            {
+              loader: 'less-loader',
+            },
+            postcssLoader,
+          ],
+        }),
+      },
     ],
   },
 

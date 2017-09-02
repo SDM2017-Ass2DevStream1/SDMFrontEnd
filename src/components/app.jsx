@@ -4,7 +4,7 @@ import { lightGreen500, lightGreen700 } from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import Header from './header';
+import Header from '../containers/header';
 import SearchIndex from '../containers/search_index';
 
 

@@ -4,8 +4,8 @@ import { createAsyncAction } from 'redux-action-tools';
 import * as types from '../constants/action_types';
 
 
-export const currentUser = createAsyncAction(
-  types.CURRENT_USER,
+export const getCurrentUser = createAsyncAction(
+  types.GET_CURRENT_USER,
 
   () => {
     return axios.get('/api/current_user');
