@@ -21,7 +21,7 @@ export const userLogin = createAsyncAction(
 );
 
 export const userLogout = createAsyncAction(
-  types.USER_LOOUT,
+  types.USER_LOGOUT,
 
   () => {
     return axios.get('/api/user/logout');

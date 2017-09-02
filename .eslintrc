@@ -16,3 +16,7 @@ rules:
   react/prefer-stateless-function: 0
   import/prefer-default-export: 0
   import/no-extraneous-dependencies: [error, { devDependencies: true }]
+
+parserOptions:
+  ecmaVersion: 2017
+  sourceType: module

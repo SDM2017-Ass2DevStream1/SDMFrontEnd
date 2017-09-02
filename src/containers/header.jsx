@@ -6,6 +6,10 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
+import Divider from 'material-ui/Divider';
+import InboxIcon from 'material-ui/svg-icons/content/inbox';
+import PowerSettingsNewIcon from 'material-ui/svg-icons/action/power-settings-new';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 import * as userActions from '../actions/user';
@@ -34,9 +38,19 @@ const Logged = (props) => {
       anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
       {...props}
     >
-      <MenuItem primaryText="Refresh" />
-      <MenuItem primaryText="Help" />
-      <MenuItem primaryText="Sign out" />
+      <MenuItem
+        primaryText="Account Settings"
+        leftIcon={<SettingsIcon />}
+      />
+      <MenuItem
+        primaryText="Saved Search"
+        leftIcon={<InboxIcon />}
+      />
+      <Divider />
+      <MenuItem
+        primaryText="Sign Out"
+        leftIcon={<PowerSettingsNewIcon />}
+      />
     </IconMenu>
   );
 };
