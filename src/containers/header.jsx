@@ -2,16 +2,9 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-import Divider from 'material-ui/Divider';
-import InboxIcon from 'material-ui/svg-icons/content/inbox';
-import PowerSettingsNewIcon from 'material-ui/svg-icons/action/power-settings-new';
-import SettingsIcon from 'material-ui/svg-icons/action/settings';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
+import Logged from './logged';
 import * as userActions from '../actions/user';
 
 
@@ -21,40 +14,14 @@ const styles = {
   },
 };
 
+// TODO: redirect to the login page
 const Login = (props) => {
   return (
     <FlatButton label="Login" {...props} />
   );
 };
-Login.muiName = 'FlatButton';
 
-const Logged = (props) => {
-  return (
-    <IconMenu
-      iconButtonElement={
-        <IconButton><MoreVertIcon /></IconButton>
-      }
-      targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-      {...props}
-    >
-      <MenuItem
-        primaryText="Account Settings"
-        leftIcon={<SettingsIcon />}
-      />
-      <MenuItem
-        primaryText="Saved Search"
-        leftIcon={<InboxIcon />}
-      />
-      <Divider />
-      <MenuItem
-        primaryText="Sign Out"
-        leftIcon={<PowerSettingsNewIcon />}
-      />
-    </IconMenu>
-  );
-};
-Logged.muiName = 'IconMenu';
+Login.muiName = 'FlatButton';
 
 class Header extends Component {
   componentDidMount() {

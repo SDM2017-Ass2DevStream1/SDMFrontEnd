@@ -1,5 +1,7 @@
 import { createReducer } from 'redux-action-tools';
-import { GET_CURRENT_USER } from '../constants/action_types';
+import {
+  GET_CURRENT_USER, USER_LOGOUT,
+} from '../constants/action_types';
 
 
 const initialState = null;
@@ -12,6 +14,11 @@ const reducer = createReducer()
       ...data,
     };
   })
+
+  .when(USER_LOGOUT, () => {
+    return null;
+  })
+
   .build(initialState);
 
 export default reducer;

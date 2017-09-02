@@ -15,6 +15,7 @@ const reducer = createReducer()
       ...data,
     };
   })
+
   .build(initialState);
 
 export default reducer;
