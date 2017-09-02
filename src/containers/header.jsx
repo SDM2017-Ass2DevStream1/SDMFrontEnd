@@ -34,6 +34,9 @@ class Header extends Component {
     return (
       <AppBar
         title={<span style={styles.title}>SERLER</span>}
+        style={{
+          boxShadow: 'none',
+        }}
         iconStyleLeft={{
           display: 'none',
         }}
