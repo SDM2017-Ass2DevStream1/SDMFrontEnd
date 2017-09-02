@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Tabs, Tab } from 'material-ui/Tabs';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 import { lightGreen500, amber300 } from 'material-ui/styles/colors';
 import styled from 'styled-components';
 
@@ -18,13 +20,18 @@ class SearchIndex extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    this.props.actions.searchArticles(this.searchInput.value);
+    this.props.actions.searchArticles(this.searchInput.input.value);
   }
 
   render() {
     const { search: { items } } = this.props;
     const TabContainer = styled.div`
       padding: 40px 100px;
+    `;
+    const SearchBarContainer = styled.div`
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
     `;
 
     return (
@@ -39,6 +46,7 @@ class SearchIndex extends Component {
         }}
         inkBarStyle={{
           marginLeft: '100px',
+          height: '3px',
           background: amber300,
         }}
         contentContainerStyle={{
@@ -47,18 +55,19 @@ class SearchIndex extends Component {
       >
         <Tab label="Search">
           <TabContainer>
-            <form className="input-group" onSubmit={this.onFormSubmit}>
-              <input
-                type="text"
-                ref={(input) => { this.searchInput = input; }}
-                className="form-control"
-                placeholder="Input article title or author names"
-              />
-              <span className="input-group-btn">
-                <button type="submit" className="btn btn-outline-secondary">
-                  Search
-                </button>
-              </span>
+            <form onSubmit={this.onFormSubmit}>
+              <SearchBarContainer>
+                <TextField
+                  ref={(input) => { this.searchInput = input; }}
+                  style={{
+                    flex: 1,
+                    width: 'auto',
+                    marginRight: '20px',
+                  }}
+                  hintText="Search for articles"
+                />
+                <RaisedButton type="submit" label="Search" />
+              </SearchBarContainer>
             </form>
             {!_.isEmpty(items) && <SearchResult />}
           </TabContainer>
