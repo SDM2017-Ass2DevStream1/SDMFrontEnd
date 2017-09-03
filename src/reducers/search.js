@@ -6,8 +6,10 @@ const initialState = {
   query: {
     term: '',
     limit: 15,
+    page: 1,
   },
   items: [],
+  total: 299,
 };
 
 const reducer = createReducer()
