@@ -5,11 +5,10 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { createLogger } from 'redux-logger';
-// import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import reducers from './reducers';
-import SearchIndex from './containers/search_index';
-import './styles/global.css';
+import App from './components/app';
+import './styles/global.less';
 
 
 // ref: https://medium.com/@zalmoxis/improve-your-development-workflow-with-redux-devtools-extension-f0379227ff83
@@ -31,12 +30,7 @@ const store = createStore(reducers, initialState, middleware);
 
 ReactDOM.render(
   <Provider store={store}>
-    <div>
-      <header>Header</header>
-      <section id="content">
-        <SearchIndex />
-      </section>
-    </div>
+    <App />
   </Provider>,
   document.getElementById('app'),
 );

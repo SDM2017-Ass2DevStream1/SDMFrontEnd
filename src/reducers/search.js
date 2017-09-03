@@ -8,13 +8,22 @@ const initialState = {
 };
 
 const reducer = createReducer()
-  .when(SEARCH_ARTICLES)
+  .when(SEARCH_ARTICLES, (state, { payload }) => {
+    return {
+      ...state,
+      query: {
+        ...state.query,
+        ...payload,
+      },
+    };
+  })
   .done((state, { payload: { data } }) => {
     return {
       ...state,
       ...data,
     };
   })
+
   .build(initialState);
 
 export default reducer;

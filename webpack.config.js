@@ -60,7 +60,7 @@ const plugins = [
         path: 'babel-loader',
         query: {
           presets: [
-            'react', 'stage-0', 'env',
+            'react', 'es2015', 'stage-0',
           ],
           plugins: [
             'transform-runtime',
@@ -125,6 +125,21 @@ module.exports = {
           use: [
             {
               loader: 'css-loader',
+            },
+            postcssLoader,
+          ],
+        }),
+      },
+      {
+        test: /\.less$/,
+        loader: cssExtractor.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+            },
+            {
+              loader: 'less-loader',
             },
             postcssLoader,
           ],

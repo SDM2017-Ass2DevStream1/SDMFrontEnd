@@ -1,5 +1,4 @@
 kit = require 'nokit'
-drives = kit.require 'drives'
 
 {Promise} = kit
 
@@ -35,18 +34,6 @@ module.exports = (task, option) ->
     )'
     .then ({code, stdout}) ->
       kit.log stdout
-
-  task 'lint', 'Lint all js & coffee files.', lintTask = ->
-    kit.glob ['src/**/*.js', 'server/**/*.js']
-    .then (fs) ->
-      kit.spawn 'eslint', fs
-    .then ->
-      kit.warp ['*.coffee']
-        .load drives.auto 'lint'
-        .load (f) ->
-          f.set null
-        .run()
-    .catch ->
 
   task 'dev', 'Auto rebuild during development.', devTask = (opts) ->
     prepareBuild(opts).then ->

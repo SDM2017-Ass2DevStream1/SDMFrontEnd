@@ -1,5 +1,5 @@
 require('babel-core/register')({
-  presets: ['stage-0', 'env'],
+  presets: ['es2015', 'stage-0'],
   plugins: ['transform-runtime', 'syntax-object-rest-spread'],
 });
 
