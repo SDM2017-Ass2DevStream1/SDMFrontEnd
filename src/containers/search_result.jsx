@@ -82,6 +82,7 @@ class SearchResult extends Component {
       const { title } = item;
       const authors = item.authors.join(', ');
 
+
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
           <TableRowColumn
