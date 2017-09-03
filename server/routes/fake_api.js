@@ -1,9 +1,10 @@
 const _ = require('lodash');
 const faker = require('faker');
+const moment = require('moment');
 const router = require('express').Router();
 
 
-const { random, lorem, image, helpers } = faker;
+const { random, lorem, image, helpers, date } = faker;
 
 const createUser = () => ({
   ...helpers.userCard(),
@@ -33,7 +34,9 @@ router.get('/search', (req, res) => {
     items: _.times(10, () => ({
       id: random.uuid(),
       title: lorem.sentence(),
-      desc: lorem.sentences(),
+      authors: _.times(_.random(1, 3)).map(() => faker.name.findName()),
+      year: moment(date.past()).year(),
+      rating: _.round(_.random(5, true), 1),
     })),
   });
 });

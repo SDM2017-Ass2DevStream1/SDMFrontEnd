@@ -7,7 +7,8 @@ import styled from 'styled-components';
 
 
 const flex = {
-  title: 3,
+  title: 5,
+  authors: 2,
   year: 1,
   rating: 1,
 };
@@ -40,6 +41,9 @@ class SearchResult extends Component {
     const { search: { items } } = this.props;
 
     return items.map((item) => {
+      const { title } = item;
+      const authors = item.authors.join(', ');
+
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
           <TableRowColumn
@@ -48,8 +52,18 @@ class SearchResult extends Component {
               flex: flex.title,
             }}
           >
-            <ColumnContent>
-              {item.title}
+            <ColumnContent title={title}>
+              {title}
+            </ColumnContent>
+          </TableRowColumn>
+          <TableRowColumn
+            style={{
+              ...styles.column,
+              flex: flex.authors,
+            }}
+          >
+            <ColumnContent title={authors}>
+              {authors}
             </ColumnContent>
           </TableRowColumn>
           <TableRowColumn
@@ -59,7 +73,7 @@ class SearchResult extends Component {
             }}
           >
             <ColumnContent>
-              {item.desc}
+              {item.year}
             </ColumnContent>
           </TableRowColumn>
           <TableRowColumn
@@ -69,7 +83,7 @@ class SearchResult extends Component {
             }}
           >
             <ColumnContent>
-              {item.desc}
+              {item.rating}
             </ColumnContent>
           </TableRowColumn>
         </TableRow>
@@ -97,6 +111,14 @@ class SearchResult extends Component {
             <TableHeaderColumn
               style={{
                 ...styles.column,
+                flex: flex.authors,
+              }}
+            >
+              Authors
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              style={{
+                ...styles.column,
                 flex: flex.year,
               }}
             >
@@ -108,7 +130,7 @@ class SearchResult extends Component {
                 flex: flex.rating,
               }}
             >
-              Rating
+              Rating (out of 5 stars)
             </TableHeaderColumn>
           </TableRow>
         </TableHeader>
