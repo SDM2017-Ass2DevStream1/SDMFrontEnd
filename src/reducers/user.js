@@ -9,10 +9,7 @@ const initialState = null;
 const reducer = createReducer()
   .when(GET_CURRENT_USER)
   .done((state, { payload: { data } }) => {
-    return {
-      ...state,
-      ...data,
-    };
+    return data;
   })
 
   .when(USER_LOGOUT, () => {

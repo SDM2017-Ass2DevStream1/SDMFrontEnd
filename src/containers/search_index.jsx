@@ -72,7 +72,7 @@ class SearchIndex extends Component {
 
                 <SearchBarContainer>
                   <TextField
-                    ref={(input) => { this.searchInput = input; }}
+                    ref={(field) => { this.searchInput = field; }}
                     style={styles.searchBar}
                     hintText="Search for articles"
                     defaultValue={query.term}
