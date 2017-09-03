@@ -9,6 +9,7 @@ import { lightGreen500, amber300 } from 'material-ui/styles/colors';
 import styled from 'styled-components';
 
 import SearchResult from './search_result';
+import { MiscPaper, MiscTitle } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
@@ -60,7 +61,6 @@ class SearchIndex extends Component {
     const SearchBarContainer = styled.div`
       display: flex;
       align-items: center;
-      margin-bottom: 20px;
     `;
 
     return (
@@ -68,24 +68,30 @@ class SearchIndex extends Component {
       <Tabs {...styles.tab}>
         <Tab label="Search">
           <TabContainer>
-            <form onSubmit={this.onSearchFormSubmit}>
-              <SearchBarContainer>
-                <TextField
-                  ref={(input) => { this.searchInput = input; }}
-                  style={styles.searchBar}
-                  hintText="Search for articles"
-                  defaultValue={query.term}
-                />
-                <RaisedButton
-                  type="submit"
-                  label="Search"
-                  secondary
-                />
-              </SearchBarContainer>
-            </form>
+            <MiscPaper style={styles.paper}>
+              <form onSubmit={this.onSearchFormSubmit}>
+                <MiscTitle>Search Functions</MiscTitle>
+
+                <SearchBarContainer>
+                  <TextField
+                    ref={(input) => { this.searchInput = input; }}
+                    style={styles.searchBar}
+                    hintText="Search for articles"
+                    defaultValue={query.term}
+                  />
+                  <RaisedButton
+                    type="submit"
+                    label="Search"
+                    secondary
+                  />
+                </SearchBarContainer>
+              </form>
+            </MiscPaper>
+
             {!_.isEmpty(items) && <SearchResult />}
           </TabContainer>
         </Tab>
+
         <Tab label="History">
           <TabContainer>
             History
