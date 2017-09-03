@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  Table, TableBody, TableHeader, TableHeaderColumn,
-  TableRow, TableRowColumn,
-} from 'material-ui/Table';
+  Table, TableBody, TableHeader,
+  TableHeaderColumn, TableRow, TableRowColumn,
+} from 'material-ui';
 import styled from 'styled-components';
 
 

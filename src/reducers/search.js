@@ -3,7 +3,10 @@ import { SEARCH_ARTICLES } from '../constants/action_types';
 
 
 const initialState = {
-  query: {},
+  query: {
+    term: '',
+    limit: 15,
+  },
   items: [],
 };
 
