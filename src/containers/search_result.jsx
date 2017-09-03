@@ -13,7 +13,12 @@ const flex = {
 };
 
 const styles = {
-  row: {
+  headerRow: {
+    display: 'flex',
+    height: 'auto',
+    marginBottom: '-1px',
+  },
+  bodyRow: {
     display: 'flex',
   },
   column: {
@@ -36,7 +41,7 @@ class SearchResult extends Component {
 
     return items.map((item) => {
       return (
-        <TableRow key={item.id} style={styles.row}>
+        <TableRow key={item.id} style={styles.bodyRow}>
           <TableRowColumn
             style={{
               ...styles.column,
@@ -74,12 +79,16 @@ class SearchResult extends Component {
 
   render() {
     return (
-      <Table>
-        <TableHeader displaySelectAll={false}>
-          <TableRow style={styles.row}>
+      <Table selectable={false}>
+        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+          <TableRow
+            style={{
+              ...styles.headerRow,
+            }}
+          >
             <TableHeaderColumn
               style={{
-                ...styles.rowColumn,
+                ...styles.column,
                 flex: flex.title,
               }}
             >
@@ -87,7 +96,7 @@ class SearchResult extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn
               style={{
-                ...styles.rowColumn,
+                ...styles.column,
                 flex: flex.year,
               }}
             >
@@ -95,7 +104,7 @@ class SearchResult extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn
               style={{
-                ...styles.rowColumn,
+                ...styles.column,
                 flex: flex.rating,
               }}
             >
@@ -103,7 +112,10 @@ class SearchResult extends Component {
             </TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody displayRowCheckbox={false} stripedRows>
+        <TableBody
+          displayRowCheckbox={false}
+          showRowHover
+        >
           {this.renderItems()}
         </TableBody>
       </Table>

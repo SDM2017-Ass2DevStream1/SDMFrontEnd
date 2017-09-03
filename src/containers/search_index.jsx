@@ -12,6 +12,32 @@ import SearchResult from './search_result';
 import * as searchActions from '../actions/search';
 
 
+const styles = {
+  tab: {
+    tabItemContainerStyle: {
+      width: '300px',
+      marginLeft: '100px',
+    },
+    style: {
+      background: lightGreen500,
+    },
+    inkBarStyle: {
+      marginLeft: '100px',
+      height: '3px',
+      background: amber300,
+    },
+    contentContainerStyle: {
+      background: '#fff',
+    },
+  },
+
+  searchBar: {
+    flex: 1,
+    width: 'auto',
+    marginRight: '20px',
+  },
+};
+
 class SearchIndex extends Component {
   constructor(props) {
     super(props);
@@ -36,37 +62,21 @@ class SearchIndex extends Component {
 
     return (
       // https://stackoverflow.com/questions/37928419/how-to-resize-material-uis-tabs
-      <Tabs
-        tabItemContainerStyle={{
-          width: '300px',
-          marginLeft: '100px',
-        }}
-        style={{
-          background: lightGreen500,
-        }}
-        inkBarStyle={{
-          marginLeft: '100px',
-          height: '3px',
-          background: amber300,
-        }}
-        contentContainerStyle={{
-          background: '#fff',
-        }}
-      >
+      <Tabs {...styles.tab}>
         <Tab label="Search">
           <TabContainer>
             <form onSubmit={this.onFormSubmit}>
               <SearchBarContainer>
                 <TextField
                   ref={(input) => { this.searchInput = input; }}
-                  style={{
-                    flex: 1,
-                    width: 'auto',
-                    marginRight: '20px',
-                  }}
+                  style={styles.searchBar}
                   hintText="Search for articles"
                 />
-                <RaisedButton type="submit" label="Search" />
+                <RaisedButton
+                  type="submit"
+                  label="Search"
+                  secondary
+                />
               </SearchBarContainer>
             </form>
             {!_.isEmpty(items) && <SearchResult />}
