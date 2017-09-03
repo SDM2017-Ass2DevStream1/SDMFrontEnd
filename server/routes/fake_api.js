@@ -30,9 +30,6 @@ router.get('/user/logout', (req, res) => {
 
 router.get('/search', (req, res) => {
   res.jsonp({
-    query: {
-      term: 'fake_api',
-    },
     items: _.times(10, () => ({
       id: random.uuid(),
       title: lorem.sentence(),

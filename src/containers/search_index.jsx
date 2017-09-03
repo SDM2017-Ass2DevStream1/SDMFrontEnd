@@ -41,16 +41,19 @@ const styles = {
 class SearchIndex extends Component {
   constructor(props) {
     super(props);
-    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onSearchFormSubmit = this.onSearchFormSubmit.bind(this);
   }
 
-  onFormSubmit(e) {
+  onSearchFormSubmit(e) {
     e.preventDefault();
-    this.props.actions.searchArticles(this.searchInput.input.value);
+    this.props.actions.searchArticles({
+      ...this.props.query,
+      term: this.searchInput.input.value,
+    });
   }
 
   render() {
-    const { search: { items } } = this.props;
+    const { search: { query, items } } = this.props;
     const TabContainer = styled.div`
       padding: 40px 100px;
     `;
@@ -65,12 +68,13 @@ class SearchIndex extends Component {
       <Tabs {...styles.tab}>
         <Tab label="Search">
           <TabContainer>
-            <form onSubmit={this.onFormSubmit}>
+            <form onSubmit={this.onSearchFormSubmit}>
               <SearchBarContainer>
                 <TextField
                   ref={(input) => { this.searchInput = input; }}
                   style={styles.searchBar}
                   hintText="Search for articles"
+                  defaultValue={query.term}
                 />
                 <RaisedButton
                   type="submit"
