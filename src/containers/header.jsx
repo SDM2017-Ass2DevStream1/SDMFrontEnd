@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import AppBar from 'material-ui/AppBar';
-import FlatButton from 'material-ui/FlatButton';
+import { AppBar, FlatButton } from 'material-ui';
 
 import Logged from './logged';
 import * as userActions from '../actions/user';

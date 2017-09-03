@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
+import {
+  IconButton, IconMenu, MenuItem, Divider,
+} from 'material-ui';
 import InboxIcon from 'material-ui/svg-icons/content/inbox';
 import PowerSettingsNewIcon from 'material-ui/svg-icons/action/power-settings-new';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';

@@ -2,10 +2,8 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Tabs, Tab } from 'material-ui/Tabs';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import { lightGreen500, amber300 } from 'material-ui/styles/colors';
+import { Tabs, Tab, TextField, RaisedButton } from 'material-ui';
+import { colors } from 'material-ui/styles';
 import styled from 'styled-components';
 
 import SearchResult from './search_result';
@@ -20,12 +18,12 @@ const styles = {
       marginLeft: '100px',
     },
     style: {
-      background: lightGreen500,
+      background: colors.lightGreen500,
     },
     inkBarStyle: {
       marginLeft: '100px',
       height: '3px',
-      background: amber300,
+      background: colors.amber300,
     },
     contentContainerStyle: {
       background: '#fff',

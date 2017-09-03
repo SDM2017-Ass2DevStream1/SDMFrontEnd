@@ -3,8 +3,13 @@ import { SEARCH_ARTICLES } from '../constants/action_types';
 
 
 const initialState = {
-  query: {},
+  query: {
+    term: '',
+    limit: 15,
+    page: 1,
+  },
   items: [],
+  total: 0,
 };
 
 const reducer = createReducer()
