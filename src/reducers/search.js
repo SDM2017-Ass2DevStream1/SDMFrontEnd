@@ -9,7 +9,7 @@ const initialState = {
     page: 1,
   },
   items: [],
-  total: 299,
+  total: 0,
 };
 
 const reducer = createReducer()
