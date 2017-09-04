@@ -18,10 +18,7 @@ export const updateSearchQuery = createAsyncAction(
   types.UPDATE_SEARCH_QUERY,
 );
 
-export const changeColumnVisibility = createAsyncAction(
-  types.CHANGE_COLUMN_VISIBILITY,
-
-  ({ column, visibility }) => {
-    return { column, visibility };
-  },
-);
+export const changeColumnVisibility = (column, visibility) => ({
+  type: types.CHANGE_COLUMN_VISIBILITY,
+  payload: { column, visibility },
+});

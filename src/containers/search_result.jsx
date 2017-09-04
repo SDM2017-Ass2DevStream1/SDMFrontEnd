@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -77,6 +78,10 @@ class SearchResult extends Component {
     });
   }
 
+  onVisibilityCheck(column, checked) {
+    this.props.actions.changeColumnVisibility(column, checked);
+  }
+
   renderSettings() {
     const Div = styled.div`
       padding-bottom: 20px;
@@ -94,8 +99,21 @@ class SearchResult extends Component {
         <ModuleTitle>Search Results</ModuleTitle>
         <div>
           <Span>Column Visibility: </Span>
-          {['Title', 'Authors', 'Publish Year', 'Rating'].map((label) => {
-            return <VisibilityCheckbox key={label} label={label} />;
+          {[
+            { column: 'title', label: 'Title' },
+            { column: 'authors', label: 'Authors' },
+            { column: 'year', label: 'Publish Year' },
+            { column: 'rating', label: 'Rating' },
+          ].map(({ column, label }) => {
+            return (
+              <VisibilityCheckbox
+                key={`visibility-checkbox-${_.snakeCase(label)}`}
+                label={label}
+                onCheck={(e, checked) => {
+                  this.onVisibilityCheck(column, checked);
+                }}
+              />
+            );
           })}
         </div>
       </Div>

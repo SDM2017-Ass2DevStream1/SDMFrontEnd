@@ -40,8 +40,6 @@ const reducer = createReducer()
   .when(UPDATE_SEARCH_QUERY, updateQuery)
 
   .when(CHANGE_COLUMN_VISIBILITY, (state, { payload }) => {
-    console.log(payload);
-
     return {
       ...state,
       visibility: {
