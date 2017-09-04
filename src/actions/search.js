@@ -17,3 +17,11 @@ export const searchArticles = createAsyncAction(
 export const updateSearchQuery = createAsyncAction(
   types.UPDATE_SEARCH_QUERY,
 );
+
+export const changeColumnVisibility = createAsyncAction(
+  types.CHANGE_COLUMN_VISIBILITY,
+
+  ({ column, visibility }) => {
+    return { column, visibility };
+  },
+);

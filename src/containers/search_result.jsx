@@ -95,7 +95,9 @@ class SearchResult extends Component {
         <div>
           <Span>Column Visibility: </Span>
           <VisibilityCheckbox label="Title" />
-          <VisibilityCheckbox label="DD" />
+          <VisibilityCheckbox label="Authors" />
+          <VisibilityCheckbox label="Publish Year" />
+          <VisibilityCheckbox label="Rating" />
         </div>
       </Div>
     );
@@ -172,61 +174,65 @@ class SearchResult extends Component {
     });
   }
 
+  renderSearchResults() {
+    return (
+      <Table selectable={false} style={styles.table}>
+        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+          <TableRow
+            style={{
+              ...styles.headerRow,
+            }}
+          >
+            <TableHeaderColumn
+              style={{
+                ...styles.column,
+                flex: flex.title,
+              }}
+            >
+              Title
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              style={{
+                ...styles.column,
+                flex: flex.authors,
+              }}
+            >
+              Authors
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              style={{
+                ...styles.column,
+                flex: flex.year,
+              }}
+            >
+              Publish Year
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              style={{
+                ...styles.column,
+                flex: flex.rating,
+              }}
+            >
+              Rating (out of 5 stars)
+            </TableHeaderColumn>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody
+          displayRowCheckbox={false}
+          showRowHover
+        >
+          {this.renderItems()}
+        </TableBody>
+      </Table>
+    );
+  }
+
   render() {
     return (
       <div>
         {this.renderSettings()}
-
-        <Table selectable={false} style={styles.table}>
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-            <TableRow
-              style={{
-                ...styles.headerRow,
-              }}
-            >
-              <TableHeaderColumn
-                style={{
-                  ...styles.column,
-                  flex: flex.title,
-                }}
-              >
-                Title
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                style={{
-                  ...styles.column,
-                  flex: flex.authors,
-                }}
-              >
-                Authors
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                style={{
-                  ...styles.column,
-                  flex: flex.year,
-                }}
-              >
-                Publish Year
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                style={{
-                  ...styles.column,
-                  flex: flex.rating,
-                }}
-              >
-                Rating (out of 5 stars)
-              </TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody
-            displayRowCheckbox={false}
-            showRowHover
-          >
-            {this.renderItems()}
-          </TableBody>
-        </Table>
-
+        {this.renderSearchResults()}
         {this.renderPagination()}
       </div>
     );
