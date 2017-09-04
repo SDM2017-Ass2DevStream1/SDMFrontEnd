@@ -13,3 +13,7 @@ export const searchArticles = createAsyncAction(
     });
   },
 );
+
+export const updateSearchQuery = createAsyncAction(
+  types.UPDATE_SEARCH_QUERY,
+);

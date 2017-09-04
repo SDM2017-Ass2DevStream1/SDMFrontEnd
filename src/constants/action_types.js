@@ -5,3 +5,4 @@ export const USER_LOGOUT = 'USER_LOGOUT';
 
 // search
 export const SEARCH_ARTICLES = 'SEARCH_ARTICLES';
+export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY';
