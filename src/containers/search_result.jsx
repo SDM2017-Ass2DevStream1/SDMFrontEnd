@@ -94,10 +94,9 @@ class SearchResult extends Component {
         <ModuleTitle>Search Results</ModuleTitle>
         <div>
           <Span>Column Visibility: </Span>
-          <VisibilityCheckbox label="Title" />
-          <VisibilityCheckbox label="Authors" />
-          <VisibilityCheckbox label="Publish Year" />
-          <VisibilityCheckbox label="Rating" />
+          {['Title', 'Authors', 'Publish Year', 'Rating'].map((label) => {
+            return <VisibilityCheckbox key={label} label={label} />;
+          })}
         </div>
       </Div>
     );
