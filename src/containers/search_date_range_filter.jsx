@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Checkbox, DatePicker } from 'material-ui';
+import { FlatButton, Checkbox, DatePicker } from 'material-ui';
+import moment from 'moment';
 import styled from 'styled-components';
 
 import * as searchActions from '../actions/search';
@@ -12,6 +13,7 @@ const styles = {
     style: {
       display: 'inline-block',
       width: 'auto',
+      marginRight: '20px',
     },
     iconStyle: {
       marginRight: '10px',
@@ -27,30 +29,47 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Span = styled.span`
-  display: inline-block;
-  margin-left: 20px;
-`;
+const minDate = moment('1950-01-01', 'YYYY-MM-DD').toDate();
+const maxDate = moment().toDate();
+
+const { DateTimeFormat } = global.Intl;
+const formatDate = new DateTimeFormat('en-US', {
+  month: 'numeric',
+  year: 'numeric',
+}).format;
+
+const CustomizedDatePicker = (props) => {
+  const Span = styled.span`
+    display: inline-block;
+    margin-right: 20px;
+  `;
+
+  return (
+    <Span>
+      <DatePicker
+        autoOk
+        openToYearSelection
+        formatDate={formatDate}
+        {...props}
+      />
+    </Span>
+  );
+};
 
 class SearchDateRangeFilter extends Component {
   render() {
     return (
       <Container>
         <Checkbox label="Date Range" {...styles.checkbox} />
-        <Span>
-          <DatePicker
-            hintText="From"
-            autoOk
-            openToYearSelection
-          />
-        </Span>
-        <Span>
-          <DatePicker
-            hintText="To"
-            autoOk
-            openToYearSelection
-          />
-        </Span>
+        <CustomizedDatePicker
+          hintText="From"
+          minDate={minDate}
+        />
+        <CustomizedDatePicker
+          hintText="To"
+          maxDate={maxDate}
+        />
+        <FlatButton label="Reset" />
       </Container>
     );
   }
