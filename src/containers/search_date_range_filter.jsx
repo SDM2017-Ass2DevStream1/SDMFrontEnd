@@ -31,12 +31,9 @@ const Container = styled.div`
 
 const minDate = moment('1950-01-01', 'YYYY-MM-DD').toDate();
 const maxDate = moment().toDate();
-
-const { DateTimeFormat } = global.Intl;
-const formatDate = new DateTimeFormat('en-US', {
-  month: 'numeric',
-  year: 'numeric',
-}).format;
+const formatDate = (date) => {
+  return moment(date).format('MM/YYYY');
+};
 
 const CustomizedDatePicker = (props) => {
   const Span = styled.span`
@@ -64,10 +61,12 @@ class SearchDateRangeFilter extends Component {
         <CustomizedDatePicker
           hintText="From"
           minDate={minDate}
+          value={minDate}
         />
         <CustomizedDatePicker
           hintText="To"
           maxDate={maxDate}
+          value={maxDate}
         />
         <FlatButton label="Reset" />
       </Container>
