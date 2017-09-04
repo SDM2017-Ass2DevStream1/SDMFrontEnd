@@ -136,14 +136,14 @@ class SearchResult extends Component {
   }
 
   renderItems() {
-    const { search: { items } } = this.props;
+    const { search: { items, visibility } } = this.props;
 
     return items.map((item) => {
       const renderRowColumn = (item, key, hasTitle = false) => {
         const value = item[key];
 
         return (
-          <TableRowColumn
+          visibility[key] && <TableRowColumn
             style={{
               ...styles.column,
               flex: flex[key],
@@ -169,6 +169,21 @@ class SearchResult extends Component {
   }
 
   renderSearchResults() {
+    const { search: { visibility } } = this.props;
+
+    const renderHeaderColumn = (key, title) => {
+      return (
+        visibility[key] && <TableHeaderColumn
+          style={{
+            ...styles.column,
+            flex: flex[key],
+          }}
+        >
+          {title}
+        </TableHeaderColumn>
+      );
+    };
+
     return (
       <Table selectable={false} style={styles.table}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -177,38 +192,10 @@ class SearchResult extends Component {
               ...styles.headerRow,
             }}
           >
-            <TableHeaderColumn
-              style={{
-                ...styles.column,
-                flex: flex.title,
-              }}
-            >
-              Title
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              style={{
-                ...styles.column,
-                flex: flex.authors,
-              }}
-            >
-              Authors
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              style={{
-                ...styles.column,
-                flex: flex.year,
-              }}
-            >
-              Publish Year
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              style={{
-                ...styles.column,
-                flex: flex.rating,
-              }}
-            >
-              Rating (out of 5 stars)
-            </TableHeaderColumn>
+            {renderHeaderColumn('title', 'Title')}
+            {renderHeaderColumn('authors', 'Authors')}
+            {renderHeaderColumn('year', 'Publish Year')}
+            {renderHeaderColumn('rating', 'Rating (out of 5 stars)')}
           </TableRow>
         </TableHeader>
 
