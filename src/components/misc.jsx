@@ -1,23 +1,23 @@
 import React from 'react';
-import Paper from 'material-ui/Paper';
+import { Paper as MuiPaper } from 'material-ui';
 import styled from 'styled-components';
 
 
-export const MiscPaper = ({ style, ...rest }) => {
+export const Paper = ({ style, ...rest }) => {
   return (
-    <Paper
+    <MuiPaper
       {...rest}
       style={{
         padding: '25px 30px',
-        marginBottom: '30px',
+        marginBottom: '40px',
         ...style,
       }}
     />
   );
 };
 
-export const MiscTitle = styled.h2`
+export const ModuleTitle = styled.h2`
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 `;

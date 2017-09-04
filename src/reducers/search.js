@@ -1,5 +1,7 @@
 import { createReducer } from 'redux-action-tools';
-import { SEARCH_ARTICLES } from '../constants/action_types';
+import {
+  SEARCH_ARTICLES, UPDATE_SEARCH_QUERY, CHANGE_COLUMN_VISIBILITY,
+} from '../constants/action_types';
 
 
 const initialState = {
@@ -10,22 +12,40 @@ const initialState = {
   },
   items: [],
   total: 0,
+  visibility: {
+    title: true,
+    authors: true,
+    year: true,
+    rating: true,
+  },
 };
 
+const updateQuery = (state, { payload }) => ({
+  ...state,
+  query: {
+    ...state.query,
+    ...payload,
+  },
+});
+
 const reducer = createReducer()
-  .when(SEARCH_ARTICLES, (state, { payload }) => {
-    return {
-      ...state,
-      query: {
-        ...state.query,
-        ...payload,
-      },
-    };
-  })
+  .when(SEARCH_ARTICLES, updateQuery)
   .done((state, { payload: { data } }) => {
     return {
       ...state,
       ...data,
+    };
+  })
+
+  .when(UPDATE_SEARCH_QUERY, updateQuery)
+
+  .when(CHANGE_COLUMN_VISIBILITY, (state, { payload }) => {
+    return {
+      ...state,
+      visibility: {
+        ...state.visibility,
+        [payload.column]: payload.checked,
+      },
     };
   })
 

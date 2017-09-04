@@ -7,7 +7,7 @@ import { colors } from 'material-ui/styles';
 import styled from 'styled-components';
 
 import SearchResult from './search_result';
-import { MiscPaper, MiscTitle } from '../components/misc';
+import { Paper, ModuleTitle } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
@@ -37,6 +37,15 @@ const styles = {
   },
 };
 
+const TabContainer = styled.div`
+  padding: 40px 100px;
+`;
+
+const SearchBarContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 class SearchIndex extends Component {
   constructor(props) {
     super(props);
@@ -53,26 +62,19 @@ class SearchIndex extends Component {
 
   render() {
     const { search: { query, items } } = this.props;
-    const TabContainer = styled.div`
-      padding: 40px 100px;
-    `;
-    const SearchBarContainer = styled.div`
-      display: flex;
-      align-items: center;
-    `;
 
     return (
       // https://stackoverflow.com/questions/37928419/how-to-resize-material-uis-tabs
       <Tabs {...styles.tab}>
         <Tab label="Search">
           <TabContainer>
-            <MiscPaper style={styles.paper}>
+            <Paper style={styles.paper}>
               <form onSubmit={this.onSearchFormSubmit}>
-                <MiscTitle>Search Functions</MiscTitle>
+                <ModuleTitle>Search Functions</ModuleTitle>
 
                 <SearchBarContainer>
                   <TextField
-                    ref={(input) => { this.searchInput = input; }}
+                    ref={(field) => { this.searchInput = field; }}
                     style={styles.searchBar}
                     hintText="Search for articles"
                     defaultValue={query.term}
@@ -84,7 +86,7 @@ class SearchIndex extends Component {
                   />
                 </SearchBarContainer>
               </form>
-            </MiscPaper>
+            </Paper>
 
             {!_.isEmpty(items) && <SearchResult />}
           </TabContainer>

@@ -1,14 +1,18 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  Table, TableHeader, TableBody,
-  TableHeaderColumn, TableRow, TableRowColumn,
+  Table, TableHeader, TableBody, TableHeaderColumn,
+  TableRow, TableRowColumn, Checkbox,
 } from 'material-ui';
-import { colors } from 'material-ui/styles';
+import Visibility from 'material-ui/svg-icons/action/visibility';
+import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
+import { BORDER } from '../constants/styles';
+import { ModuleTitle } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
@@ -21,7 +25,20 @@ const flex = {
 
 const styles = {
   table: {
-    borderBottom: `1px solid ${colors.grey300}`,
+    borderBottom: BORDER,
+  },
+  checkbox: {
+    style: {
+      display: 'inline-block',
+      marginRight: '25px',
+      width: 'auto',
+    },
+    iconStyle: {
+      marginRight: '10px',
+    },
+    labelStyle: {
+      width: 'auto',
+    },
   },
   headerRow: {
     display: 'flex',
@@ -45,6 +62,16 @@ const ColumnContent = styled.span`
   text-overflow: ellipsis;
 `;
 
+const VisibilityCheckbox = props => (
+  <Checkbox
+    checkedIcon={<Visibility />}
+    uncheckedIcon={<VisibilityOff />}
+    {...styles.checkbox}
+    {...props}
+  />
+);
+
+
 class SearchResult extends Component {
   constructor(props) {
     super(props);
@@ -56,6 +83,130 @@ class SearchResult extends Component {
       ...this.props.query,
       page,
     });
+  }
+
+  onVisibilityCheck(column, checked) {
+    this.props.actions.changeColumnVisibility(column, checked);
+  }
+
+  renderSettings() {
+    const { search: { visibility } } = this.props;
+
+    const OuterDiv = styled.div`
+      padding-bottom: 20px;
+      border-bottom: ${BORDER};
+    `;
+
+    const InnerDiv = styled.div`
+      margin-right: -25px;
+    `;
+
+    const Span = styled.span`
+      float: left;
+      line-height: 24px;
+      margin-right: 10px;
+      height: 24px;
+    `;
+
+    return (
+      <OuterDiv>
+        <ModuleTitle>Search Results</ModuleTitle>
+        <InnerDiv>
+          <Span>Column Visibility: </Span>
+          {[
+            { column: 'title', label: 'Title' },
+            { column: 'authors', label: 'Authors' },
+            { column: 'year', label: 'Publish Year' },
+            { column: 'rating', label: 'Rating' },
+          ].map(({ column, label }) => {
+            return (
+              <VisibilityCheckbox
+                key={`visibility-checkbox-${_.snakeCase(label)}`}
+                label={label}
+                checked={visibility[column]}
+                onCheck={(e, checked) => {
+                  this.onVisibilityCheck(column, checked);
+                }}
+              />
+            );
+          })}
+        </InnerDiv>
+      </OuterDiv>
+    );
+  }
+
+  renderItems() {
+    const { search: { items, visibility } } = this.props;
+
+    return items.map((item) => {
+      const renderRowColumn = (item, key, hasTitle = false) => {
+        const value = item[key];
+
+        return (
+          visibility[key] && <TableRowColumn
+            style={{
+              ...styles.column,
+              flex: flex[key],
+            }}
+          >
+            {hasTitle ?
+              <ColumnContent title={value}>{value}</ColumnContent> :
+              <ColumnContent>{value}</ColumnContent>
+            }
+          </TableRowColumn>
+        );
+      };
+
+      return (
+        <TableRow key={item.id} style={styles.bodyRow}>
+          {renderRowColumn(item, 'title', true)}
+          {renderRowColumn(item, 'authors', true)}
+          {renderRowColumn(item, 'year')}
+          {renderRowColumn(item, 'rating')}
+        </TableRow>
+      );
+    });
+  }
+
+  renderSearchResults() {
+    const { search: { visibility } } = this.props;
+
+    const renderHeaderColumn = (key, title) => {
+      return (
+        visibility[key] && <TableHeaderColumn
+          style={{
+            ...styles.column,
+            flex: flex[key],
+          }}
+        >
+          {title}
+        </TableHeaderColumn>
+      );
+    };
+
+    return (
+      <Table selectable={false} style={styles.table}>
+        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+          <TableRow
+            style={{
+              ...styles.headerRow,
+            }}
+          >
+            {renderHeaderColumn('title', 'Title')}
+            {renderHeaderColumn('authors', 'Authors')}
+            {renderHeaderColumn('year', 'Publish Year')}
+            {renderHeaderColumn('rating', 'Rating (out of 5 stars)')}
+          </TableRow>
+        </TableHeader>
+
+        <TableBody
+          displayRowCheckbox={false}
+          showRowHover
+        >
+          {this.renderItems()}
+        </TableBody>
+      </Table>
+    );
   }
 
   renderPagination() {
@@ -75,113 +226,11 @@ class SearchResult extends Component {
     );
   }
 
-  renderItems() {
-    const { search: { items } } = this.props;
-
-    return items.map((item) => {
-      const { title } = item;
-      const authors = item.authors.join(', ');
-
-      return (
-        <TableRow key={item.id} style={styles.bodyRow}>
-          <TableRowColumn
-            style={{
-              ...styles.column,
-              flex: flex.title,
-            }}
-          >
-            <ColumnContent title={title}>
-              {title}
-            </ColumnContent>
-          </TableRowColumn>
-          <TableRowColumn
-            style={{
-              ...styles.column,
-              flex: flex.authors,
-            }}
-          >
-            <ColumnContent title={authors}>
-              {authors}
-            </ColumnContent>
-          </TableRowColumn>
-          <TableRowColumn
-            style={{
-              ...styles.column,
-              flex: flex.year,
-            }}
-          >
-            <ColumnContent>
-              {item.year}
-            </ColumnContent>
-          </TableRowColumn>
-          <TableRowColumn
-            style={{
-              ...styles.column,
-              flex: flex.rating,
-            }}
-          >
-            <ColumnContent>
-              {item.rating}
-            </ColumnContent>
-          </TableRowColumn>
-        </TableRow>
-      );
-    });
-  }
-
   render() {
     return (
       <div>
-        <Table selectable={false} style={styles.table}>
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-            <TableRow
-              style={{
-                ...styles.headerRow,
-              }}
-            >
-              <TableHeaderColumn
-                style={{
-                  ...styles.column,
-                  flex: flex.title,
-                }}
-              >
-                Title
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                style={{
-                  ...styles.column,
-                  flex: flex.authors,
-                }}
-              >
-                Authors
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                style={{
-                  ...styles.column,
-                  flex: flex.year,
-                }}
-              >
-                Publish Year
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                style={{
-                  ...styles.column,
-                  flex: flex.rating,
-                }}
-              >
-                Rating (out of 5 stars)
-              </TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody
-            displayRowCheckbox={false}
-            showRowHover
-          >
-            {this.renderItems()}
-          </TableBody>
-        </Table>
-
+        {this.renderSettings()}
+        {this.renderSearchResults()}
         {this.renderPagination()}
       </div>
     );
