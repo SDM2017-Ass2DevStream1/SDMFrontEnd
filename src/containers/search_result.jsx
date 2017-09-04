@@ -139,51 +139,30 @@ class SearchResult extends Component {
     const { search: { items } } = this.props;
 
     return items.map((item) => {
-      const { title } = item;
-      const authors = item.authors.join(', ');
+      const renderRowColumn = (item, key, hasTitle = false) => {
+        const value = item[key];
+
+        return (
+          <TableRowColumn
+            style={{
+              ...styles.column,
+              flex: flex[key],
+            }}
+          >
+            {hasTitle ?
+              <ColumnContent title={value}>{value}</ColumnContent> :
+              <ColumnContent>{value}</ColumnContent>
+            }
+          </TableRowColumn>
+        );
+      };
 
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
-          <TableRowColumn
-            style={{
-              ...styles.column,
-              flex: flex.title,
-            }}
-          >
-            <ColumnContent title={title}>
-              {title}
-            </ColumnContent>
-          </TableRowColumn>
-          <TableRowColumn
-            style={{
-              ...styles.column,
-              flex: flex.authors,
-            }}
-          >
-            <ColumnContent title={authors}>
-              {authors}
-            </ColumnContent>
-          </TableRowColumn>
-          <TableRowColumn
-            style={{
-              ...styles.column,
-              flex: flex.year,
-            }}
-          >
-            <ColumnContent>
-              {item.year}
-            </ColumnContent>
-          </TableRowColumn>
-          <TableRowColumn
-            style={{
-              ...styles.column,
-              flex: flex.rating,
-            }}
-          >
-            <ColumnContent>
-              {item.rating}
-            </ColumnContent>
-          </TableRowColumn>
+          {renderRowColumn(item, 'title', true)}
+          {renderRowColumn(item, 'authors', true)}
+          {renderRowColumn(item, 'year')}
+          {renderRowColumn(item, 'rating')}
         </TableRow>
       );
     });
