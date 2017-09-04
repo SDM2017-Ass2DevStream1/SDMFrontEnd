@@ -18,7 +18,7 @@ export const updateSearchQuery = createAsyncAction(
   types.UPDATE_SEARCH_QUERY,
 );
 
-export const changeColumnVisibility = (column, visibility) => ({
+export const changeColumnVisibility = (column, checked) => ({
   type: types.CHANGE_COLUMN_VISIBILITY,
-  payload: { column, visibility },
+  payload: { column, checked },
 });

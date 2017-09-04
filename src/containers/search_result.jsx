@@ -28,9 +28,17 @@ const styles = {
     borderBottom: BORDER,
   },
   checkbox: {
-    display: 'inline-block',
-    marginLeft: '20px',
-    width: 'auto',
+    style: {
+      display: 'inline-block',
+      marginRight: '25px',
+      width: 'auto',
+    },
+    iconStyle: {
+      marginRight: '10px',
+    },
+    labelStyle: {
+      width: 'auto',
+    },
   },
   headerRow: {
     display: 'flex',
@@ -56,10 +64,9 @@ const ColumnContent = styled.span`
 
 const VisibilityCheckbox = props => (
   <Checkbox
-    style={styles.checkbox}
     checkedIcon={<Visibility />}
     uncheckedIcon={<VisibilityOff />}
-    defaultChecked
+    {...styles.checkbox}
     {...props}
   />
 );
@@ -83,21 +90,28 @@ class SearchResult extends Component {
   }
 
   renderSettings() {
-    const Div = styled.div`
+    const { search: { visibility } } = this.props;
+
+    const OuterDiv = styled.div`
       padding-bottom: 20px;
       border-bottom: ${BORDER};
+    `;
+
+    const InnerDiv = styled.div`
+      margin-right: -25px;
     `;
 
     const Span = styled.span`
       float: left;
       line-height: 24px;
+      margin-right: 10px;
       height: 24px;
     `;
 
     return (
-      <Div>
+      <OuterDiv>
         <ModuleTitle>Search Results</ModuleTitle>
-        <div>
+        <InnerDiv>
           <Span>Column Visibility: </Span>
           {[
             { column: 'title', label: 'Title' },
@@ -109,31 +123,15 @@ class SearchResult extends Component {
               <VisibilityCheckbox
                 key={`visibility-checkbox-${_.snakeCase(label)}`}
                 label={label}
+                checked={visibility[column]}
                 onCheck={(e, checked) => {
                   this.onVisibilityCheck(column, checked);
                 }}
               />
             );
           })}
-        </div>
-      </Div>
-    );
-  }
-
-  renderPagination() {
-    const { search: { query, total } } = this.props;
-    const Div = styled.div`
-      margin-top: 25px;
-    `;
-
-    return (total &&
-      <Div>
-        <Pagination
-          currentPage={query.page}
-          totalPages={Math.ceil(total / query.limit)}
-          onChange={this.onPaginationChange}
-        />
-      </Div>
+        </InnerDiv>
+      </OuterDiv>
     );
   }
 
@@ -242,6 +240,23 @@ class SearchResult extends Component {
           {this.renderItems()}
         </TableBody>
       </Table>
+    );
+  }
+
+  renderPagination() {
+    const { search: { query, total } } = this.props;
+    const Div = styled.div`
+      margin-top: 25px;
+    `;
+
+    return (total &&
+      <Div>
+        <Pagination
+          currentPage={query.page}
+          totalPages={Math.ceil(total / query.limit)}
+          onChange={this.onPaginationChange}
+        />
+      </Div>
     );
   }
 

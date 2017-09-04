@@ -44,7 +44,7 @@ const reducer = createReducer()
       ...state,
       visibility: {
         ...state.visibility,
-        [payload.column]: payload.visibility,
+        [payload.column]: payload.checked,
       },
     };
   })
