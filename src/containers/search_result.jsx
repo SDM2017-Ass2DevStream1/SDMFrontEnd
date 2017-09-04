@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  Table, TableHeader, TableBody,
-  TableHeaderColumn, TableRow, TableRowColumn,
+  Table, TableHeader, TableBody, TableHeaderColumn,
+  TableRow, TableRowColumn, Checkbox,
 } from 'material-ui';
 import { colors } from 'material-ui/styles';
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
+import { ModuleTitle } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
@@ -133,6 +134,8 @@ class SearchResult extends Component {
   render() {
     return (
       <div>
+        <ModuleTitle>Search Results</ModuleTitle>
+
         <Table selectable={false} style={styles.table}>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow
