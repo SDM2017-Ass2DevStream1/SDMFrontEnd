@@ -5,10 +5,12 @@ import {
   Table, TableHeader, TableBody, TableHeaderColumn,
   TableRow, TableRowColumn, Checkbox,
 } from 'material-ui';
-import { colors } from 'material-ui/styles';
+import Visibility from 'material-ui/svg-icons/action/visibility';
+import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
+import { BORDER } from '../constants/styles';
 import { ModuleTitle } from '../components/misc';
 import * as searchActions from '../actions/search';
 
@@ -22,7 +24,12 @@ const flex = {
 
 const styles = {
   table: {
-    borderBottom: `1px solid ${colors.grey300}`,
+    borderBottom: BORDER,
+  },
+  checkbox: {
+    display: 'inline-block',
+    marginLeft: '20px',
+    width: 'auto',
   },
   headerRow: {
     display: 'flex',
@@ -46,6 +53,17 @@ const ColumnContent = styled.span`
   text-overflow: ellipsis;
 `;
 
+const VisibilityCheckbox = props => (
+  <Checkbox
+    style={styles.checkbox}
+    checkedIcon={<Visibility />}
+    uncheckedIcon={<VisibilityOff />}
+    defaultChecked
+    {...props}
+  />
+);
+
+
 class SearchResult extends Component {
   constructor(props) {
     super(props);
@@ -57,6 +75,30 @@ class SearchResult extends Component {
       ...this.props.query,
       page,
     });
+  }
+
+  renderSettings() {
+    const Div = styled.div`
+      padding-bottom: 20px;
+      border-bottom: ${BORDER};
+    `;
+
+    const Span = styled.span`
+      float: left;
+      line-height: 24px;
+      height: 24px;
+    `;
+
+    return (
+      <Div>
+        <ModuleTitle>Search Results</ModuleTitle>
+        <div>
+          <Span>Column Visibility: </Span>
+          <VisibilityCheckbox label="Title" />
+          <VisibilityCheckbox label="DD" />
+        </div>
+      </Div>
+    );
   }
 
   renderPagination() {
@@ -82,7 +124,6 @@ class SearchResult extends Component {
     return items.map((item) => {
       const { title } = item;
       const authors = item.authors.join(', ');
-
 
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
@@ -134,7 +175,7 @@ class SearchResult extends Component {
   render() {
     return (
       <div>
-        <ModuleTitle>Search Results</ModuleTitle>
+        {this.renderSettings()}
 
         <Table selectable={false} style={styles.table}>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
