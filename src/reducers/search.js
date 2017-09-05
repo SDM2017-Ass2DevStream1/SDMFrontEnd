@@ -2,7 +2,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import { createReducer } from 'redux-action-tools';
 import {
-  SEARCH_ARTICLES, UPDATE_SEARCH_QUERY, CHANGE_COLUMN_VISIBILITY,
+  SEARCH_ARTICLES, UPDATE_SEARCH_QUERY,
+  CHANGE_COLUMN_VISIBILITY, RESET_DATE_RANGE,
 } from '../constants/action_types';
 
 
@@ -41,6 +42,14 @@ const reducer = createReducer()
   })
 
   .when(UPDATE_SEARCH_QUERY, updateQuery)
+
+  .when(RESET_DATE_RANGE, state => ({
+    ...state,
+    query: {
+      ...state.query,
+      date: initialState.query.date,
+    },
+  }))
 
   .when(CHANGE_COLUMN_VISIBILITY, (state, { payload }) => {
     return {

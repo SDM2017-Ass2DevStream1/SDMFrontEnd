@@ -5,7 +5,7 @@ import { FlatButton, Checkbox, DatePicker } from 'material-ui';
 import moment from 'moment';
 import styled from 'styled-components';
 
-import { initialState as searchInitialState } from '../reducers/search'
+import { initialState as searchInitialState } from '../reducers/search';
 import * as searchActions from '../actions/search';
 
 
@@ -58,6 +58,7 @@ class SearchDateRangeFilter extends Component {
     super(props);
     this.onFromChange = this.onFromChange.bind(this);
     this.onToChange = this.onToChange.bind(this);
+    this.onResetDateRange = this.onResetDateRange.bind(this);
   }
 
   onFromChange(e, date) {
@@ -70,6 +71,10 @@ class SearchDateRangeFilter extends Component {
     this.props.actions.updateSearchQuery({
       date: { to: date },
     });
+  }
+
+  onResetDateRange() {
+    this.props.actions.resetDateRange();
   }
 
   render() {
@@ -92,7 +97,7 @@ class SearchDateRangeFilter extends Component {
           value={date.to}
           onChange={this.onToChange}
         />
-        <FlatButton label="Reset" />
+        <FlatButton label="Reset" onClick={this.onResetDateRange} />
       </Container>
     );
   }

@@ -19,6 +19,10 @@ export const updateSearchQuery = query => ({
   payload: query,
 });
 
+export const resetDateRange = () => ({
+  type: types.RESET_DATE_RANGE,
+});
+
 export const changeColumnVisibility = (column, checked) => ({
   type: types.CHANGE_COLUMN_VISIBILITY,
   payload: { column, checked },
