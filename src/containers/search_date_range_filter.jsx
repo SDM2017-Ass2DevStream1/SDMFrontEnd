@@ -5,6 +5,7 @@ import { FlatButton, Checkbox, DatePicker } from 'material-ui';
 import moment from 'moment';
 import styled from 'styled-components';
 
+import { initialState as searchInitialState } from '../reducers/search'
 import * as searchActions from '../actions/search';
 
 
@@ -29,8 +30,6 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const minDate = moment('1950-01-01', 'YYYY-MM-DD').toDate();
-const maxDate = moment().toDate();
 const formatDate = (date) => {
   return moment(date).format('MM/YYYY');
 };
@@ -44,7 +43,6 @@ const CustomizedDatePicker = (props) => {
   return (
     <Span>
       <DatePicker
-        autoOk
         openToYearSelection
         formatDate={formatDate}
         {...props}
@@ -53,20 +51,46 @@ const CustomizedDatePicker = (props) => {
   );
 };
 
+const initialDate = searchInitialState.query.date;
+
 class SearchDateRangeFilter extends Component {
+  constructor(props) {
+    super(props);
+    this.onFromChange = this.onFromChange.bind(this);
+    this.onToChange = this.onToChange.bind(this);
+  }
+
+  onFromChange(e, date) {
+    this.props.actions.updateSearchQuery({
+      date: { from: date },
+    });
+  }
+
+  onToChange(e, date) {
+    this.props.actions.updateSearchQuery({
+      date: { to: date },
+    });
+  }
+
   render() {
+    const { search: { query: { date } } } = this.props;
+
     return (
       <Container>
         <Checkbox label="Date Range" {...styles.checkbox} />
         <CustomizedDatePicker
           hintText="From"
-          minDate={minDate}
-          value={minDate}
+          minDate={initialDate.from}
+          maxDate={date.to}
+          value={date.from}
+          onChange={this.onFromChange}
         />
         <CustomizedDatePicker
           hintText="To"
-          maxDate={maxDate}
-          value={maxDate}
+          minDate={date.from}
+          maxDate={initialDate.to}
+          value={date.to}
+          onChange={this.onToChange}
         />
         <FlatButton label="Reset" />
       </Container>

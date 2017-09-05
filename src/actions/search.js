@@ -14,9 +14,10 @@ export const searchArticles = createAsyncAction(
   },
 );
 
-export const updateSearchQuery = createAsyncAction(
-  types.UPDATE_SEARCH_QUERY,
-);
+export const updateSearchQuery = query => ({
+  type: types.UPDATE_SEARCH_QUERY,
+  payload: query,
+});
 
 export const changeColumnVisibility = (column, checked) => ({
   type: types.CHANGE_COLUMN_VISIBILITY,
