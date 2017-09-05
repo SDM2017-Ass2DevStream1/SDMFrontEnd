@@ -51,7 +51,7 @@ const CustomizedDatePicker = (props) => {
   );
 };
 
-const initialDate = searchInitialState.query.date;
+const initialDate = searchInitialState.condition.date;
 
 class SearchDateRangeFilter extends Component {
   constructor(props) {
@@ -62,13 +62,13 @@ class SearchDateRangeFilter extends Component {
   }
 
   onFromChange(e, date) {
-    this.props.actions.updateSearchQuery({
+    this.props.actions.setSearchCondition({
       date: { from: date },
     });
   }
 
   onToChange(e, date) {
-    this.props.actions.updateSearchQuery({
+    this.props.actions.setSearchCondition({
       date: { to: date },
     });
   }
@@ -78,7 +78,7 @@ class SearchDateRangeFilter extends Component {
   }
 
   render() {
-    const { search: { query: { date } } } = this.props;
+    const { search: { condition: { date } } } = this.props;
 
     return (
       <Container>

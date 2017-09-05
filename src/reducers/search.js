@@ -2,8 +2,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import { createReducer } from 'redux-action-tools';
 import {
-  SEARCH_ARTICLES, UPDATE_SEARCH_QUERY,
-  CHANGE_COLUMN_VISIBILITY, RESET_DATE_RANGE,
+  SEARCH_ARTICLES, UPDATE_SEARCH_QUERY, CHANGE_COLUMN_VISIBILITY,
+  SET_SEARCH_CONDITION, RESET_DATE_RANGE,
 } from '../constants/action_types';
 
 
@@ -12,6 +12,8 @@ export const initialState = {
     term: '',
     limit: 15,
     page: 1,
+  },
+  condition: {
     date: {
       from: moment('1950-01-01', 'YYYY-MM-DD').toDate(),
       to: moment().toDate(),
@@ -43,11 +45,16 @@ const reducer = createReducer()
 
   .when(UPDATE_SEARCH_QUERY, updateQuery)
 
+  .when(SET_SEARCH_CONDITION, (state, { payload }) => {
+    const condition = _.merge({}, state.condition, payload);
+    return { ...state, condition };
+  })
+
   .when(RESET_DATE_RANGE, state => ({
     ...state,
-    query: {
-      ...state.query,
-      date: initialState.query.date,
+    condition: {
+      ...state.condition,
+      date: initialState.condition.date,
     },
   }))
 

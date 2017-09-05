@@ -19,6 +19,11 @@ export const updateSearchQuery = query => ({
   payload: query,
 });
 
+export const setSearchCondition = condition => ({
+  type: types.SET_SEARCH_CONDITION,
+  payload: condition,
+});
+
 export const resetDateRange = () => ({
   type: types.RESET_DATE_RANGE,
 });
