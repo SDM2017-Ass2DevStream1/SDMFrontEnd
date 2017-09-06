@@ -81,6 +81,7 @@ const reducer = createReducer()
   .when(CHANGE_SORT_METHOD, (state, { payload }) => {
     const newState = Object.assign({}, state);
     newState.query.sortMethodValue = payload.sortMethodValue;
+    newState.query.page = 1;
     return newState;
   })
 
