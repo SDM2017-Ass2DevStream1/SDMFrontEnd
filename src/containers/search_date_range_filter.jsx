@@ -56,9 +56,15 @@ const initialDate = searchInitialState.condition.date;
 class SearchDateRangeFilter extends Component {
   constructor(props) {
     super(props);
+    this.onApplyDateRange = this.onApplyDateRange.bind(this);
     this.onFromChange = this.onFromChange.bind(this);
     this.onToChange = this.onToChange.bind(this);
     this.onResetDateRange = this.onResetDateRange.bind(this);
+  }
+
+  onApplyDateRange(e, checked) {
+    const { actions } = this.props;
+    (checked ? actions.addDateRange : actions.removeDateRange)();
   }
 
   onFromChange(e, date) {
@@ -82,7 +88,11 @@ class SearchDateRangeFilter extends Component {
 
     return (
       <Container>
-        <Checkbox label="Date Range" {...styles.checkbox} />
+        <Checkbox
+          label="Date Range"
+          {...styles.checkbox}
+          onCheck={this.onApplyDateRange}
+        />
         <CustomizedDatePicker
           hintText="From"
           minDate={initialDate.from}

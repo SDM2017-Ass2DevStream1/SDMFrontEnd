@@ -24,11 +24,19 @@ export const setSearchCondition = condition => ({
   payload: condition,
 });
 
-export const resetDateRange = () => ({
-  type: types.RESET_DATE_RANGE,
-});
-
 export const changeColumnVisibility = (column, checked) => ({
   type: types.CHANGE_COLUMN_VISIBILITY,
   payload: { column, checked },
+});
+
+export const addDateRange = () => ({
+  type: types.ADD_DATE_RANGE,
+});
+
+export const removeDateRange = () => ({
+  type: types.REMOVE_DATE_RANGE,
+});
+
+export const resetDateRange = () => ({
+  type: types.RESET_DATE_RANGE,
 });

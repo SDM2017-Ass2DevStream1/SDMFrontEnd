@@ -3,7 +3,7 @@ import moment from 'moment';
 import { createReducer } from 'redux-action-tools';
 import {
   SEARCH_ARTICLES, UPDATE_SEARCH_QUERY, CHANGE_COLUMN_VISIBILITY,
-  SET_SEARCH_CONDITION, RESET_DATE_RANGE,
+  SET_SEARCH_CONDITION, ADD_DATE_RANGE, REMOVE_DATE_RANGE, RESET_DATE_RANGE,
 } from '../constants/action_types';
 
 
@@ -36,18 +36,38 @@ const updateQuery = (state, { payload }) => {
 
 const reducer = createReducer()
   .when(SEARCH_ARTICLES, updateQuery)
-  .done((state, { payload: { data } }) => {
-    return {
-      ...state,
-      ...data,
-    };
-  })
+  .done((state, { payload: { data } }) => ({
+    ...state,
+    ...data,
+  }))
 
   .when(UPDATE_SEARCH_QUERY, updateQuery)
 
   .when(SET_SEARCH_CONDITION, (state, { payload }) => {
     const condition = _.merge({}, state.condition, payload);
     return { ...state, condition };
+  })
+
+  .when(CHANGE_COLUMN_VISIBILITY, (state, { payload }) => ({
+    ...state,
+    visibility: {
+      ...state.visibility,
+      [payload.column]: payload.checked,
+    },
+  }))
+
+  .when(ADD_DATE_RANGE, state => ({
+    ...state,
+    query: {
+      ...state.query,
+      date: state.condition.date,
+    },
+  }))
+
+  .when(REMOVE_DATE_RANGE, (state) => {
+    const newState = _.cloneDeep(state);
+    delete newState.query.date;
+    return newState;
   })
 
   .when(RESET_DATE_RANGE, state => ({
@@ -57,16 +77,6 @@ const reducer = createReducer()
       date: initialState.condition.date,
     },
   }))
-
-  .when(CHANGE_COLUMN_VISIBILITY, (state, { payload }) => {
-    return {
-      ...state,
-      visibility: {
-        ...state.visibility,
-        [payload.column]: payload.checked,
-      },
-    };
-  })
 
   .build(initialState);
 
