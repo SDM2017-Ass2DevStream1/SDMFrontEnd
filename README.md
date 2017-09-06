@@ -90,4 +90,4 @@ If you are using docker on windows, you may have a chance of getting errors whil
   }
 
 ```
-#### 4. Save. Run docker-compose up again. It should be working now and go to localhost:3000 to see the app running in dev env.
+#### 4. Save. Run `docker-compose up` again. It should be working now and go to `localhost:3000` to see the app running in dev env.
