@@ -1,4 +1,4 @@
-# REACT Application with Pre-render State v2.0 
+# REACT Application with Pre-render State v2.0
 
 ## Docker - Development Environment
 
@@ -34,7 +34,7 @@ To test the production build
 docker run --name app -p 80:3000 <name of container>
 ```
 
-## Run a local environment for development
+## Build the development environment on your local
 ### 1. Fork the repository to your Github
 Everyone should use his own repository to develop a new feature, and then make a `pull request` (PR) for requesting merging the code into master branch. So, first of all, you should click the `Fork` button which is at the top-left of the Github to make a new copy of the repository to your own.
 [Screenshot](https://drive.google.com/open?id=0B7nEHGVPFeE9dG5tc1VQdmJKbkk)
@@ -42,6 +42,9 @@ Everyone should use his own repository to develop a new feature, and then make a
 ### 2. Clone the code into your local environment
 Use `Git clone` to clone a mirror copy of code to your dist (Run the command on your terminal):
 `git clone https://github.com/[YOUR USERNAME]/SDMFrontEnd.git`
+
+if you uses `docker`, you can simply run `docker-compose up` to set up the whole environment.
+Otherwise, you can follow the *step 3 to 5* to build your own.
 
 ### 3. Set up node related packages
 Move into the product directory, and then install all the node packages by running:
@@ -65,29 +68,3 @@ module.exports = {
   useFakeApi: true,
 };
 ```
-
-### 7. Development using Docker (Windows OS)
-If you are using docker on windows, you may have a chance of getting errors while trying to run the application in the development env. If you do get errors, this is what you can do (because it worked for me).
-
-#### 1. Open package.json in the project that Andrew gave us.
-#### 2. Copy these from the "Scripts":{}.
-```
-"dev": "NODE_ENV=development webpack --watch --progress --colors",
-    "dev-server": " NODE_ENV=development nodemon ./server/server.js",
-    "prod": "NODE_ENV=production webpack --progress --colors",
-    "prod-server": "NODE_ENV=production node ./server/server.js"
-
-```
-#### 3. Replace them in the "Scripts":{} in your current package.json file, and your "Scripts":{} should look like this.
-
-```
-"scripts": {
-    "dev": "NODE_ENV=development webpack --watch --progress --colors",
-    "dev-server": " NODE_ENV=development nodemon ./server/server.js",
-    "prod": "NODE_ENV=production webpack --progress --colors",
-    "prod-server": "NODE_ENV=production node ./server/server.js",
-    "lint": "eslint **/*.js **/*.jsx && coffeelint ."
-  }
-
-```
-#### 4. Save. Run `docker-compose up` again. It should be working now and go to `localhost:3000` to see the app running in dev env.
