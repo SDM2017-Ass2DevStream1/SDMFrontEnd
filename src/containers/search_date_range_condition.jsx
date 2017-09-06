@@ -28,6 +28,7 @@ const styles = {
 const Container = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 25px;
 `;
 
 const formatDate = (date) => {

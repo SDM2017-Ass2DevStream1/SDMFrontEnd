@@ -7,7 +7,9 @@ import { colors } from 'material-ui/styles';
 import styled from 'styled-components';
 
 import SearchResult from './search_result';
+import SearchConditions from './search_conditions';
 import SearchDateRangeCondition from './search_date_range_condition';
+import { muiTheme } from '../constants/styles';
 import { Paper, ModuleTitle } from '../components/misc';
 import * as searchActions from '../actions/search';
 
@@ -19,7 +21,7 @@ const styles = {
       marginLeft: '100px',
     },
     style: {
-      background: colors.lightGreen500,
+      background: muiTheme.palette.primary1Color,
     },
     inkBarStyle: {
       marginLeft: '100px',
@@ -88,6 +90,7 @@ class SearchIndex extends Component {
 
                 <ModuleTitle>To Apply Conditions</ModuleTitle>
                 <SearchDateRangeCondition />
+                <SearchConditions />
               </form>
             </Paper>
 
