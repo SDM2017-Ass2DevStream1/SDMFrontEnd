@@ -65,3 +65,29 @@ module.exports = {
   useFakeApi: true,
 };
 ```
+
+### 7. Development using Docker (Windows OS)
+If you are using docker on windows, you may have a chance of getting errors while trying to run the application in the development env. If you do get errors, this is what you can do (because it worked for me).
+
+#### 1. Open package.json in the project that Andrew gave us.
+#### 2. Copy these from the "Scripts":{}.
+```
+"dev": "NODE_ENV=development webpack --watch --progress --colors",
+    "dev-server": " NODE_ENV=development nodemon ./server/server.js",
+    "prod": "NODE_ENV=production webpack --progress --colors",
+    "prod-server": "NODE_ENV=production node ./server/server.js"
+
+```
+#### 3. Replace them in the "Scripts":{} in your current package.json file, and your "Scripts":{} should look like this.
+
+```
+"scripts": {
+    "dev": "NODE_ENV=development webpack --watch --progress --colors",
+    "dev-server": " NODE_ENV=development nodemon ./server/server.js",
+    "prod": "NODE_ENV=production webpack --progress --colors",
+    "prod-server": "NODE_ENV=production node ./server/server.js",
+    "lint": "eslint **/*.js **/*.jsx && coffeelint ."
+  }
+
+```
+#### 4. Save. Run docker-compose up again. It should be working now and go to localhost:3000 to see the app running in dev env.
