@@ -45,7 +45,10 @@ const TabContainer = styled.div`
 const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
+<<<<<<< HEAD
   margin-bottom: 30px;
+=======
+>>>>>>> upstream/master
 `;
 
 class SearchIndex extends Component {
@@ -72,6 +75,11 @@ class SearchIndex extends Component {
           <TabContainer>
             <Paper style={styles.paper}>
               <form onSubmit={this.onSearchFormSubmit}>
+<<<<<<< HEAD
+=======
+                <ModuleTitle>Search Functions</ModuleTitle>
+
+>>>>>>> upstream/master
                 <SearchBarContainer>
                   <TextField
                     ref={(field) => { this.searchInput = field; }}
