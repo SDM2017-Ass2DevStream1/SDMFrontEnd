@@ -34,14 +34,6 @@ const updateQuery = (state, { payload }) => {
   return { ...state, query };
 };
 
-const updateQuery = (state, { payload }) => ({
-  ...state,
-  query: {
-    ...state.query,
-    ...payload,
-  },
-});
-
 const reducer = createReducer()
   .when(SEARCH_ARTICLES, updateQuery)
   .done((state, { payload: { data } }) => ({
