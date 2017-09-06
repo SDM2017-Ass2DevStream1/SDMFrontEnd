@@ -13,6 +13,7 @@ const muiTheme = getMuiTheme({
   palette: {
     primary1Color: colors.lightGreen500,
     primary2Color: colors.lightGreen700,
+    pickerHeaderColor: colors.lightGreen500,
   },
 });
 

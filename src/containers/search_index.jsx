@@ -7,6 +7,7 @@ import { colors } from 'material-ui/styles';
 import styled from 'styled-components';
 
 import SearchResult from './search_result';
+import SearchDateRangeCondition from './search_date_range_condition';
 import { Paper, ModuleTitle } from '../components/misc';
 import * as searchActions from '../actions/search';
 
@@ -44,6 +45,7 @@ const TabContainer = styled.div`
 const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 30px;
 `;
 
 class SearchIndex extends Component {
@@ -70,8 +72,6 @@ class SearchIndex extends Component {
           <TabContainer>
             <Paper style={styles.paper}>
               <form onSubmit={this.onSearchFormSubmit}>
-                <ModuleTitle>Search Functions</ModuleTitle>
-
                 <SearchBarContainer>
                   <TextField
                     ref={(field) => { this.searchInput = field; }}
@@ -85,6 +85,9 @@ class SearchIndex extends Component {
                     secondary
                   />
                 </SearchBarContainer>
+
+                <ModuleTitle>To Apply Conditions</ModuleTitle>
+                <SearchDateRangeCondition />
               </form>
             </Paper>
 
