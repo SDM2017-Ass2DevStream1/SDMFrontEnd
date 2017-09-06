@@ -43,8 +43,8 @@ Everyone should use his own repository to develop a new feature, and then make a
 Use `Git clone` to clone a mirror copy of code to your dist (Run the command on your terminal):
 `git clone https://github.com/[YOUR USERNAME]/SDMFrontEnd.git`
 
-if you uses `docker`, you can simply run `docker-compose up` to set up the whole environment.
-Otherwise, you can follow the *step 3 to 5* to build your own.
+if you uses **docker**, you can simply run `docker-compose up` to set up the whole environment.
+Otherwise, you can follow the **step 3 to 5** to build your own.
 
 ### 3. Set up node related packages
 Move into the product directory, and then install all the node packages by running:
@@ -52,7 +52,7 @@ Move into the product directory, and then install all the node packages by runni
 
 ### 4. Running web servers
 `npm run dev-server`
-By default, the server will be started at **http://127.0.0.1:3000**
+By default, the server will be started at [http://127.0.0.1:3000](http://127.0.0.1:3000)
 If the port 3000 has been taken, you can find the application which is using that port by `lsof -i:3000`. Then, kill that application and try to run the server again.
 
 ### 5. Auto-compiling while development
