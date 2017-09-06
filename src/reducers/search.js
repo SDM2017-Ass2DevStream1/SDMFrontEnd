@@ -22,7 +22,6 @@ export const initialState = {
   items: [],
   total: 0,
   visibility: {
-    title: true,
     authors: true,
     year: true,
     rating: true,
