@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -16,12 +17,43 @@ const styles = {
 };
 
 class SearchConditions extends Component {
+  constructor(props) {
+    super(props);
+    this.onAddCondition = this.onAddCondition.bind(this);
+    this.onRemoveCondition = this.onRemoveCondition.bind(this);
+  }
+
+  onAddCondition() {
+    this.props.actions.addCondition();
+  }
+
+  onRemoveCondition() {
+    this.props.actions.removeCondition();
+  }
+
+  renderConditions(others) {
+    return others.map(other => (
+      <li key={other.type}>{other.type}</li>
+    ));
+  }
+
   render() {
+    const { search: { condition: { others } } } = this.props;
+
+    if (_.isEmpty(others)) {
+      return (
+        <RaisedButton
+          label="Add More Conditions"
+          icon={<AddIcon style={styles.buttonIcon} />}
+          onClick={this.onAddCondition}
+        />
+      );
+    }
+
     return (
-      <RaisedButton
-        label="Add More Conditions"
-        icon={<AddIcon style={styles.buttonIcon} />}
-      />
+      <ul>
+        {this.renderConditions(others)}
+      </ul>
     );
   }
 }

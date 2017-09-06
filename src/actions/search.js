@@ -40,3 +40,11 @@ export const removeDateRange = () => ({
 export const resetDateRange = () => ({
   type: types.RESET_DATE_RANGE,
 });
+
+export const addCondition = () => ({
+  type: types.ADD_CONDITION,
+});
+
+export const removeCondition = () => ({
+  type: types.REMOVE_CONDITION,
+});
