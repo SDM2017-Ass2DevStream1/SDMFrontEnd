@@ -41,7 +41,7 @@ Everyone should use his own repository to develop a new feature, and then make a
 
 ### 2. Clone the code into your local environment
 Use `Git clone` to clone a mirror copy of code to your dist (Run the command on your terminal):
-`git clone https://github.com/[YOUR BRANCH NAME]/SDMFrontEnd.git`
+`git clone https://github.com/[YOUR USERNAME]/SDMFrontEnd.git`
 
 ### 3. Set up node related packages
 Move into the product directory, and then install all the node packages by running:
