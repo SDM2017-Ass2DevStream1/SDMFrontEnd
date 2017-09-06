@@ -1,6 +1,6 @@
 import { createReducer } from 'redux-action-tools';
 import {
-  SEARCH_ARTICLES, UPDATE_SEARCH_QUERY, CHANGE_COLUMN_VISIBILITY,
+  SEARCH_ARTICLES, UPDATE_SEARCH_QUERY, CHANGE_COLUMN_VISIBILITY, CHANGE_SORT_METHOD,
 } from '../constants/action_types';
 
 
@@ -9,6 +9,7 @@ const initialState = {
     term: '',
     limit: 15,
     page: 1,
+    sortMethodValue: 'relevance',
   },
   items: [],
   total: 0,
@@ -47,6 +48,12 @@ const reducer = createReducer()
         [payload.column]: payload.checked,
       },
     };
+  })
+
+  .when(CHANGE_SORT_METHOD, (state, { payload }) => {
+    const newState = Object.assign({}, state);
+    newState.query.sortMethodValue = payload.sortMethodValue;
+    return newState;
   })
 
   .build(initialState);

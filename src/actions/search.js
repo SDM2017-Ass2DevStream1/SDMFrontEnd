@@ -22,3 +22,8 @@ export const changeColumnVisibility = (column, checked) => ({
   type: types.CHANGE_COLUMN_VISIBILITY,
   payload: { column, checked },
 });
+
+export const changeSortMethod = sortMethodValue => ({
+  type: types.CHANGE_SORT_METHOD,
+  payload: { sortMethodValue },
+});
