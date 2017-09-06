@@ -1,21 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { getMuiTheme, MuiThemeProvider, colors } from 'material-ui/styles';
+import { MuiThemeProvider } from 'material-ui/styles';
 
+import { muiTheme } from '../constants/styles';
 import Header from '../containers/header';
 import SearchIndex from '../containers/search_index';
 
-
-// This replaces the textColor value on the palette
-// and then update the keys for each component that depends on it.
-// More on Colors: http://www.material-ui.com/#/customization/colors
-const muiTheme = getMuiTheme({
-  palette: {
-    primary1Color: colors.lightGreen500,
-    primary2Color: colors.lightGreen700,
-    pickerHeaderColor: colors.lightGreen500,
-  },
-});
 
 const App = () => (
   <BrowserRouter>
