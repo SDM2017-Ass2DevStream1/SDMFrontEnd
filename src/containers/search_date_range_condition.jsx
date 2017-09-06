@@ -53,7 +53,7 @@ const CustomizedDatePicker = (props) => {
 
 const initialDate = searchInitialState.condition.date;
 
-class SearchDateRangeFilter extends Component {
+class SearchDateRangeCondition extends Component {
   constructor(props) {
     super(props);
     this.onApplyDateRange = this.onApplyDateRange.bind(this);
@@ -124,4 +124,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SearchDateRangeFilter);
+)(SearchDateRangeCondition);

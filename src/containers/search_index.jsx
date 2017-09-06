@@ -7,7 +7,7 @@ import { colors } from 'material-ui/styles';
 import styled from 'styled-components';
 
 import SearchResult from './search_result';
-import SearchDateRangeFilter from './search_date_range_filter';
+import SearchDateRangeCondition from './search_date_range_condition';
 import { Paper, ModuleTitle } from '../components/misc';
 import * as searchActions from '../actions/search';
 
@@ -72,8 +72,6 @@ class SearchIndex extends Component {
           <TabContainer>
             <Paper style={styles.paper}>
               <form onSubmit={this.onSearchFormSubmit}>
-                <ModuleTitle>Search Functions</ModuleTitle>
-
                 <SearchBarContainer>
                   <TextField
                     ref={(field) => { this.searchInput = field; }}
@@ -88,9 +86,8 @@ class SearchIndex extends Component {
                   />
                 </SearchBarContainer>
 
-                <ModuleTitle>Apply Filters</ModuleTitle>
-
-                <SearchDateRangeFilter />
+                <ModuleTitle>To Apply Conditions</ModuleTitle>
+                <SearchDateRangeCondition />
               </form>
             </Paper>
 
