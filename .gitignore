@@ -22,5 +22,6 @@ dump.rdb
 .happypack/
 dist/
 node_modules/
+nokit-*
 server/local_config.js
 server/manifest.json

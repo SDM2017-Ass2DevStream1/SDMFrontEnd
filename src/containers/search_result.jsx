@@ -131,7 +131,6 @@ class SearchResult extends Component {
         <InnerDiv>
           <Span>Column Visibility: </Span>
           {[
-            { column: 'title', label: 'Title' },
             { column: 'authors', label: 'Authors' },
             { column: 'year', label: 'Publish Year' },
             { column: 'rating', label: 'Rating' },
@@ -179,17 +178,27 @@ class SearchResult extends Component {
     const { search: { items, visibility } } = this.props;
 
     return items.map((item) => {
-      const renderRowColumn = (item, key, hasTitle = false) => {
+      const renderRowColumn = (options) => {
+        const opts = {
+          ...{
+            key: '',
+            item: null,
+            hasTitle: false,
+            forceShow: false,
+          },
+          ...options,
+        };
+        const { key, item, showTitle, forceShow } = opts;
         const value = item[key];
 
         return (
-          visibility[key] && <TableRowColumn
+          (forceShow || visibility[key]) && <TableRowColumn
             style={{
               ...styles.column,
               flex: flex[key],
             }}
           >
-            {hasTitle ?
+            {showTitle ?
               <ColumnContent title={value}>{value}</ColumnContent> :
               <ColumnContent>{value}</ColumnContent>
             }
@@ -199,10 +208,24 @@ class SearchResult extends Component {
 
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
-          {renderRowColumn(item, 'title', true)}
-          {renderRowColumn(item, 'authors', true)}
-          {renderRowColumn(item, 'year')}
-          {renderRowColumn(item, 'rating')}
+          {renderRowColumn({
+            item,
+            key: 'title',
+            forceShow: true,
+          })}
+          {renderRowColumn({
+            item,
+            key: 'authors',
+            showTitle: true,
+          })}
+          {renderRowColumn({
+            item,
+            key: 'year',
+          })}
+          {renderRowColumn({
+            item,
+            key: 'rating',
+          })}
         </TableRow>
       );
     });
@@ -211,15 +234,26 @@ class SearchResult extends Component {
   renderSearchResults() {
     const { search: { visibility } } = this.props;
 
-    const renderHeaderColumn = (key, title) => {
+    const renderHeaderColumn = (options) => {
+      const opts = {
+        ...{
+          key: '',
+          label: '',
+          forceShow: false,
+        },
+        ...options,
+      };
+
+      const { key, label, forceShow } = opts;
+
       return (
-        visibility[key] && <TableHeaderColumn
+        (forceShow || visibility[key]) && <TableHeaderColumn
           style={{
             ...styles.column,
             flex: flex[key],
           }}
         >
-          {title}
+          {label}
         </TableHeaderColumn>
       );
     };
@@ -232,10 +266,23 @@ class SearchResult extends Component {
               ...styles.headerRow,
             }}
           >
-            {renderHeaderColumn('title', 'Title')}
-            {renderHeaderColumn('authors', 'Authors')}
-            {renderHeaderColumn('year', 'Publish Year')}
-            {renderHeaderColumn('rating', 'Rating (out of 5 stars)')}
+            {renderHeaderColumn({
+              key: 'title',
+              label: 'Title',
+              forceShow: true,
+            })}
+            {renderHeaderColumn({
+              key: 'authors',
+              label: 'Authors',
+            })}
+            {renderHeaderColumn({
+              key: 'year',
+              label: 'Publish Year',
+            })}
+            {renderHeaderColumn({
+              key: 'rating',
+              label: 'Rating (out of 5 stars)',
+            })}
           </TableRow>
         </TableHeader>
 

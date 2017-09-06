@@ -4,7 +4,7 @@ const _ = require('lodash');
 const cfg = {
   port: 3000,
   ip: '0.0.0.0',
-  useFakeApi: false,
+  useFakeApi: true,
 };
 
 let localCfg;
