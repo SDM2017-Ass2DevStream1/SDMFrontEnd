@@ -7,9 +7,9 @@ import * as types from '../constants/action_types';
 export const searchArticles = createAsyncAction(
   types.SEARCH_ARTICLES,
 
-  ({ term }) => {
+  (query) => {
     return axios.get('/api/search', {
-      term,
+      query,
     });
   },
 );
@@ -41,7 +41,15 @@ export const resetDateRange = () => ({
   type: types.RESET_DATE_RANGE,
 });
 
-export const sortSearchResultBy = value => ({
-  type: types.CHANGE_SORT_METHOD,
-  payload: { value },
+export const sortSearchResultsBy = payload => ({
+  type: types.SORT_SEARCH_RESULTS_BY,
+  payload,
+});
+
+export const addCondition = () => ({
+  type: types.ADD_CONDITION,
+});
+
+export const removeCondition = () => ({
+  type: types.REMOVE_CONDITION,
 });

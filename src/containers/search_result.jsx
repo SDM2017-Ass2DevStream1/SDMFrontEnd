@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -11,14 +10,18 @@ import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
+import {
+  SEARCH_RESULTS_COLUMN, SEARCH_SORT_BY,
+} from '../constants';
 import { BORDER } from '../constants/styles';
 import { ModuleTitle } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
 const flex = {
-  title: 5,
-  authors: 2,
+  title: 7,
+  authors: 3,
+  method: 3,
   year: 1,
   rating: 1,
 };
@@ -54,6 +57,9 @@ const styles = {
     // https://stackoverflow.com/questions/26465745/ellipsis-in-flexbox-container
     minWidth: 0,
   },
+  sortBy: {
+    fontSize: '14px',
+  },
 };
 
 const ColumnContent = styled.span`
@@ -71,11 +77,18 @@ const VisibilityCheckbox = props => (
   />
 );
 
+const Label = styled.span`
+  font-weight: bold;
+  line-height: 24px;
+  margin-right: 10px;
+  height: 24px;
+`;
+
 class SearchResult extends Component {
   constructor(props) {
     super(props);
     this.onPaginationChange = this.onPaginationChange.bind(this);
-    this.onSortMethodChange = this.onSortMethodChange.bind(this);
+    this.onChangeSortBy = this.onChangeSortBy.bind(this);
   }
 
   onPaginationChange(page) {
@@ -89,122 +102,167 @@ class SearchResult extends Component {
     this.props.actions.changeColumnVisibility(column, checked);
   }
 
-  onSortMethodChange(value) {
-    const { search: { query } } = this.props;
-
-    this.props.actions.sortSearchResultBy(value);
+  onChangeSortBy(sortBy) {
+    this.props.actions.sortSearchResultsBy(sortBy);
     this.props.actions.searchArticles({
-      ...this.props.query,
-      term: query.term,
+      ...this.props.search.query,
+      sortBy,
     });
   }
 
-  renderSettings() {
+  renderVisibility() {
     const { search: { visibility } } = this.props;
+
+    const Container = styled.div`
+      margin-right: -25px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    `;
+
+    const options = [
+      {
+        column: SEARCH_RESULTS_COLUMN.AUTHORS,
+        label: 'Authors',
+      },
+      {
+        column: SEARCH_RESULTS_COLUMN.YEAR,
+        label: 'Publish Year',
+      },
+      {
+        column: SEARCH_RESULTS_COLUMN.RATING,
+        label: 'Rating',
+      },
+      {
+        column: SEARCH_RESULTS_COLUMN.METHOD,
+        label: 'SE Method',
+      },
+    ];
+
+    return (
+      <Container>
+        <Label>Column Visibility: </Label>
+        {options.map(({ column, label }) => {
+          return (
+            <VisibilityCheckbox
+              key={`visibility-checkbox-${column}`}
+              label={label}
+              checked={visibility[column]}
+              onCheck={(e, checked) => {
+                this.onVisibilityCheck(column, checked);
+              }}
+            />
+          );
+        })}
+      </Container>
+    );
+  }
+
+  renderSortBy() {
     const { search: { query } } = this.props;
 
-    const OuterDiv = styled.div`
+    const Container = styled.div`
+      display: flex;
+      align-items: center;
+    `;
+
+    const options = [
+      {
+        value: SEARCH_SORT_BY.RELEVANCE,
+        primaryText: 'Relevance',
+      },
+      {
+        value: SEARCH_SORT_BY.DATE_NEWEST,
+        primaryText: 'Date: Newest',
+      },
+      {
+        value: SEARCH_SORT_BY.DATE_OLDEST,
+        primaryText: 'Date: Oldest',
+      },
+      {
+        value: SEARCH_SORT_BY.RATING_HIGHEST,
+        primaryText: 'Rating: Highest',
+      },
+    ];
+
+    return (
+      <Container>
+        <Label>Sort by: </Label>
+        <SelectField
+          value={query.sortBy}
+          onChange={(e, index, value) => { this.onChangeSortBy(value); }}
+          style={styles.sortBy}
+        >
+          {options.map(props => (
+            <MenuItem
+              key={`sortby-select-${props.value}`}
+              style={styles.sortBy}
+              {...props}
+            />
+          ))}
+        </SelectField>
+      </Container>
+    );
+  }
+
+  renderSettings() {
+    const Container = styled.div`
       padding-bottom: 20px;
       border-bottom: ${BORDER};
     `;
 
-    const InnerDiv = styled.div`
-      margin-right: -25px;
-    `;
-
-    const InnerSortOperationDiv = styled.div`
-      padding-bottom: 20px;
-      float: right;
-    `;
-
-    const Span = styled.span`
-      float: left;
-      line-height: 24px;
-      margin-right: 10px;
-      height: 24px;
+    const Content = styled.div`
+      display: flex;
+      align-items: center;
     `;
 
     return (
-      <OuterDiv>
+      <Container>
         <ModuleTitle>Search Results</ModuleTitle>
-        <InnerDiv>
-          <Span>Column Visibility: </Span>
-          {[
-            { column: 'authors', label: 'Authors' },
-            { column: 'year', label: 'Publish Year' },
-            { column: 'rating', label: 'Rating' },
-          ].map(({ column, label }) => {
-            return (
-              <VisibilityCheckbox
-                key={`visibility-checkbox-${_.snakeCase(label)}`}
-                label={label}
-                checked={visibility[column]}
-                onCheck={(e, checked) => {
-                  this.onVisibilityCheck(column, checked);
-                }}
-              />
-            );
-          })}
-        </InnerDiv>
-
-        <InnerSortOperationDiv>
-          <Span>Sort by: </Span>
-          <SelectField
-            value={query.sortBy}
-            onChange={(e, index, value) => { this.onSortMethodChange(value); }}
-          >
-            {
-              [
-                { value: 'relevance', primaryText: 'Relevance' },
-                { value: 'date_newest', primaryText: 'Date: Newest' },
-                { value: 'date_oldest', primaryText: 'Date: Oldest' },
-                { value: 'rating_highest', primaryText: 'Rating: Highest' },
-              ].map(({ value, primaryText }) => {
-                return (
-                  <MenuItem
-                    value={value}
-                    primaryText={primaryText}
-                  />);
-              })
-            }
-          </SelectField>
-        </InnerSortOperationDiv>
-      </OuterDiv>
+        <Content>
+          {this.renderVisibility()}
+          {this.renderSortBy()}
+        </Content>
+      </Container>
     );
   }
 
   renderItems() {
     const { search: { items, visibility } } = this.props;
 
-    return items.map((item) => {
-      const renderRowColumn = (options) => {
-        const opts = {
-          ...{
-            key: '',
-            item: null,
-            hasTitle: false,
-            forceShow: false,
-          },
-          ...options,
-        };
-        const { key, item, showTitle, forceShow } = opts;
-        const value = item[key];
-
-        return (
-          (forceShow || visibility[key]) && <TableRowColumn
-            style={{
-              ...styles.column,
-              flex: flex[key],
-            }}
-          >
-            {showTitle ?
-              <ColumnContent title={value}>{value}</ColumnContent> :
-              <ColumnContent>{value}</ColumnContent>
-            }
-          </TableRowColumn>
-        );
+    const renderRowColumn = (options) => {
+      const opts = {
+        ...{
+          key: '',
+          item: null,
+          hasTitle: false,
+          forceShow: false,
+          justifyContent: 'flex-start',
+        },
+        ...options,
       };
+      const { key, item, showTitle, forceShow, justifyContent } = opts;
+      const value = item[key];
+      const props = {};
 
+      if (showTitle) {
+        props.title = value;
+      }
+
+      return (
+        (forceShow || visibility[key]) && <TableRowColumn
+          style={{
+            ...styles.column,
+            justifyContent,
+            flex: flex[key],
+          }}
+        >
+          <ColumnContent {...props}>{value}</ColumnContent>
+        </TableRowColumn>
+      );
+    };
+
+    return items.map((item) => {
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
           {renderRowColumn({
@@ -219,11 +277,18 @@ class SearchResult extends Component {
           })}
           {renderRowColumn({
             item,
+            key: 'method',
+            showTitle: true,
+          })}
+          {renderRowColumn({
+            item,
             key: 'year',
+            justifyContent: 'center',
           })}
           {renderRowColumn({
             item,
             key: 'rating',
+            justifyContent: 'center',
           })}
         </TableRow>
       );
@@ -251,6 +316,7 @@ class SearchResult extends Component {
             ...styles.column,
             flex: flex[key],
           }}
+          title={label}
         >
           {label}
         </TableHeaderColumn>
@@ -275,12 +341,16 @@ class SearchResult extends Component {
               label: 'Authors',
             })}
             {renderHeaderColumn({
+              key: 'method',
+              label: 'SE Method',
+            })}
+            {renderHeaderColumn({
               key: 'year',
               label: 'Publish Year',
             })}
             {renderHeaderColumn({
               key: 'rating',
-              label: 'Rating (out of 5 stars)',
+              label: 'Rating (out of 5)',
             })}
           </TableRow>
         </TableHeader>
