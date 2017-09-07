@@ -72,6 +72,13 @@ const VisibilityCheckbox = props => (
   />
 );
 
+const Label = styled.span`
+  font-weight: bold;
+  line-height: 24px;
+  margin-right: 10px;
+  height: 24px;
+`;
+
 class SearchResult extends Component {
   constructor(props) {
     super(props);
@@ -100,78 +107,89 @@ class SearchResult extends Component {
     });
   }
 
-  renderSettings() {
+  renderVisibility() {
     const { search: { visibility } } = this.props;
+
+    const Container = styled.div`
+      margin-right: -25px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    `;
+
+    const options = [
+      { column: 'authors', label: 'Authors' },
+      { column: 'year', label: 'Publish Year' },
+      { column: 'rating', label: 'Rating' },
+      { column: 'method', label: 'SE Method' },
+    ];
+
+    return (
+      <Container>
+        <Label>Column Visibility: </Label>
+        {options.map(({ column, label }) => {
+          return (
+            <VisibilityCheckbox
+              key={`visibility-checkbox-${_.snakeCase(label)}`}
+              label={label}
+              checked={visibility[column]}
+              onCheck={(e, checked) => {
+                this.onVisibilityCheck(column, checked);
+              }}
+            />
+          );
+        })}
+      </Container>
+    );
+  }
+
+  renderSortBy() {
     const { search: { query } } = this.props;
 
-    const OuterDiv = styled.div`
+    const Container = styled.div`
+      display: flex;
+      align-items: center;
+    `;
+
+    const options = [
+      { value: 'relevance', primaryText: 'Relevance' },
+      { value: 'date_newest', primaryText: 'Date: Newest' },
+      { value: 'date_oldest', primaryText: 'Date: Oldest' },
+      { value: 'rating_highest', primaryText: 'Rating: Highest' },
+    ];
+
+    return (
+      <Container>
+        <Label>Sort by: </Label>
+        <SelectField
+          value={query.sortBy}
+          onChange={(e, index, value) => { this.onSortMethodChange(value); }}
+        >
+          {options.map(props => <MenuItem {...props} />)}
+        </SelectField>
+      </Container>
+    );
+  }
+
+  renderSettings() {
+    const Container = styled.div`
       padding-bottom: 20px;
       border-bottom: ${BORDER};
     `;
 
-    const InnerDiv = styled.div`
-      margin-right: -25px;
-    `;
-
-    const InnerSortOperationDiv = styled.div`
-      padding-bottom: 20px;
-      float: right;
-    `;
-
-    const Span = styled.span`
-      float: left;
-      line-height: 24px;
-      margin-right: 10px;
-      height: 24px;
+    const Content = styled.div`
+      display: flex;
+      align-items: center;
     `;
 
     return (
-      <OuterDiv>
+      <Container>
         <ModuleTitle>Search Results</ModuleTitle>
-        <InnerDiv>
-          <Span>Column Visibility: </Span>
-          {[
-            { column: 'authors', label: 'Authors' },
-            { column: 'year', label: 'Publish Year' },
-            { column: 'rating', label: 'Rating' },
-            { column: 'method', label: 'SE Method' },
-          ].map(({ column, label }) => {
-            return (
-              <VisibilityCheckbox
-                key={`visibility-checkbox-${_.snakeCase(label)}`}
-                label={label}
-                checked={visibility[column]}
-                onCheck={(e, checked) => {
-                  this.onVisibilityCheck(column, checked);
-                }}
-              />
-            );
-          })}
-        </InnerDiv>
-
-        <InnerSortOperationDiv>
-          <Span>Sort by: </Span>
-          <SelectField
-            value={query.sortBy}
-            onChange={(e, index, value) => { this.onSortMethodChange(value); }}
-          >
-            {
-              [
-                { value: 'relevance', primaryText: 'Relevance' },
-                { value: 'date_newest', primaryText: 'Date: Newest' },
-                { value: 'date_oldest', primaryText: 'Date: Oldest' },
-                { value: 'rating_highest', primaryText: 'Rating: Highest' },
-              ].map(({ value, primaryText }) => {
-                return (
-                  <MenuItem
-                    value={value}
-                    primaryText={primaryText}
-                  />);
-              })
-            }
-          </SelectField>
-        </InnerSortOperationDiv>
-      </OuterDiv>
+        <Content>
+          {this.renderVisibility()}
+          {this.renderSortBy()}
+        </Content>
+      </Container>
     );
   }
 
