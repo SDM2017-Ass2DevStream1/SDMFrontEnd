@@ -1,6 +1,3 @@
-import _ from 'lodash';
-
-
 // ref: http://www.itinfo.am/eng/software-development-methodologies/
 // This constant shoud be used both on the front & back ends.
 export const SE_METHODS = [
@@ -57,6 +54,13 @@ export const SE_METHODS = [
     name: 'Waterfall (a.k.a. Traditional)',
   },
 ];
+
+export const SEARCH_SORT_BY = {
+  RELEVANCE: 'relevance',
+  DATE_NEWEST: 'date_newest',
+  DATE_OLDEST: 'date_oldest',
+  RATING_HIGHEST: 'rating_highest',
+};
 
 export const CONDITION_FIELD = {
   AUTHOR: 'Authors',

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -11,6 +10,7 @@ import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
+import { SEARCH_SORT_BY } from '../constants';
 import { BORDER } from '../constants/styles';
 import { ModuleTitle } from '../components/misc';
 import * as searchActions from '../actions/search';
@@ -150,10 +150,22 @@ class SearchResult extends Component {
     `;
 
     const options = [
-      { value: 'relevance', primaryText: 'Relevance' },
-      { value: 'date_newest', primaryText: 'Date: Newest' },
-      { value: 'date_oldest', primaryText: 'Date: Oldest' },
-      { value: 'rating_highest', primaryText: 'Rating: Highest' },
+      {
+        value: SEARCH_SORT_BY.RELEVANCE,
+        primaryText: 'Relevance',
+      },
+      {
+        value: SEARCH_SORT_BY.DATE_NEWEST,
+        primaryText: 'Date: Newest',
+      },
+      {
+        value: SEARCH_SORT_BY.DATE_OLDEST,
+        primaryText: 'Date: Oldest',
+      },
+      {
+        value: SEARCH_SORT_BY.RATING_HIGHEST,
+        primaryText: 'Rating: Highest',
+      },
     ];
 
     return (
