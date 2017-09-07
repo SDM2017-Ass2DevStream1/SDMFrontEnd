@@ -45,3 +45,11 @@ export const sortSearchResultBy = value => ({
   type: types.CHANGE_SORT_METHOD,
   payload: { value },
 });
+
+export const addCondition = () => ({
+  type: types.ADD_CONDITION,
+});
+
+export const removeCondition = () => ({
+  type: types.REMOVE_CONDITION,
+});

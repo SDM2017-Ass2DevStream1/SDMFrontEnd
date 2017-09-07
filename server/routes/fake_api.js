@@ -3,6 +3,8 @@ const faker = require('faker');
 const moment = require('moment');
 const router = require('express').Router();
 
+const { SE_METHODS } = require('../../src/constants');
+
 
 const { random, lorem, image, helpers, date } = faker;
 
@@ -37,6 +39,7 @@ router.get('/search', (req, res) => {
       authors: _.times(_.random(1, 3)).map(() => faker.name.findName()).join(','),
       year: moment(date.past()).year(),
       rating: _.round(_.random(5, true), 1),
+      method: _.sample(SE_METHODS.map(item => item.name)),
     })),
     total: 200,
   });

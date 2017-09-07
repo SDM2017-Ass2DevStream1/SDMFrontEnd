@@ -1,11 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { createReducer } from 'redux-action-tools';
-import {
-  SEARCH_ARTICLES, UPDATE_SEARCH_QUERY, CHANGE_COLUMN_VISIBILITY,
-  SET_SEARCH_CONDITION, ADD_DATE_RANGE, REMOVE_DATE_RANGE, RESET_DATE_RANGE,
-  CHANGE_SORT_METHOD,
-} from '../constants/action_types';
+import * as types from '../constants/action_types';
 
 
 export const initialState = {
@@ -20,11 +16,13 @@ export const initialState = {
       from: moment('1950-01-01', 'YYYY-MM-DD').toDate(),
       to: moment().toDate(),
     },
+    others: [],
   },
   items: [],
   total: 0,
   visibility: {
     authors: true,
+    method: true,
     year: true,
     rating: true,
   },
@@ -36,20 +34,20 @@ const updateQuery = (state, { payload }) => {
 };
 
 const reducer = createReducer()
-  .when(SEARCH_ARTICLES, updateQuery)
+  .when(types.SEARCH_ARTICLES, updateQuery)
   .done((state, { payload: { data } }) => ({
     ...state,
     ...data,
   }))
 
-  .when(UPDATE_SEARCH_QUERY, updateQuery)
+  .when(types.UPDATE_SEARCH_QUERY, updateQuery)
 
-  .when(SET_SEARCH_CONDITION, (state, { payload }) => {
+  .when(types.SET_SEARCH_CONDITION, (state, { payload }) => {
     const condition = _.merge({}, state.condition, payload);
     return { ...state, condition };
   })
 
-  .when(CHANGE_COLUMN_VISIBILITY, (state, { payload }) => ({
+  .when(types.CHANGE_COLUMN_VISIBILITY, (state, { payload }) => ({
     ...state,
     visibility: {
       ...state.visibility,
@@ -57,7 +55,7 @@ const reducer = createReducer()
     },
   }))
 
-  .when(ADD_DATE_RANGE, state => ({
+  .when(types.ADD_DATE_RANGE, state => ({
     ...state,
     query: {
       ...state.query,
@@ -65,13 +63,13 @@ const reducer = createReducer()
     },
   }))
 
-  .when(REMOVE_DATE_RANGE, (state) => {
+  .when(types.REMOVE_DATE_RANGE, (state) => {
     const newState = _.cloneDeep(state);
     delete newState.query.date;
     return newState;
   })
 
-  .when(RESET_DATE_RANGE, state => ({
+  .when(types.RESET_DATE_RANGE, state => ({
     ...state,
     condition: {
       ...state.condition,
@@ -79,10 +77,18 @@ const reducer = createReducer()
     },
   }))
 
-  .when(CHANGE_SORT_METHOD, (state, { payload }) => {
+  .when(types.CHANGE_SORT_METHOD, (state, { payload }) => {
     const newState = Object.assign({}, state);
     newState.query.sortBy = payload.value;
     newState.query.page = 1;
+    return newState;
+  })
+
+  .when(types.ADD_CONDITION, (state) => {
+    const newState = _.cloneDeep(state);
+    newState.condition.others.push({
+      type: 'test type',
+    });
     return newState;
   })
 
