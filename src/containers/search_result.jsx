@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   Table, TableHeader, TableBody, TableHeaderColumn,
-  TableRow, TableRowColumn, Checkbox,
+  TableRow, TableRowColumn, Checkbox, SelectField, MenuItem,
 } from 'material-ui';
 import Visibility from 'material-ui/svg-icons/action/visibility';
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
@@ -71,11 +71,11 @@ const VisibilityCheckbox = props => (
   />
 );
 
-
 class SearchResult extends Component {
   constructor(props) {
     super(props);
     this.onPaginationChange = this.onPaginationChange.bind(this);
+    this.onSortMethodChange = this.onSortMethodChange.bind(this);
   }
 
   onPaginationChange(page) {
@@ -89,8 +89,19 @@ class SearchResult extends Component {
     this.props.actions.changeColumnVisibility(column, checked);
   }
 
+  onSortMethodChange(value) {
+    const { search: { query } } = this.props;
+
+    this.props.actions.sortSearchResultBy(value);
+    this.props.actions.searchArticles({
+      ...this.props.query,
+      term: query.term,
+    });
+  }
+
   renderSettings() {
     const { search: { visibility } } = this.props;
+    const { search: { query } } = this.props;
 
     const OuterDiv = styled.div`
       padding-bottom: 20px;
@@ -99,6 +110,11 @@ class SearchResult extends Component {
 
     const InnerDiv = styled.div`
       margin-right: -25px;
+    `;
+
+    const InnerSortOperationDiv = styled.div`
+      padding-bottom: 20px;
+      float: right;
     `;
 
     const Span = styled.span`
@@ -130,6 +146,29 @@ class SearchResult extends Component {
             );
           })}
         </InnerDiv>
+
+        <InnerSortOperationDiv>
+          <Span>Sort by: </Span>
+          <SelectField
+            value={query.sortBy}
+            onChange={(e, index, value) => { this.onSortMethodChange(value); }}
+          >
+            {
+              [
+                { value: 'relevance', primaryText: 'Relevance' },
+                { value: 'date_newest', primaryText: 'Date: Newest' },
+                { value: 'date_oldest', primaryText: 'Date: Oldest' },
+                { value: 'rating_highest', primaryText: 'Rating: Highest' },
+              ].map(({ value, primaryText }) => {
+                return (
+                  <MenuItem
+                    value={value}
+                    primaryText={primaryText}
+                  />);
+              })
+            }
+          </SelectField>
+        </InnerSortOperationDiv>
       </OuterDiv>
     );
   }
