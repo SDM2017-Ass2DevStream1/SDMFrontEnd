@@ -10,7 +10,9 @@ import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
-import { SEARCH_SORT_BY } from '../constants';
+import {
+  SEARCH_RESULTS_COLUMN, SEARCH_SORT_BY,
+} from '../constants';
 import { BORDER } from '../constants/styles';
 import { ModuleTitle } from '../components/misc';
 import * as searchActions from '../actions/search';
@@ -116,10 +118,22 @@ class SearchResult extends Component {
     `;
 
     const options = [
-      { column: 'authors', label: 'Authors' },
-      { column: 'year', label: 'Publish Year' },
-      { column: 'rating', label: 'Rating' },
-      { column: 'method', label: 'SE Method' },
+      {
+        column: SEARCH_RESULTS_COLUMN.AUTHORS,
+        label: 'Authors',
+      },
+      {
+        column: SEARCH_RESULTS_COLUMN.YEAR,
+        label: 'Publish Year',
+      },
+      {
+        column: SEARCH_RESULTS_COLUMN.RATING,
+        label: 'Rating',
+      },
+      {
+        column: SEARCH_RESULTS_COLUMN.METHOD,
+        label: 'SE Method',
+      },
     ];
 
     return (

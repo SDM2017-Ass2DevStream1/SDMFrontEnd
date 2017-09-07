@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { createReducer } from 'redux-action-tools';
+
+import { SEARCH_RESULTS_COLUMN } from '../constants';
 import * as types from '../constants/action_types';
 
 
@@ -21,10 +23,10 @@ export const initialState = {
   items: [],
   total: 0,
   visibility: {
-    authors: true,
-    method: true,
-    year: true,
-    rating: true,
+    [SEARCH_RESULTS_COLUMN.AUTHORS]: true,
+    [SEARCH_RESULTS_COLUMN.METHOD]: true,
+    [SEARCH_RESULTS_COLUMN.YEAR]: true,
+    [SEARCH_RESULTS_COLUMN.RATING]: true,
   },
 };
 

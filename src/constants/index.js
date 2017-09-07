@@ -55,6 +55,13 @@ export const SE_METHODS = [
   },
 ];
 
+export const SEARCH_RESULTS_COLUMN = {
+  AUTHORS: 'authors',
+  METHOD: 'method',
+  YEAR: 'year',
+  RATING: 'rating',
+};
+
 export const SEARCH_SORT_BY = {
   RELEVANCE: 'relevance',
   DATE_NEWEST: 'date_newest',
@@ -62,13 +69,13 @@ export const SEARCH_SORT_BY = {
   RATING_HIGHEST: 'rating_highest',
 };
 
-export const CONDITION_FIELD = {
-  AUTHOR: 'Authors',
+export const SEARCH_CONDITION_FIELD = {
+  AUTHORS: 'Authors',
   RATING: 'Rating',
   METHOD: 'SE Method',
 };
 
-const CONDITION_OPRATOR = {
+const SEARCH_CONDITION_OPRATOR = {
   CONTAINS: 'contains',
   DOES_NOT_CONTAINS: 'does not contains',
   BEGINS_WITH: 'begins with',
@@ -79,12 +86,12 @@ const CONDITION_OPRATOR = {
 };
 
 export const CONDITION_OPERATOR = {
-  [CONDITION_FIELD.AUTHOR]: {
+  [SEARCH_CONDITION_FIELD.AUTHORS]: {
     operator: [
-      CONDITION_OPRATOR.CONTAINS,
-      CONDITION_OPRATOR.DOES_NOT_CONTAINS,
-      CONDITION_OPRATOR.BEGINS_WITH,
-      CONDITION_OPRATOR.BEGINS_WITH,
+      SEARCH_CONDITION_OPRATOR.CONTAINS,
+      SEARCH_CONDITION_OPRATOR.DOES_NOT_CONTAINS,
+      SEARCH_CONDITION_OPRATOR.BEGINS_WITH,
+      SEARCH_CONDITION_OPRATOR.BEGINS_WITH,
     ],
   },
 };
