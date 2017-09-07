@@ -83,7 +83,7 @@ class SearchResult extends Component {
   constructor(props) {
     super(props);
     this.onPaginationChange = this.onPaginationChange.bind(this);
-    this.onSortMethodChange = this.onSortMethodChange.bind(this);
+    this.onChangeSortBy = this.onChangeSortBy.bind(this);
   }
 
   onPaginationChange(page) {
@@ -97,13 +97,11 @@ class SearchResult extends Component {
     this.props.actions.changeColumnVisibility(column, checked);
   }
 
-  onSortMethodChange(value) {
-    const { search: { query } } = this.props;
-
-    this.props.actions.sortSearchResultBy(value);
+  onChangeSortBy(sortBy) {
+    this.props.actions.sortSearchResultsBy(sortBy);
     this.props.actions.searchArticles({
-      ...this.props.query,
-      term: query.term,
+      ...this.props.search.query,
+      sortBy,
     });
   }
 
@@ -130,7 +128,7 @@ class SearchResult extends Component {
         {options.map(({ column, label }) => {
           return (
             <VisibilityCheckbox
-              key={`visibility-checkbox-${_.snakeCase(label)}`}
+              key={`visibility-checkbox-${column}`}
               label={label}
               checked={visibility[column]}
               onCheck={(e, checked) => {
@@ -163,9 +161,14 @@ class SearchResult extends Component {
         <Label>Sort by: </Label>
         <SelectField
           value={query.sortBy}
-          onChange={(e, index, value) => { this.onSortMethodChange(value); }}
+          onChange={(e, index, value) => { this.onChangeSortBy(value); }}
         >
-          {options.map(props => <MenuItem {...props} />)}
+          {options.map(props => (
+            <MenuItem
+              key={`sortby-select-${props.value}`}
+              {...props}
+            />
+          ))}
         </SelectField>
       </Container>
     );

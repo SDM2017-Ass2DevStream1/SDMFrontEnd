@@ -77,12 +77,14 @@ const reducer = createReducer()
     },
   }))
 
-  .when(types.CHANGE_SORT_METHOD, (state, { payload }) => {
-    const newState = Object.assign({}, state);
-    newState.query.sortBy = payload.value;
-    newState.query.page = 1;
-    return newState;
-  })
+  .when(types.SORT_SEARCH_RESULTS_BY, (state, { payload }) => ({
+    ...state,
+    query: {
+      ...state.query,
+      page: initialState.query.page,
+      sortBy: payload,
+    },
+  }))
 
   .when(types.ADD_CONDITION, (state) => {
     const newState = _.cloneDeep(state);
