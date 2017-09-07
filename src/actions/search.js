@@ -41,7 +41,7 @@ export const resetDateRange = () => ({
   type: types.RESET_DATE_RANGE,
 });
 
-export const changeSortMethod = sortMethodValue => ({
+export const sortSearchResultBy = value => ({
   type: types.CHANGE_SORT_METHOD,
-  payload: { sortMethodValue },
+  payload: { value },
 });

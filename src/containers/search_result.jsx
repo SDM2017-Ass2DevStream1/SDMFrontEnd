@@ -90,12 +90,12 @@ class SearchResult extends Component {
   }
 
   onSortMethodChange(value) {
-    this.props.actions.changeSortMethod(value);
-    const searchInputValue = this.props.searchInputValue;
+    const { search: { query } } = this.props;
 
+    this.props.actions.sortSearchResultBy(value);
     this.props.actions.searchArticles({
       ...this.props.query,
-      term: searchInputValue,
+      term: query.term,
     });
   }
 
@@ -113,7 +113,6 @@ class SearchResult extends Component {
     `;
 
     const InnerSortOperationDiv = styled.div`
-      // margin-right: -25px;
       padding-bottom: 20px;
       float: right;
     `;
@@ -149,9 +148,9 @@ class SearchResult extends Component {
         </InnerDiv>
 
         <InnerSortOperationDiv>
-          <Span>Sort by</Span>
+          <Span>Sort by: </Span>
           <SelectField
-            value={query.sortMethodValue}
+            value={query.sortBy}
             onChange={(e, index, value) => { this.onSortMethodChange(value); }}
           >
             {

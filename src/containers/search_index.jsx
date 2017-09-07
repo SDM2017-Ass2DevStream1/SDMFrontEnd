@@ -91,7 +91,7 @@ class SearchIndex extends Component {
               </form>
             </Paper>
 
-            {!_.isEmpty(items) && <SearchResult searchInputValue={this.searchInput.input.value} />}
+            {!_.isEmpty(items) && <SearchResult />}
           </TabContainer>
         </Tab>
 

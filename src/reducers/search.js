@@ -3,7 +3,8 @@ import moment from 'moment';
 import { createReducer } from 'redux-action-tools';
 import {
   SEARCH_ARTICLES, UPDATE_SEARCH_QUERY, CHANGE_COLUMN_VISIBILITY,
-  SET_SEARCH_CONDITION, ADD_DATE_RANGE, REMOVE_DATE_RANGE, RESET_DATE_RANGE, CHANGE_SORT_METHOD,
+  SET_SEARCH_CONDITION, ADD_DATE_RANGE, REMOVE_DATE_RANGE, RESET_DATE_RANGE,
+  CHANGE_SORT_METHOD,
 } from '../constants/action_types';
 
 
@@ -12,7 +13,7 @@ export const initialState = {
     term: '',
     limit: 15,
     page: 1,
-    sortMethodValue: 'relevance',
+    sortBy: 'relevance',
   },
   condition: {
     date: {
@@ -80,7 +81,7 @@ const reducer = createReducer()
 
   .when(CHANGE_SORT_METHOD, (state, { payload }) => {
     const newState = Object.assign({}, state);
-    newState.query.sortMethodValue = payload.sortMethodValue;
+    newState.query.sortBy = payload.value;
     newState.query.page = 1;
     return newState;
   })
