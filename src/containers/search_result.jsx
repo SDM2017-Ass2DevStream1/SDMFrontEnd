@@ -57,6 +57,9 @@ const styles = {
     // https://stackoverflow.com/questions/26465745/ellipsis-in-flexbox-container
     minWidth: 0,
   },
+  sortBy: {
+    fontSize: '14px',
+  },
 };
 
 const ColumnContent = styled.span`
@@ -188,10 +191,12 @@ class SearchResult extends Component {
         <SelectField
           value={query.sortBy}
           onChange={(e, index, value) => { this.onChangeSortBy(value); }}
+          style={styles.sortBy}
         >
           {options.map(props => (
             <MenuItem
               key={`sortby-select-${props.value}`}
+              style={styles.sortBy}
               {...props}
             />
           ))}
