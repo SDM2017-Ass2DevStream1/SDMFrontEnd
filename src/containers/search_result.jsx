@@ -21,6 +21,7 @@ const flex = {
   authors: 2,
   year: 1,
   rating: 1,
+  method: 1,
 };
 
 const styles = {
@@ -137,35 +138,35 @@ class SearchResult extends Component {
   renderItems() {
     const { search: { items, visibility } } = this.props;
 
-    return items.map((item) => {
-      const renderRowColumn = (options) => {
-        const opts = {
-          ...{
-            key: '',
-            item: null,
-            hasTitle: false,
-            forceShow: false,
-          },
-          ...options,
-        };
-        const { key, item, showTitle, forceShow } = opts;
-        const value = item[key];
-
-        return (
-          (forceShow || visibility[key]) && <TableRowColumn
-            style={{
-              ...styles.column,
-              flex: flex[key],
-            }}
-          >
-            {showTitle ?
-              <ColumnContent title={value}>{value}</ColumnContent> :
-              <ColumnContent>{value}</ColumnContent>
-            }
-          </TableRowColumn>
-        );
+    const renderRowColumn = (options) => {
+      const opts = {
+        ...{
+          key: '',
+          item: null,
+          hasTitle: false,
+          forceShow: false,
+        },
+        ...options,
       };
+      const { key, item, showTitle, forceShow } = opts;
+      const value = item[key];
 
+      return (
+        (forceShow || visibility[key]) && <TableRowColumn
+          style={{
+            ...styles.column,
+            flex: flex[key],
+          }}
+        >
+          {showTitle ?
+            <ColumnContent title={value}>{value}</ColumnContent> :
+            <ColumnContent>{value}</ColumnContent>
+          }
+        </TableRowColumn>
+      );
+    };
+
+    return items.map((item) => {
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
           {renderRowColumn({
@@ -185,6 +186,10 @@ class SearchResult extends Component {
           {renderRowColumn({
             item,
             key: 'rating',
+          })}
+          {renderRowColumn({
+            item,
+            key: 'method',
           })}
         </TableRow>
       );
@@ -242,6 +247,10 @@ class SearchResult extends Component {
             {renderHeaderColumn({
               key: 'rating',
               label: 'Rating (out of 5 stars)',
+            })}
+            {renderHeaderColumn({
+              key: 'method',
+              label: 'SE method',
             })}
           </TableRow>
         </TableHeader>
