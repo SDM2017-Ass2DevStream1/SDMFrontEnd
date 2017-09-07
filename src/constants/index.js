@@ -1,4 +1,8 @@
+import _ from 'lodash';
+
+
 // ref: http://www.itinfo.am/eng/software-development-methodologies/
+// This constant shoud be used both on the front & back ends.
 export const SE_METHODS = [
   {
     type: 1,
@@ -54,8 +58,29 @@ export const SE_METHODS = [
   },
 ];
 
-export const fields = [
-  'authors',
-  'ratings',
-  'SE methods',
-];
+export const CONDITION_FIELD = {
+  AUTHOR: 'Authors',
+  RATING: 'Rating',
+  METHOD: 'SE Method',
+};
+
+const CONDITION_OPRATOR = {
+  CONTAINS: 'contains',
+  DOES_NOT_CONTAINS: 'does not contains',
+  BEGINS_WITH: 'begins with',
+  ENDS_WITH: 'ends with',
+  IS_EQUAL_TO: 'is equal to', // only if fixed values
+  IS_LESS_THAN_OR_EQUAL_TO: 'is less than or equal to', // if numeric
+  IS_MORE_THAN_OR_EQUAL_TO: 'is more than or equal to', // if numeric
+};
+
+export const CONDITION_OPERATOR = {
+  [CONDITION_FIELD.AUTHOR]: {
+    operator: [
+      CONDITION_OPRATOR.CONTAINS,
+      CONDITION_OPRATOR.DOES_NOT_CONTAINS,
+      CONDITION_OPRATOR.BEGINS_WITH,
+      CONDITION_OPRATOR.BEGINS_WITH,
+    ],
+  },
+};
