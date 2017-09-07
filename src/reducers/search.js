@@ -22,6 +22,7 @@ export const initialState = {
   total: 0,
   visibility: {
     authors: true,
+    method: true,
     year: true,
     rating: true,
   },

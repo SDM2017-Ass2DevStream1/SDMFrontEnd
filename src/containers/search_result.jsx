@@ -17,11 +17,11 @@ import * as searchActions from '../actions/search';
 
 
 const flex = {
-  title: 5,
-  authors: 2,
+  title: 7,
+  authors: 3,
+  method: 3,
   year: 1,
   rating: 1,
-  method: 1,
 };
 
 const styles = {
@@ -118,6 +118,7 @@ class SearchResult extends Component {
             { column: 'authors', label: 'Authors' },
             { column: 'year', label: 'Publish Year' },
             { column: 'rating', label: 'Rating' },
+            { column: 'method', label: 'SE Method' },
           ].map(({ column, label }) => {
             return (
               <VisibilityCheckbox
@@ -145,23 +146,27 @@ class SearchResult extends Component {
           item: null,
           hasTitle: false,
           forceShow: false,
+          justifyContent: 'flex-start',
         },
         ...options,
       };
-      const { key, item, showTitle, forceShow } = opts;
+      const { key, item, showTitle, forceShow, justifyContent } = opts;
       const value = item[key];
+      const props = {};
+
+      if (showTitle) {
+        props.title = value;
+      }
 
       return (
         (forceShow || visibility[key]) && <TableRowColumn
           style={{
             ...styles.column,
+            justifyContent,
             flex: flex[key],
           }}
         >
-          {showTitle ?
-            <ColumnContent title={value}>{value}</ColumnContent> :
-            <ColumnContent>{value}</ColumnContent>
-          }
+          <ColumnContent {...props}>{value}</ColumnContent>
         </TableRowColumn>
       );
     };
@@ -181,15 +186,18 @@ class SearchResult extends Component {
           })}
           {renderRowColumn({
             item,
+            key: 'method',
+            showTitle: true,
+          })}
+          {renderRowColumn({
+            item,
             key: 'year',
+            justifyContent: 'center',
           })}
           {renderRowColumn({
             item,
             key: 'rating',
-          })}
-          {renderRowColumn({
-            item,
-            key: 'method',
+            justifyContent: 'center',
           })}
         </TableRow>
       );
@@ -217,6 +225,7 @@ class SearchResult extends Component {
             ...styles.column,
             flex: flex[key],
           }}
+          title={label}
         >
           {label}
         </TableHeaderColumn>
@@ -241,16 +250,16 @@ class SearchResult extends Component {
               label: 'Authors',
             })}
             {renderHeaderColumn({
+              key: 'method',
+              label: 'SE Method',
+            })}
+            {renderHeaderColumn({
               key: 'year',
               label: 'Publish Year',
             })}
             {renderHeaderColumn({
               key: 'rating',
-              label: 'Rating (out of 5 stars)',
-            })}
-            {renderHeaderColumn({
-              key: 'method',
-              label: 'SE method',
+              label: 'Rating (out of 5)',
             })}
           </TableRow>
         </TableHeader>
