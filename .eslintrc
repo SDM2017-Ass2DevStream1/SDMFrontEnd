@@ -4,6 +4,10 @@ extends:
 
 env:
   browser: true
+  jest/globals: true
+
+plugins:
+  - jest
 
 globals:
   __DEV__: true

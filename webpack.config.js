@@ -58,15 +58,6 @@ const plugins = [
     loaders: [
       {
         path: 'babel-loader',
-        query: {
-          presets: [
-            'react', 'es2015', 'stage-0',
-          ],
-          plugins: [
-            'transform-runtime',
-            'syntax-object-rest-spread',
-          ],
-        },
       },
     ],
   }),
