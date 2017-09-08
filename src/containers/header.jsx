@@ -30,9 +30,15 @@ class Header extends Component {
   render() {
     const { user } = this.props;
 
+    const Logo = () => (
+      <span id="logo" style={styles.title}>
+        <i />SERLER
+      </span>
+    );
+
     return (
       <AppBar
-        title={<span id="logo" className="logo" style={styles.title}>SERLER</span>}
+        title={<Logo />}
         style={{
           boxShadow: 'none',
         }}

@@ -1,0 +1,120 @@
+@require 'nib/size'
+@require 'nib/clearfix'
+@require 'nib/positions'
+@require 'nib/text/hide-text'
+
+
+center-block($width = null)
+  display: block
+  margin-left: auto
+  margin-right: auto
+  if $width
+    width: $width
+
+line-vertical-middle($height)
+  height: $height
+  line-height: $height
+
+break-word()
+  word-wrap: break-word
+  overflow: hidden
+
+-border-vendor(direction, color, args...)
+  unless direction in (top right bottom left)
+    error('invalid direction')
+  if color is a 'color' && !args
+    border-{direction}: 1px solid color
+  else
+    border-{direction}: color args
+
+border-top()
+  -border-vendor(top, arguments)
+
+border-right()
+  -border-vendor(right, arguments)
+
+border-bottom()
+  -border-vendor(bottom, arguments)
+
+border-left()
+  -border-vendor(left, arguments)
+
+arrow-top($width, $color)
+  size(0)
+  border-left: $width solid transparent
+  border-right: $width solid transparent
+  border-bottom: $width solid $color
+
+arrow-right($width, $color)
+  size(0)
+  border-top: $width solid transparent
+  border-bottom: $width solid transparent
+  border-left: $width solid $color
+
+arrow-bottom($width, $color)
+  size(0)
+  border-left: $width solid transparent
+  border-right: $width solid transparent
+  border-top: $width solid $color
+
+arrow-left($width, $color)
+  size(0)
+  border-top: $width solid transparent
+  border-bottom: $width solid transparent
+  border-right: $width solid $color
+
+icon($icon, $width, $height, $suffix = 'png')
+  size($width, $height)
+  display: inline-block
+  background: url($icon + '.' + $suffix) no-repeat
+  background-size: $width $height
+
+middle-icon($icon, $width, $height, $suffix = 'png')
+  icon($icon, $width, $height, $suffix)
+  middle($width, $height)
+
+middle()
+  if length(arguments) == 1
+    $width = arguments[0]
+    $height = arguments[0]
+  else
+    $width = arguments[0]
+    $height = arguments[1]
+  size($width, $height)
+  absolute(left 50% top 50%)
+  margin-top: - ($height / 2)
+  margin-left: - ($width / 2)
+
+horizontal-scrollbar()
+  &
+    overflow-y: auto
+    overflow-x: hidden
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-corner,
+  &::-webkit-scrollbar-track-piece
+    border: none
+    background: transparent
+  &::-webkit-scrollbar
+    size(8px, 14px)
+  &::-webkit-scrollbar-button
+    display: none
+  &::-webkit-scrollbar-thumb, &::-webkit-scrollbar-thumb:horizontal
+    border: none
+    background: rgba(0, 0, 0, .25)
+  &::-webkit-scrollbar-thumb
+    border-radius: 6px
+
+text-ellipsis()
+  overflow: hidden
+  text-overflow: ellipsis
+
+flex-center()
+  display: flex
+  align-items: center
+  justify-content: center
+
+background-clip($type)
+  -webkit-background-clip: $type
+  -moz-background-clip: $type
+  background-clip: $type

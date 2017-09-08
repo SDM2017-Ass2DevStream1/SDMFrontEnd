@@ -1,5 +1,6 @@
 // https://github.com/petehunt/webpack-howto
 // http://christianalfoni.github.io/javascript/2014/12/13/did-you-know-webpack-and-react-is-awesome.html
+const nib = require('nib');
 const kit = require('nokit');
 const webpack = require('webpack');
 const HappyPack = require('happypack');
@@ -13,9 +14,11 @@ const { join } = kit.path;
 
 const BUILD_PATH = join(__dirname, 'dist');
 const SRC_PATH = join(__dirname, 'src');
+const STYLES_SRC_PATH = join(__dirname, 'styles');
 const NODE_MODULES_PATH = join(__dirname, 'node_modules');
 
 const isProd = kit.isProduction();
+const fileLoaderCompiledName = '[name].[hash:8].[ext]';
 
 const cssExtractor = new ExtractTextPlugin({
   filename: '[name].[contenthash:8].css',
@@ -107,7 +110,6 @@ module.exports = {
           id: 'js',
         },
         exclude: /(node_modules|bower_components)/,
-        include: SRC_PATH,
       },
       {
         test: /\.css$/,
@@ -122,19 +124,44 @@ module.exports = {
         }),
       },
       {
-        test: /\.less$/,
+        test: /\.styl$/,
         loader: cssExtractor.extract({
           fallback: 'style-loader',
           use: [
             {
               loader: 'css-loader',
             },
-            {
-              loader: 'less-loader',
-            },
             postcssLoader,
+            {
+              loader: 'stylus-loader',
+              options: {
+                paths: STYLES_SRC_PATH,
+                use: [nib()],
+              },
+            },
           ],
         }),
+      },
+      {
+        test: /\.ico$/,
+        loader: 'file-loader',
+        options: {
+          name: fileLoaderCompiledName,
+        },
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        loader: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: fileLoaderCompiledName,
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+          },
+        ],
       },
     ],
   },
