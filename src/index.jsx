@@ -8,7 +8,9 @@ import { createLogger } from 'redux-logger';
 
 import reducers from './reducers';
 import App from './components/app';
-import './styles/global.less';
+
+import './images/favicon.ico';
+import './styles/global.styl';
 
 
 // ref: https://medium.com/@zalmoxis/improve-your-development-workflow-with-redux-devtools-extension-f0379227ff83

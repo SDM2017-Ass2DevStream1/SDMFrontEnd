@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "stylus-loader": "^3.0.1"
+  }
+}
