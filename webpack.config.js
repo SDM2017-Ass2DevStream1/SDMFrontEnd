@@ -39,8 +39,6 @@ const postcssLoader = {
 };
 
 const plugins = [
-  new CleanupPlugin('dist'),
-
   new webpack.DefinePlugin({
     __DEV__: !isProd,
   }),
@@ -72,6 +70,8 @@ const plugins = [
 
 if (isProd) {
   plugins.concat([
+    new CleanupPlugin(BUILD_PATH),
+
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
       sourceMap: false,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { AppBar, FlatButton } from 'material-ui';
 
 import Logged from './logged';
@@ -31,9 +32,13 @@ class Header extends Component {
     const { user } = this.props;
 
     const Logo = () => (
-      <span id="logo" style={styles.title}>
+      <Link
+        id="logo"
+        style={styles.title}
+        to="/"
+      >
         <i />SERLER
-      </span>
+      </Link>
     );
 
     return (
