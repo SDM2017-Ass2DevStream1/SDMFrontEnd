@@ -5,7 +5,7 @@ const kit = require('nokit');
 const webpack = require('webpack');
 const HappyPack = require('happypack');
 const autoprefixer = require('autoprefixer');
-const CleanupPlugin = require('webpack-cleanup-plugin');
+const CleanupPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
@@ -38,7 +38,9 @@ const postcssLoader = {
   },
 };
 
-const plugins = [
+let plugins = [
+  new CleanupPlugin(BUILD_PATH),
+
   new webpack.DefinePlugin({
     __DEV__: !isProd,
   }),
@@ -69,9 +71,7 @@ const plugins = [
 ];
 
 if (isProd) {
-  plugins.concat([
-    new CleanupPlugin(BUILD_PATH),
-
+  plugins = plugins.concat([
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
       sourceMap: false,
