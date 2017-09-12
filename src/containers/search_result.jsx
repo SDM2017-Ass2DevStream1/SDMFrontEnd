@@ -131,7 +131,7 @@ class SearchResult extends Component {
       },
       {
         column: SEARCH_RESULTS_COLUMN.RATING,
-        label: 'Rating',
+        label: 'Credibility Rating',
       },
       {
         column: SEARCH_RESULTS_COLUMN.METHOD,
@@ -350,7 +350,7 @@ class SearchResult extends Component {
             })}
             {renderHeaderColumn({
               key: 'rating',
-              label: 'Rating (out of 5)',
+              label: 'Credibility Rating (0 to 5)',
             })}
           </TableRow>
         </TableHeader>
