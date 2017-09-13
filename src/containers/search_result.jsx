@@ -3,15 +3,19 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   Table, TableHeader, TableBody, TableHeaderColumn,
-  TableRow, TableRowColumn, Checkbox, SelectField, MenuItem,
+  TableRow, TableRowColumn, Checkbox, FlatButton,
 } from 'material-ui';
 import Visibility from 'material-ui/svg-icons/action/visibility';
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
+// import SortByAlpha from 'material-ui/svg-icons/av/sort-by-alpha';
+import Sort from 'material-ui/svg-icons/content/sort';
+import ArrowDropUp from 'material-ui/svg-icons/navigation/arrow-drop-up';
+import ArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
 import {
-  SEARCH_RESULTS_COLUMN, SEARCH_SORT_BY,
+  SEARCH_RESULTS_COLUMN,
 } from '../constants';
 import { BORDER } from '../constants/styles';
 import { ModuleTitle } from '../components/misc';
@@ -89,6 +93,7 @@ class SearchResult extends Component {
     super(props);
     this.onPaginationChange = this.onPaginationChange.bind(this);
     this.onChangeSortBy = this.onChangeSortBy.bind(this);
+    this.onClickSortColumn = this.onClickSortColumn.bind(this);
   }
 
   onPaginationChange(page) {
@@ -107,6 +112,32 @@ class SearchResult extends Component {
     this.props.actions.searchArticles({
       ...this.props.search.query,
       sortBy,
+    });
+  }
+
+  onClickSortColumn(e, highlight, key) {
+    const newSortBy = {
+      key: '',
+      order: '',
+    };
+    const { search: { query: { sortBy } } } = this.props;
+    if (highlight) {
+      if (sortBy.order === 'ascend') {
+        newSortBy.key = key;
+        newSortBy.order = 'descend';
+      } else {
+        newSortBy.key = key;
+        newSortBy.order = 'ascend';
+      }
+    } else {
+      newSortBy.key = key;
+      newSortBy.order = 'ascend';
+    }
+
+    this.props.actions.sortSearchResultsBy(newSortBy);
+    this.props.actions.searchArticles({
+      ...this.props.search.query,
+      newSortBy,
     });
   }
 
@@ -158,53 +189,6 @@ class SearchResult extends Component {
     );
   }
 
-  renderSortBy() {
-    const { search: { query } } = this.props;
-
-    const Container = styled.div`
-      display: flex;
-      align-items: center;
-    `;
-
-    const options = [
-      {
-        value: SEARCH_SORT_BY.RELEVANCE,
-        primaryText: 'Relevance',
-      },
-      {
-        value: SEARCH_SORT_BY.DATE_NEWEST,
-        primaryText: 'Date: Newest',
-      },
-      {
-        value: SEARCH_SORT_BY.DATE_OLDEST,
-        primaryText: 'Date: Oldest',
-      },
-      {
-        value: SEARCH_SORT_BY.RATING_HIGHEST,
-        primaryText: 'Rating: Highest',
-      },
-    ];
-
-    return (
-      <Container>
-        <Label>Sort by: </Label>
-        <SelectField
-          value={query.sortBy}
-          onChange={(e, index, value) => { this.onChangeSortBy(value); }}
-          style={styles.sortBy}
-        >
-          {options.map(props => (
-            <MenuItem
-              key={`sortby-select-${props.value}`}
-              style={styles.sortBy}
-              {...props}
-            />
-          ))}
-        </SelectField>
-      </Container>
-    );
-  }
-
   renderSettings() {
     const Container = styled.div`
       padding-bottom: 20px;
@@ -221,7 +205,6 @@ class SearchResult extends Component {
         <ModuleTitle>Search Results</ModuleTitle>
         <Content>
           {this.renderVisibility()}
-          {this.renderSortBy()}
         </Content>
       </Container>
     );
@@ -298,7 +281,33 @@ class SearchResult extends Component {
   renderSearchResults() {
     const { search: { visibility } } = this.props;
 
-    const renderHeaderColumn = (options) => {
+    // const renderHeaderColumn = (options) => {
+    //   const opts = {
+    //     ...{
+    //       key: '',
+    //       label: '',
+    //       forceShow: false,
+    //     },
+    //     ...options,
+    //   };
+
+    //   const { key, label, forceShow } = opts;
+
+    //   return (
+    //     (forceShow || visibility[key]) && <TableHeaderColumn
+    //       style={{
+    //         ...styles.column,
+    //         flex: flex[key],
+    //       }}
+    //       title={label}
+    //     >
+    //       {label}
+    //     </TableHeaderColumn>
+    //   );
+    // };
+
+    // test for button
+    const renderHeaderColumnButton = (options) => {
       const opts = {
         ...{
           key: '',
@@ -308,7 +317,24 @@ class SearchResult extends Component {
         ...options,
       };
 
+      const { search: { query: { sortBy } } } = this.props;
+
       const { key, label, forceShow } = opts;
+      const SortButtonSetting = {
+        highlight: false,
+        icon: {},
+      };
+      if (sortBy.key === key) {
+        SortButtonSetting.highlight = true;
+        if (sortBy.order === 'ascend') {
+          SortButtonSetting.icon = ArrowDropDown;
+        } else {
+          SortButtonSetting.icon = ArrowDropUp;
+        }
+      } else {
+        SortButtonSetting.highlight = false;
+        SortButtonSetting.icon = Sort;
+      }
 
       return (
         (forceShow || visibility[key]) && <TableHeaderColumn
@@ -318,7 +344,13 @@ class SearchResult extends Component {
           }}
           title={label}
         >
-          {label}
+          <FlatButton
+            label={label}
+            labelPosition="before"
+            primary={SortButtonSetting.highlight}
+            icon={<SortButtonSetting.icon />}
+            onClick={(e) => { this.onClickSortColumn(e, SortButtonSetting.highlight, key); }}
+          />
         </TableHeaderColumn>
       );
     };
@@ -331,24 +363,24 @@ class SearchResult extends Component {
               ...styles.headerRow,
             }}
           >
-            {renderHeaderColumn({
+            {renderHeaderColumnButton({
               key: 'title',
               label: 'Title',
               forceShow: true,
             })}
-            {renderHeaderColumn({
+            {renderHeaderColumnButton({
               key: 'authors',
               label: 'Authors',
             })}
-            {renderHeaderColumn({
+            {renderHeaderColumnButton({
               key: 'method',
               label: 'SE Method',
             })}
-            {renderHeaderColumn({
+            {renderHeaderColumnButton({
               key: 'year',
               label: 'Publish Year',
             })}
-            {renderHeaderColumn({
+            {renderHeaderColumnButton({
               key: 'rating',
               label: 'Rating (out of 5)',
             })}
