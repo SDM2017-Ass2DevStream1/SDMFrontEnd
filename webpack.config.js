@@ -25,6 +25,13 @@ const cssExtractor = new ExtractTextPlugin({
   allChunks: true,
 });
 
+const cssLoader = {
+  loader: 'css-loader',
+  options: {
+    minimize: isProd,
+  },
+};
+
 const postcssLoader = {
   loader: 'postcss-loader',
   options: {
@@ -116,9 +123,7 @@ module.exports = {
         loader: cssExtractor.extract({
           fallback: 'style-loader',
           use: [
-            {
-              loader: 'css-loader',
-            },
+            cssLoader,
             postcssLoader,
           ],
         }),
@@ -128,9 +133,7 @@ module.exports = {
         loader: cssExtractor.extract({
           fallback: 'style-loader',
           use: [
-            {
-              loader: 'css-loader',
-            },
+            cssLoader,
             postcssLoader,
             {
               loader: 'stylus-loader',

@@ -40,7 +40,6 @@ class Server {
     app.use(compression());
     app.use(bodyPaser());
     app.use('/static', express.static(`${__dirname}/../dist`));
-    app.use(express.static(`${__dirname}/../dist/pages`));
     app.use(routes);
 
     this.app = app;
