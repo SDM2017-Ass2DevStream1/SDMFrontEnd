@@ -47,10 +47,13 @@ export const SE_METHODOLOGIES = [
 ];
 
 export const SEARCH_RESULTS_COLUMN = {
+  TITLE: 'title',
   AUTHORS: 'authors',
-  METHOD: 'method',
   YEAR: 'year',
   RATING: 'rating',
+  DESIGN: 'design',
+  METHOD: 'method',
+  METHODOLOGY: 'methodology',
 };
 
 export const SEARCH_SORT_BY = {

@@ -19,11 +19,13 @@ import * as searchActions from '../actions/search';
 
 
 const flex = {
-  title: 7,
-  authors: 3,
-  method: 3,
-  year: 1,
+  title: 5,
+  authors: 2,
   rating: 1,
+  year: 1,
+  design: 2,
+  method: 2,
+  methodology: 2,
 };
 
 const styles = {
@@ -56,6 +58,10 @@ const styles = {
     alignItems: 'center',
     // https://stackoverflow.com/questions/26465745/ellipsis-in-flexbox-container
     minWidth: 0,
+    // height: 'auto',
+    // minHeight: '48px',
+    // whiteSpace: 'normal',
+    // wordWrap: 'break-word',
   },
   sortBy: {
     fontSize: '14px',
@@ -134,8 +140,16 @@ class SearchResult extends Component {
         label: 'Credibility Rating',
       },
       {
+        column: SEARCH_RESULTS_COLUMN.DESIGN,
+        label: 'Research Design',
+      },
+      {
         column: SEARCH_RESULTS_COLUMN.METHOD,
         label: 'SE Method',
+      },
+      {
+        column: SEARCH_RESULTS_COLUMN.METHODOLOGY,
+        label: 'SE Methodology',
       },
     ];
 
@@ -267,28 +281,35 @@ class SearchResult extends Component {
         <TableRow key={item.id} style={styles.bodyRow}>
           {renderRowColumn({
             item,
-            key: 'title',
+            key: SEARCH_RESULTS_COLUMN.TITLE,
             forceShow: true,
           })}
           {renderRowColumn({
             item,
-            key: 'authors',
+            key: SEARCH_RESULTS_COLUMN.AUTHORS,
             showTitle: true,
           })}
           {renderRowColumn({
             item,
-            key: 'method',
-            showTitle: true,
-          })}
-          {renderRowColumn({
-            item,
-            key: 'year',
+            key: SEARCH_RESULTS_COLUMN.YEAR,
             justifyContent: 'center',
           })}
           {renderRowColumn({
             item,
-            key: 'rating',
+            key: SEARCH_RESULTS_COLUMN.RATING,
             justifyContent: 'center',
+          })}
+          {renderRowColumn({
+            item,
+            key: SEARCH_RESULTS_COLUMN.DESIGN,
+          })}
+          {renderRowColumn({
+            item,
+            key: SEARCH_RESULTS_COLUMN.METHOD,
+          })}
+          {renderRowColumn({
+            item,
+            key: SEARCH_RESULTS_COLUMN.METHODOLOGY,
           })}
         </TableRow>
       );
@@ -332,25 +353,33 @@ class SearchResult extends Component {
             }}
           >
             {renderHeaderColumn({
-              key: 'title',
+              key: SEARCH_RESULTS_COLUMN.TITLE,
               label: 'Title',
               forceShow: true,
             })}
             {renderHeaderColumn({
-              key: 'authors',
+              key: SEARCH_RESULTS_COLUMN.AUTHORS,
               label: 'Authors',
             })}
             {renderHeaderColumn({
-              key: 'method',
-              label: 'SE Method',
-            })}
-            {renderHeaderColumn({
-              key: 'year',
+              key: SEARCH_RESULTS_COLUMN.YEAR,
               label: 'Publish Year',
             })}
             {renderHeaderColumn({
-              key: 'rating',
+              key: SEARCH_RESULTS_COLUMN.RATING,
               label: 'Credibility Rating (0 to 5)',
+            })}
+            {renderHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.DESIGN,
+              label: 'SE Method',
+            })}
+            {renderHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.METHOD,
+              label: 'SE Method',
+            })}
+            {renderHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.METHODOLOGY,
+              label: 'SE Methodology',
             })}
           </TableRow>
         </TableHeader>

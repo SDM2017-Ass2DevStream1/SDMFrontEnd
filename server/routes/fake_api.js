@@ -3,7 +3,9 @@ const faker = require('faker');
 const moment = require('moment');
 const router = require('express').Router();
 
-const { SE_METHODS } = require('../../src/constants');
+const {
+  RESEARCH_DESIGN, SE_METHODS, SE_METHODOLOGIES,
+} = require('../../src/constants');
 
 
 const { random, lorem, image, helpers, date } = faker;
@@ -32,6 +34,15 @@ router.get('/user/logout', (req, res) => {
 });
 
 router.get('/search', (req, res) => {
+  const attrGenerator = (name) => {
+    const options = {
+      design: RESEARCH_DESIGN,
+      method: SE_METHODS,
+      methodology: SE_METHODOLOGIES,
+    };
+    return _.sample(options[name].map(item => item.name));
+  };
+
   res.jsonp({
     items: _.times(15, () => ({
       id: random.uuid(),
@@ -39,7 +50,9 @@ router.get('/search', (req, res) => {
       authors: _.times(_.random(1, 3)).map(() => faker.name.findName()).join(','),
       year: moment(date.past()).year(),
       rating: _.round(_.random(5, true), 1),
-      method: _.sample(SE_METHODS.map(item => item.name)),
+      design: attrGenerator('design'),
+      method: attrGenerator('method'),
+      methodology: attrGenerator('methodology'),
     })),
     total: 200,
   });
