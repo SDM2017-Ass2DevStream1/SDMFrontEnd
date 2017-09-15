@@ -241,6 +241,15 @@ class SearchResult extends Component {
   renderSearchResults() {
     const { search: { visibility } } = this.props;
 
+    const CustomizedHeaderColumn = ({ key, label, ...rest }) => {
+      return TableHeaderColumn({
+        flex: flex[key],
+        visibility: visibility[key],
+        label,
+        ...rest,
+      });
+    };
+
     return (
       <Table selectable={false} style={styles.table}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -249,41 +258,35 @@ class SearchResult extends Component {
               ...styles.headerRow,
             }}
           >
-            {TableHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.TITLE],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.TITLE],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.TITLE,
               label: 'Title',
               forceShow: true,
             })}
-            {TableHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.AUTHORS],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.AUTHORS],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.AUTHORS,
               label: 'Authors',
             })}
-            {TableHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.YEAR],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.YEAR],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.YEAR,
               label: 'Publish Year',
               justifyContent: 'center',
             })}
-            {TableHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.RATING],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.RATING],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.RATING,
               label: 'Credibility Rating (0-5)',
               justifyContent: 'center',
             })}
-            {TableHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.DESIGN],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.DESIGN],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.DESIGN,
               label: 'SE Method',
             })}
-            {TableHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.METHOD],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.METHOD],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.METHOD,
               label: 'SE Method',
             })}
-            {TableHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.METHODOLOGY],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.METHODOLOGY,
               label: 'SE Methodology',
             })}
           </TableRow>
