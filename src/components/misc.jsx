@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
-import { Paper as MuiPaper, TableHeaderColumn } from 'material-ui';
+import {
+  Paper as MuiPaper, TableHeaderColumn, TableRowColumn,
+} from 'material-ui';
 import styled from 'styled-components';
 
 import { muiTheme } from '../constants/styles';
@@ -27,20 +29,21 @@ export const ModuleTitle = styled.h2`
   margin-bottom: 15px;
 `;
 
+const columnStyles = {
+  display: 'flex',
+  alignItems: 'center',
+  lineHeight: 1.5,
+  padding: '10px 0',
+  height: 'auto',
+  minHeight: '48px',
+  whiteSpace: 'normal',
+  wordWrap: 'break-word',
+};
+
 export const renderHeaderColumn = (options) => {
   const opts = _.merge({
     visibility: true,
-    flex: undefined,
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      lineHeight: 1.5,
-      padding: '10px 0',
-      height: 'auto',
-      minHeight: '48px',
-      whiteSpace: 'normal',
-      wordWrap: 'break-word',
-    },
+    flex: 1,
     label: '',
     justifyContent: 'flex-start',
     forceShow: false,
@@ -51,7 +54,7 @@ export const renderHeaderColumn = (options) => {
   return (
     (forceShow || opts.visibility) && <TableHeaderColumn
       style={{
-        ...opts.style,
+        ...columnStyles,
         justifyContent,
         flex: opts.flex,
       }}
@@ -59,5 +62,33 @@ export const renderHeaderColumn = (options) => {
     >
       {label}
     </TableHeaderColumn>
+  );
+};
+
+export const renderRowColumn = (options) => {
+  const opts = {
+    ...{
+      value: '',
+      flex: 1,
+      visibility: true,
+      forceShow: false,
+      justifyContent: 'flex-start',
+    },
+    ...options,
+  };
+  const {
+    visibility, forceShow, justifyContent, flex, value,
+  } = opts;
+
+  return (
+    (forceShow || visibility) && <TableRowColumn
+      style={{
+        ...columnStyles,
+        justifyContent,
+        flex,
+      }}
+    >
+      {value}
+    </TableRowColumn>
   );
 };

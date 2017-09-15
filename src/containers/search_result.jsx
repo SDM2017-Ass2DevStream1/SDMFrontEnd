@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  Table, TableHeader, TableBody, TableRow, TableRowColumn,
-  Checkbox, SelectField, MenuItem,
+  Table, TableHeader, TableBody, TableRow, Checkbox, SelectField, MenuItem,
 } from 'material-ui';
 import Visibility from 'material-ui/svg-icons/action/visibility';
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
@@ -14,7 +13,9 @@ import {
   SEARCH_RESULTS_COLUMN, SEARCH_SORT_BY,
 } from '../constants';
 import { BORDER } from '../constants/styles';
-import { ModuleTitle, renderHeaderColumn } from '../components/misc';
+import {
+  ModuleTitle, renderHeaderColumn, renderRowColumn,
+} from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
@@ -239,65 +240,39 @@ class SearchResult extends Component {
   renderItems() {
     const { search: { items, visibility } } = this.props;
 
-    const renderRowColumn = (options) => {
-      const opts = {
-        ...{
-          key: '',
-          item: null,
-          forceShow: false,
-          justifyContent: 'flex-start',
-        },
-        ...options,
-      };
-      const { key, item, forceShow, justifyContent } = opts;
-      const value = item[key];
-
-      return (
-        (forceShow || visibility[key]) && <TableRowColumn
-          style={{
-            ...styles.column,
-            justifyContent,
-            flex: flex[key],
-          }}
-        >
-          {value}
-        </TableRowColumn>
-      );
-    };
-
     return items.map((item) => {
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
           {renderRowColumn({
-            item,
-            key: SEARCH_RESULTS_COLUMN.TITLE,
+            value: item[SEARCH_RESULTS_COLUMN.TITLE],
+            visibility: visibility[SEARCH_RESULTS_COLUMN.TITLE],
             forceShow: true,
           })}
           {renderRowColumn({
-            item,
-            key: SEARCH_RESULTS_COLUMN.AUTHORS,
+            value: item[SEARCH_RESULTS_COLUMN.AUTHORS],
+            visibility: visibility[SEARCH_RESULTS_COLUMN.AUTHORS],
           })}
           {renderRowColumn({
-            item,
-            key: SEARCH_RESULTS_COLUMN.YEAR,
+            value: item[SEARCH_RESULTS_COLUMN.YEAR],
+            visibility: visibility[SEARCH_RESULTS_COLUMN.YEAR],
             justifyContent: 'center',
           })}
           {renderRowColumn({
-            item,
-            key: SEARCH_RESULTS_COLUMN.RATING,
+            value: item[SEARCH_RESULTS_COLUMN.RATING],
+            visibility: visibility[SEARCH_RESULTS_COLUMN.RATING],
             justifyContent: 'center',
           })}
           {renderRowColumn({
-            item,
-            key: SEARCH_RESULTS_COLUMN.DESIGN,
+            value: item[SEARCH_RESULTS_COLUMN.DESIGN],
+            visibility: visibility[SEARCH_RESULTS_COLUMN.DESIGN],
           })}
           {renderRowColumn({
-            item,
-            key: SEARCH_RESULTS_COLUMN.METHOD,
+            value: item[SEARCH_RESULTS_COLUMN.METHOD],
+            visibility: visibility[SEARCH_RESULTS_COLUMN.METHOD],
           })}
           {renderRowColumn({
-            item,
-            key: SEARCH_RESULTS_COLUMN.METHODOLOGY,
+            value: item[SEARCH_RESULTS_COLUMN.METHODOLOGY],
+            visibility: visibility[SEARCH_RESULTS_COLUMN.METHODOLOGY],
           })}
         </TableRow>
       );
@@ -306,33 +281,6 @@ class SearchResult extends Component {
 
   renderSearchResults() {
     const { search: { visibility } } = this.props;
-
-    // const renderHeaderColumn = (options) => {
-    //   const opts = {
-    //     ...{
-    //       key: '',
-    //       label: '',
-    //       justifyContent: 'flex-start',
-    //       forceShow: false,
-    //     },
-    //     ...options,
-    //   };
-    //
-    //   const { key, label, forceShow, justifyContent } = opts;
-    //
-    //   return (
-    //     (forceShow || visibility[key]) && <TableHeaderColumn
-    //       style={{
-    //         ...styles.column,
-    //         justifyContent,
-    //         flex: flex[key],
-    //       }}
-    //       title={label}
-    //     >
-    //       {label}
-    //     </TableHeaderColumn>
-    //   );
-    // };
 
     return (
       <Table selectable={false} style={styles.table}>
