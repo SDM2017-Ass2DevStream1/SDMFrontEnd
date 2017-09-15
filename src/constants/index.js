@@ -62,13 +62,6 @@ export const SEARCH_RESULTS_COLUMN = {
   RATING: 'rating',
 };
 
-export const SEARCH_SORT_BY = {
-  RELEVANCE: 'relevance',
-  DATE_NEWEST: 'date_newest',
-  DATE_OLDEST: 'date_oldest',
-  RATING_HIGHEST: 'rating_highest',
-};
-
 export const SEARCH_CONDITION_FIELD = {
   AUTHORS: 'Authors',
   RATING: 'Rating',

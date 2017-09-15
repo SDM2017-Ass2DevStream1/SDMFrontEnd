@@ -281,32 +281,6 @@ class SearchResult extends Component {
   renderSearchResults() {
     const { search: { visibility } } = this.props;
 
-    // const renderHeaderColumn = (options) => {
-    //   const opts = {
-    //     ...{
-    //       key: '',
-    //       label: '',
-    //       forceShow: false,
-    //     },
-    //     ...options,
-    //   };
-
-    //   const { key, label, forceShow } = opts;
-
-    //   return (
-    //     (forceShow || visibility[key]) && <TableHeaderColumn
-    //       style={{
-    //         ...styles.column,
-    //         flex: flex[key],
-    //       }}
-    //       title={label}
-    //     >
-    //       {label}
-    //     </TableHeaderColumn>
-    //   );
-    // };
-
-    // test for button
     const renderHeaderColumnButton = (options) => {
       const opts = {
         ...{
@@ -326,11 +300,7 @@ class SearchResult extends Component {
       };
       if (sortBy.key === key) {
         SortButtonSetting.highlight = true;
-        if (sortBy.order === 'ascend') {
-          SortButtonSetting.icon = ArrowDropDown;
-        } else {
-          SortButtonSetting.icon = ArrowDropUp;
-        }
+        SortButtonSetting.icon = sortBy.order === 'ascend' ? ArrowDropDown : ArrowDropUp;
       } else {
         SortButtonSetting.highlight = false;
         SortButtonSetting.icon = Sort;
