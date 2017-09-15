@@ -47,7 +47,7 @@ router.get('/search', (req, res) => {
     items: _.times(15, () => ({
       id: random.uuid(),
       title: lorem.sentence(),
-      authors: _.times(_.random(1, 3)).map(() => faker.name.findName()).join(','),
+      authors: _.times(_.random(1, 3)).map(() => faker.name.findName()).join(', '),
       year: moment(date.past()).year(),
       rating: _.round(_.random(5, true), 1),
       design: attrGenerator('design'),

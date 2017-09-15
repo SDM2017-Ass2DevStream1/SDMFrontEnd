@@ -52,27 +52,22 @@ const styles = {
   },
   bodyRow: {
     display: 'flex',
+    height: 'auto',
   },
   column: {
     display: 'flex',
     alignItems: 'center',
-    // https://stackoverflow.com/questions/26465745/ellipsis-in-flexbox-container
-    minWidth: 0,
-    // height: 'auto',
-    // minHeight: '48px',
-    // whiteSpace: 'normal',
-    // wordWrap: 'break-word',
+    lineHeight: 1.5,
+    padding: '10px 0',
+    height: 'auto',
+    minHeight: '48px',
+    whiteSpace: 'normal',
+    wordWrap: 'break-word',
   },
   sortBy: {
     fontSize: '14px',
   },
 };
-
-const ColumnContent = styled.span`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
 
 const VisibilityCheckbox = props => (
   <Checkbox
@@ -249,19 +244,13 @@ class SearchResult extends Component {
         ...{
           key: '',
           item: null,
-          hasTitle: false,
           forceShow: false,
           justifyContent: 'flex-start',
         },
         ...options,
       };
-      const { key, item, showTitle, forceShow, justifyContent } = opts;
+      const { key, item, forceShow, justifyContent } = opts;
       const value = item[key];
-      const props = {};
-
-      if (showTitle) {
-        props.title = value;
-      }
 
       return (
         (forceShow || visibility[key]) && <TableRowColumn
@@ -271,7 +260,7 @@ class SearchResult extends Component {
             flex: flex[key],
           }}
         >
-          <ColumnContent {...props}>{value}</ColumnContent>
+          {value}
         </TableRowColumn>
       );
     };
@@ -287,7 +276,6 @@ class SearchResult extends Component {
           {renderRowColumn({
             item,
             key: SEARCH_RESULTS_COLUMN.AUTHORS,
-            showTitle: true,
           })}
           {renderRowColumn({
             item,
@@ -324,17 +312,19 @@ class SearchResult extends Component {
         ...{
           key: '',
           label: '',
+          justifyContent: 'flex-start',
           forceShow: false,
         },
         ...options,
       };
 
-      const { key, label, forceShow } = opts;
+      const { key, label, forceShow, justifyContent } = opts;
 
       return (
         (forceShow || visibility[key]) && <TableHeaderColumn
           style={{
             ...styles.column,
+            justifyContent,
             flex: flex[key],
           }}
           title={label}
@@ -364,10 +354,12 @@ class SearchResult extends Component {
             {renderHeaderColumn({
               key: SEARCH_RESULTS_COLUMN.YEAR,
               label: 'Publish Year',
+              justifyContent: 'center',
             })}
             {renderHeaderColumn({
               key: SEARCH_RESULTS_COLUMN.RATING,
               label: 'Credibility Rating (0 to 5)',
+              justifyContent: 'center',
             })}
             {renderHeaderColumn({
               key: SEARCH_RESULTS_COLUMN.DESIGN,
