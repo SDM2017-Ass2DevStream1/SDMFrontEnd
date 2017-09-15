@@ -228,6 +228,9 @@ class SearchResult extends Component {
               flex: flex[key],
               visibility: visibility[key],
               forceShow: key === SEARCH_RESULTS_COLUMN.TITLE,
+              justifyContent: [
+                SEARCH_RESULTS_COLUMN.YEAR, SEARCH_RESULTS_COLUMN.RATING,
+              ].includes(key) && 'center',
             })
           ))}
         </TableRow>
