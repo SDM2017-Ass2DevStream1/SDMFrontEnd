@@ -24,9 +24,11 @@ export const initialState = {
   total: 0,
   visibility: {
     [SEARCH_RESULTS_COLUMN.AUTHORS]: true,
-    [SEARCH_RESULTS_COLUMN.METHOD]: true,
     [SEARCH_RESULTS_COLUMN.YEAR]: true,
     [SEARCH_RESULTS_COLUMN.RATING]: true,
+    [SEARCH_RESULTS_COLUMN.DESIGN]: true,
+    [SEARCH_RESULTS_COLUMN.METHOD]: true,
+    [SEARCH_RESULTS_COLUMN.METHODOLOGY]: true,
   },
 };
 

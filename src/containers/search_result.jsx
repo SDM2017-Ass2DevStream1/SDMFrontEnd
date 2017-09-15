@@ -1,9 +1,9 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  Table, TableHeader, TableBody, TableHeaderColumn,
-  TableRow, TableRowColumn, Checkbox, SelectField, MenuItem,
+  Table, TableHeader, TableBody, TableRow, Checkbox, SelectField, MenuItem,
 } from 'material-ui';
 import Visibility from 'material-ui/svg-icons/action/visibility';
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
@@ -14,16 +14,20 @@ import {
   SEARCH_RESULTS_COLUMN, SEARCH_SORT_BY,
 } from '../constants';
 import { BORDER } from '../constants/styles';
-import { ModuleTitle } from '../components/misc';
+import {
+  ModuleTitle, renderHeaderColumn, renderRowColumn,
+} from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
 const flex = {
-  title: 7,
-  authors: 3,
-  method: 3,
-  year: 1,
-  rating: 1,
+  [SEARCH_RESULTS_COLUMN.TITLE]: 5,
+  [SEARCH_RESULTS_COLUMN.AUTHORS]: 2,
+  [SEARCH_RESULTS_COLUMN.RATING]: 1,
+  [SEARCH_RESULTS_COLUMN.YEAR]: 1,
+  [SEARCH_RESULTS_COLUMN.DESIGN]: 2,
+  [SEARCH_RESULTS_COLUMN.METHOD]: 2,
+  [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 2,
 };
 
 const styles = {
@@ -50,23 +54,22 @@ const styles = {
   },
   bodyRow: {
     display: 'flex',
+    height: 'auto',
   },
   column: {
     display: 'flex',
     alignItems: 'center',
-    // https://stackoverflow.com/questions/26465745/ellipsis-in-flexbox-container
-    minWidth: 0,
+    lineHeight: 1.5,
+    padding: '10px 0',
+    height: 'auto',
+    minHeight: '48px',
+    whiteSpace: 'normal',
+    wordWrap: 'break-word',
   },
   sortBy: {
     fontSize: '14px',
   },
 };
-
-const ColumnContent = styled.span`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
 
 const VisibilityCheckbox = props => (
   <Checkbox
@@ -131,11 +134,19 @@ class SearchResult extends Component {
       },
       {
         column: SEARCH_RESULTS_COLUMN.RATING,
-        label: 'Rating',
+        label: 'Credibility Rating',
+      },
+      {
+        column: SEARCH_RESULTS_COLUMN.DESIGN,
+        label: 'Research Design',
       },
       {
         column: SEARCH_RESULTS_COLUMN.METHOD,
         label: 'SE Method',
+      },
+      {
+        column: SEARCH_RESULTS_COLUMN.METHODOLOGY,
+        label: 'SE Methodology',
       },
     ];
 
@@ -230,66 +241,18 @@ class SearchResult extends Component {
   renderItems() {
     const { search: { items, visibility } } = this.props;
 
-    const renderRowColumn = (options) => {
-      const opts = {
-        ...{
-          key: '',
-          item: null,
-          hasTitle: false,
-          forceShow: false,
-          justifyContent: 'flex-start',
-        },
-        ...options,
-      };
-      const { key, item, showTitle, forceShow, justifyContent } = opts;
-      const value = item[key];
-      const props = {};
-
-      if (showTitle) {
-        props.title = value;
-      }
-
-      return (
-        (forceShow || visibility[key]) && <TableRowColumn
-          style={{
-            ...styles.column,
-            justifyContent,
-            flex: flex[key],
-          }}
-        >
-          <ColumnContent {...props}>{value}</ColumnContent>
-        </TableRowColumn>
-      );
-    };
-
     return items.map((item) => {
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
-          {renderRowColumn({
-            item,
-            key: 'title',
-            forceShow: true,
-          })}
-          {renderRowColumn({
-            item,
-            key: 'authors',
-            showTitle: true,
-          })}
-          {renderRowColumn({
-            item,
-            key: 'method',
-            showTitle: true,
-          })}
-          {renderRowColumn({
-            item,
-            key: 'year',
-            justifyContent: 'center',
-          })}
-          {renderRowColumn({
-            item,
-            key: 'rating',
-            justifyContent: 'center',
-          })}
+          {_.values(SEARCH_RESULTS_COLUMN).map(key => (
+            renderRowColumn({
+              key,
+              value: item[key],
+              flex: flex[key],
+              visibility: visibility[key],
+              forceShow: key === SEARCH_RESULTS_COLUMN.TITLE,
+            })
+          ))}
         </TableRow>
       );
     });
@@ -297,31 +260,6 @@ class SearchResult extends Component {
 
   renderSearchResults() {
     const { search: { visibility } } = this.props;
-
-    const renderHeaderColumn = (options) => {
-      const opts = {
-        ...{
-          key: '',
-          label: '',
-          forceShow: false,
-        },
-        ...options,
-      };
-
-      const { key, label, forceShow } = opts;
-
-      return (
-        (forceShow || visibility[key]) && <TableHeaderColumn
-          style={{
-            ...styles.column,
-            flex: flex[key],
-          }}
-          title={label}
-        >
-          {label}
-        </TableHeaderColumn>
-      );
-    };
 
     return (
       <Table selectable={false} style={styles.table}>
@@ -332,25 +270,41 @@ class SearchResult extends Component {
             }}
           >
             {renderHeaderColumn({
-              key: 'title',
+              flex: flex[SEARCH_RESULTS_COLUMN.TITLE],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.TITLE],
               label: 'Title',
               forceShow: true,
             })}
             {renderHeaderColumn({
-              key: 'authors',
+              flex: flex[SEARCH_RESULTS_COLUMN.AUTHORS],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.AUTHORS],
               label: 'Authors',
             })}
             {renderHeaderColumn({
-              key: 'method',
+              flex: flex[SEARCH_RESULTS_COLUMN.YEAR],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.YEAR],
+              label: 'Publish Year',
+              justifyContent: 'center',
+            })}
+            {renderHeaderColumn({
+              flex: flex[SEARCH_RESULTS_COLUMN.RATING],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.RATING],
+              label: 'Credibility Rating (0 to 5)',
+              justifyContent: 'center',
+            })}
+            {renderHeaderColumn({
+              flex: flex[SEARCH_RESULTS_COLUMN.DESIGN],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.DESIGN],
               label: 'SE Method',
             })}
             {renderHeaderColumn({
-              key: 'year',
-              label: 'Publish Year',
+              flex: flex[SEARCH_RESULTS_COLUMN.METHOD],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.METHOD],
+              label: 'SE Method',
             })}
             {renderHeaderColumn({
-              key: 'rating',
-              label: 'Rating (out of 5)',
+              flex: flex[SEARCH_RESULTS_COLUMN.METHODOLOGY],
+              label: 'SE Methodology',
             })}
           </TableRow>
         </TableHeader>

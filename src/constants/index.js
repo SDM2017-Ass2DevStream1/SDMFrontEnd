@@ -1,65 +1,59 @@
-// ref: http://www.itinfo.am/eng/software-development-methodologies/
-// This constant shoud be used both on the front & back ends.
+// The constants of RESEARCH_DESIGN, SE_METHODS, SE_METHODOLOGIES shoud
+// be used both on the front & back ends. All the names here was given
+// by Jim (see: SDM INFS809 Assignment 2 Supporting Documentation).
+export const RESEARCH_DESIGN = [
+  { type: 1, name: 'Case study' },
+  { type: 2, name: 'Field Observation' },
+  { type: 3, name: 'Experiment' },
+  { type: 4, name: 'Interview' },
+  { type: 5, name: 'Survey' },
+];
+
 export const SE_METHODS = [
-  {
-    type: 1,
-    name: 'Agile Software Development',
-  },
-  {
-    type: 2,
-    name: 'Crystal Methods',
-  },
-  {
-    type: 3,
-    name: 'Dynamic Systems Development Model (DSDM)',
-  },
-  {
-    type: 4,
-    name: 'Extreme Programming (XP)',
-  },
-  {
-    type: 5,
-    name: 'Feature Driven Development (FDD)',
-  },
-  {
-    type: 6,
-    name: 'Joint Application Development (JAD)',
-  },
-  {
-    type: 7,
-    name: 'Lean Development (LD)',
-  },
-  {
-    type: 8,
-    name: 'Rapid Application Development (RAD)',
-  },
-  {
-    type: 9,
-    name: 'Rational Unified Process (RUP)',
-  },
-  {
-    type: 10,
-    name: 'Scrum',
-  },
-  {
-    type: 11,
-    name: 'Spiral',
-  },
-  {
-    type: 12,
-    name: 'Systems Development Life Cycle (SDLC)',
-  },
-  {
-    type: 13,
-    name: 'Waterfall (a.k.a. Traditional)',
-  },
+  { type: 1, name: 'TDD' },
+  { type: 2, name: 'BDD' },
+  { type: 3, name: 'pair programming' },
+  { type: 4, name: 'planning poker' },
+  { type: 5, name: 'daily standup meetings' },
+  { type: 6, name: 'story boards' },
+  { type: 7, name: 'user story mapping' },
+  { type: 8, name: 'continuous integration' },
+  { type: 9, name: 'retrospectives' },
+  { type: 10, name: 'burn down charts' },
+  { type: 11, name: 'requirements prioritisation' },
+  { type: 12, name: 'version control' },
+  { type: 13, name: 'code sharing' },
+];
+
+export const SE_METHODOLOGIES = [
+  { type: 1, name: 'Scrum' },
+  { type: 2, name: 'Waterfall' },
+  { type: 3, name: 'Spiral' },
+  { type: 4, name: 'XP' },
+  { type: 5, name: 'Rational Unified Process' },
+  { type: 6, name: 'Crystal' },
+  { type: 7, name: 'Clean room' },
+  { type: 8, name: 'Feature Driven Development' },
+  { type: 9, name: 'Model Driven Development' },
+  { type: 10, name: 'Domain Driven Development' },
+  { type: 11, name: 'Formal methods' },
+  { type: 12, name: 'Problem Driven Development' },
+  { type: 13, name: 'Cloud computing' },
+  { type: 14, name: 'Service Oriented Development' },
+  { type: 15, name: 'Aspect Oriented Development' },
+  { type: 16, name: 'Valuse Driven Development' },
+  { type: 17, name: 'Product Driven Development' },
+  { type: 18, name: 'Agile' },
 ];
 
 export const SEARCH_RESULTS_COLUMN = {
+  TITLE: 'title',
   AUTHORS: 'authors',
-  METHOD: 'method',
   YEAR: 'year',
   RATING: 'rating',
+  DESIGN: 'design',
+  METHOD: 'method',
+  METHODOLOGY: 'methodology',
 };
 
 export const SEARCH_SORT_BY = {
@@ -71,7 +65,7 @@ export const SEARCH_SORT_BY = {
 
 export const SEARCH_CONDITION_FIELD = {
   AUTHORS: 'Authors',
-  RATING: 'Rating',
+  RATING: 'Credibility Rating',
   METHOD: 'SE Method',
 };
 
