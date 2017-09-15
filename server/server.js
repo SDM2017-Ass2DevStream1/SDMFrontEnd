@@ -40,7 +40,6 @@ class Server {
     app.use(compression());
     app.use(bodyPaser());
     app.use('/static', express.static(`${__dirname}/../dist`));
-    app.use(express.static(`${__dirname}/../dist/pages`));
     app.use(routes);
 
     this.app = app;
@@ -49,8 +48,15 @@ class Server {
   initServer() {
     const { port, ip } = this;
     const server = http.createServer(this.app);
+
     this.server = server.listen(port, ip, () => {
       kit.log(`App is running in ${chalk.blue(process.env.NODE_ENV)} environment. Please visit: http://${ip}:${port}`);
+    });
+
+    // https://github.com/remy/nodemon#controlling-shutdown-of-your-script
+    process.once('SIGUSR2', () => {
+      this.close();
+      process.kill(process.pid, 'SIGUSR2');
     });
   }
 
