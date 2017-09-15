@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { SEARCH_RESULTS_COLUMN } from '../constants';
 import { BORDER } from '../constants/styles';
 import {
-  ModuleTitle, renderHeaderColumn, renderRowColumn,
+  ModuleTitle, TableHeaderColumn, TableRowColumn,
 } from '../components/misc';
 import * as searchActions from '../actions/search';
 
@@ -222,7 +222,7 @@ class SearchResult extends Component {
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
           {_.values(SEARCH_RESULTS_COLUMN).map(key => (
-            renderRowColumn({
+            TableRowColumn({
               key,
               value: item[key],
               flex: flex[key],
@@ -249,40 +249,40 @@ class SearchResult extends Component {
               ...styles.headerRow,
             }}
           >
-            {renderHeaderColumn({
+            {TableHeaderColumn({
               flex: flex[SEARCH_RESULTS_COLUMN.TITLE],
               visibility: visibility[SEARCH_RESULTS_COLUMN.TITLE],
               label: 'Title',
               forceShow: true,
             })}
-            {renderHeaderColumn({
+            {TableHeaderColumn({
               flex: flex[SEARCH_RESULTS_COLUMN.AUTHORS],
               visibility: visibility[SEARCH_RESULTS_COLUMN.AUTHORS],
               label: 'Authors',
             })}
-            {renderHeaderColumn({
+            {TableHeaderColumn({
               flex: flex[SEARCH_RESULTS_COLUMN.YEAR],
               visibility: visibility[SEARCH_RESULTS_COLUMN.YEAR],
               label: 'Publish Year',
               justifyContent: 'center',
             })}
-            {renderHeaderColumn({
+            {TableHeaderColumn({
               flex: flex[SEARCH_RESULTS_COLUMN.RATING],
               visibility: visibility[SEARCH_RESULTS_COLUMN.RATING],
               label: 'Credibility Rating (0-5)',
               justifyContent: 'center',
             })}
-            {renderHeaderColumn({
+            {TableHeaderColumn({
               flex: flex[SEARCH_RESULTS_COLUMN.DESIGN],
               visibility: visibility[SEARCH_RESULTS_COLUMN.DESIGN],
               label: 'SE Method',
             })}
-            {renderHeaderColumn({
+            {TableHeaderColumn({
               flex: flex[SEARCH_RESULTS_COLUMN.METHOD],
               visibility: visibility[SEARCH_RESULTS_COLUMN.METHOD],
               label: 'SE Method',
             })}
-            {renderHeaderColumn({
+            {TableHeaderColumn({
               flex: flex[SEARCH_RESULTS_COLUMN.METHODOLOGY],
               label: 'SE Methodology',
             })}
