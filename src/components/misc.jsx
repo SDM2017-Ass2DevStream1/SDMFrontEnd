@@ -33,7 +33,7 @@ const columnStyles = {
   display: 'flex',
   alignItems: 'center',
   lineHeight: 1.5,
-  padding: '10px 0',
+  padding: '10px',
   height: 'auto',
   minHeight: '48px',
   whiteSpace: 'normal',
@@ -58,7 +58,6 @@ export const renderHeaderColumn = (options) => {
         justifyContent,
         flex: opts.flex,
       }}
-      title={label}
     >
       {label}
     </TableHeaderColumn>

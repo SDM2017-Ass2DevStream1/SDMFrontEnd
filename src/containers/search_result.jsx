@@ -10,9 +10,7 @@ import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
-import {
-  SEARCH_RESULTS_COLUMN,
-} from '../constants';
+import { SEARCH_RESULTS_COLUMN } from '../constants';
 import { BORDER } from '../constants/styles';
 import {
   ModuleTitle, renderHeaderColumn, renderRowColumn,
@@ -268,7 +266,7 @@ class SearchResult extends Component {
             {renderHeaderColumn({
               flex: flex[SEARCH_RESULTS_COLUMN.RATING],
               visibility: visibility[SEARCH_RESULTS_COLUMN.RATING],
-              label: 'Credibility Rating (0 to 5)',
+              label: 'Credibility Rating (0-5)',
               justifyContent: 'center',
             })}
             {renderHeaderColumn({
