@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  Table, TableHeader, TableBody, TableHeaderColumn,
-  TableRow, TableRowColumn, Checkbox, SelectField, MenuItem,
+  Table, TableHeader, TableBody, TableRow, TableRowColumn,
+  Checkbox, SelectField, MenuItem,
 } from 'material-ui';
 import Visibility from 'material-ui/svg-icons/action/visibility';
 import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
@@ -14,18 +14,18 @@ import {
   SEARCH_RESULTS_COLUMN, SEARCH_SORT_BY,
 } from '../constants';
 import { BORDER } from '../constants/styles';
-import { ModuleTitle } from '../components/misc';
+import { ModuleTitle, renderHeaderColumn } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
 const flex = {
-  title: 5,
-  authors: 2,
-  rating: 1,
-  year: 1,
-  design: 2,
-  method: 2,
-  methodology: 2,
+  [SEARCH_RESULTS_COLUMN.TITLE]: 5,
+  [SEARCH_RESULTS_COLUMN.AUTHORS]: 2,
+  [SEARCH_RESULTS_COLUMN.RATING]: 1,
+  [SEARCH_RESULTS_COLUMN.YEAR]: 1,
+  [SEARCH_RESULTS_COLUMN.DESIGN]: 2,
+  [SEARCH_RESULTS_COLUMN.METHOD]: 2,
+  [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 2,
 };
 
 const styles = {
@@ -307,32 +307,32 @@ class SearchResult extends Component {
   renderSearchResults() {
     const { search: { visibility } } = this.props;
 
-    const renderHeaderColumn = (options) => {
-      const opts = {
-        ...{
-          key: '',
-          label: '',
-          justifyContent: 'flex-start',
-          forceShow: false,
-        },
-        ...options,
-      };
-
-      const { key, label, forceShow, justifyContent } = opts;
-
-      return (
-        (forceShow || visibility[key]) && <TableHeaderColumn
-          style={{
-            ...styles.column,
-            justifyContent,
-            flex: flex[key],
-          }}
-          title={label}
-        >
-          {label}
-        </TableHeaderColumn>
-      );
-    };
+    // const renderHeaderColumn = (options) => {
+    //   const opts = {
+    //     ...{
+    //       key: '',
+    //       label: '',
+    //       justifyContent: 'flex-start',
+    //       forceShow: false,
+    //     },
+    //     ...options,
+    //   };
+    //
+    //   const { key, label, forceShow, justifyContent } = opts;
+    //
+    //   return (
+    //     (forceShow || visibility[key]) && <TableHeaderColumn
+    //       style={{
+    //         ...styles.column,
+    //         justifyContent,
+    //         flex: flex[key],
+    //       }}
+    //       title={label}
+    //     >
+    //       {label}
+    //     </TableHeaderColumn>
+    //   );
+    // };
 
     return (
       <Table selectable={false} style={styles.table}>
@@ -343,34 +343,41 @@ class SearchResult extends Component {
             }}
           >
             {renderHeaderColumn({
-              key: SEARCH_RESULTS_COLUMN.TITLE,
+              flex: flex[SEARCH_RESULTS_COLUMN.TITLE],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.TITLE],
               label: 'Title',
               forceShow: true,
             })}
             {renderHeaderColumn({
-              key: SEARCH_RESULTS_COLUMN.AUTHORS,
+              flex: flex[SEARCH_RESULTS_COLUMN.AUTHORS],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.AUTHORS],
               label: 'Authors',
             })}
             {renderHeaderColumn({
-              key: SEARCH_RESULTS_COLUMN.YEAR,
+              flex: flex[SEARCH_RESULTS_COLUMN.YEAR],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.YEAR],
               label: 'Publish Year',
               justifyContent: 'center',
             })}
             {renderHeaderColumn({
-              key: SEARCH_RESULTS_COLUMN.RATING,
+              flex: flex[SEARCH_RESULTS_COLUMN.RATING],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.RATING],
               label: 'Credibility Rating (0 to 5)',
               justifyContent: 'center',
             })}
             {renderHeaderColumn({
-              key: SEARCH_RESULTS_COLUMN.DESIGN,
+              flex: flex[SEARCH_RESULTS_COLUMN.DESIGN],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.DESIGN],
               label: 'SE Method',
             })}
             {renderHeaderColumn({
-              key: SEARCH_RESULTS_COLUMN.METHOD,
+              flex: flex[SEARCH_RESULTS_COLUMN.METHOD],
+              visibility: visibility[SEARCH_RESULTS_COLUMN.METHOD],
               label: 'SE Method',
             })}
             {renderHeaderColumn({
               key: SEARCH_RESULTS_COLUMN.METHODOLOGY,
+              flex: flex[SEARCH_RESULTS_COLUMN.METHODOLOGY],
               label: 'SE Methodology',
             })}
           </TableRow>
