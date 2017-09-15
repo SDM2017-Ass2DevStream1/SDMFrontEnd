@@ -12,7 +12,7 @@ import {
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
-import { SEARCH_RESULTS_COLUMN } from '../constants';
+import { SEARCH_RESULTS_COLUMN, SORT_BY_METHOD } from '../constants';
 import { BORDER, muiTheme } from '../constants/styles';
 import {
   ModuleTitle, TableHeaderColumn, TableRowColumn,
@@ -92,7 +92,6 @@ class SearchResult extends Component {
     super(props);
     this.onPaginationChange = this.onPaginationChange.bind(this);
     this.onChangeSortBy = this.onChangeSortBy.bind(this);
-    this.onClickSortColumn = this.onClickSortColumn.bind(this);
   }
 
   onPaginationChange(page) {
@@ -106,38 +105,22 @@ class SearchResult extends Component {
     this.props.actions.changeColumnVisibility(column, checked);
   }
 
-  onChangeSortBy(sortBy) {
-    this.props.actions.sortSearchResultsBy(sortBy);
-    this.props.actions.searchArticles({
-      ...this.props.search.query,
-      sortBy,
-    });
-  }
-
-  onClickSortColumn(e, highlight, key) {
-    const newSortBy = {
-      key: '',
-      order: '',
-    };
+  onChangeSortBy(key) {
     const { search: { query: { sortBy } } } = this.props;
-    if (highlight) {
-      if (sortBy.order === 'ascend') {
-        newSortBy.key = key;
-        newSortBy.order = 'descend';
+
+    if (sortBy.key === key) {
+      if (sortBy.order === SORT_BY_METHOD.ASC) {
+        sortBy.order = SORT_BY_METHOD.DESC;
       } else {
-        newSortBy.key = key;
-        newSortBy.order = 'ascend';
+        delete sortBy.key;
+        delete sortBy.order;
       }
     } else {
-      newSortBy.key = key;
-      newSortBy.order = 'ascend';
+      sortBy.key = key;
+      sortBy.order = SORT_BY_METHOD.ASC;
     }
 
-    this.props.actions.sortSearchResultsBy(newSortBy);
-    this.props.actions.searchArticles({
-      ...this.props.search.query,
-      newSortBy,
-    });
+    this.props.actions.sortSearchResultsBy(sortBy);
   }
 
   renderVisibility() {
@@ -241,36 +224,53 @@ class SearchResult extends Component {
   }
 
   renderSearchResults() {
-    const { search: { visibility } } = this.props;
+    const { search: { visibility, query: { sortBy } } } = this.props;
+    const { palette } = muiTheme;
 
     const Label = styled.div`
       display: flex;
       align-items: center;
       cursor: pointer;
+      color: ${props => props.highlight && palette.accent1Color || palette.accent3Color}
     `;
     const Operations = styled.div`
       display: flex;
       flex-direction: column;
     `;
-    const StyledNavigationArrowDropUp = styled(NavigationArrowDropUp)`
-      color: ${muiTheme.palette.accent3Color} !important;
+    const ArrowDropUp = styled(NavigationArrowDropUp)`
+      color: ${palette.accent3Color} !important;
       margin-bottom: -8px;
     `;
-    const StyledNavigationArrowDropDown = styled(NavigationArrowDropDown)`
-      color: ${muiTheme.palette.accent3Color} !important;
+    const HighlightArrowDropUp = ArrowDropUp.extend`
+      color: ${palette.accent1Color} !important;
+    `;
+    const ArrowDropDown = styled(NavigationArrowDropDown)`
+      color: ${palette.accent3Color} !important;
       margin-top: -8px;
+    `;
+    const HighlightArrowDropDown = ArrowDropDown.extend`
+      color: ${palette.accent1Color} !important;
     `;
 
     const CustomizedHeaderColumn = ({ key, label, ...rest }) => {
+      const shouldHighlight = sortBy.key === key;
+
       return TableHeaderColumn({
         flex: flexOptions[key],
         visibility: visibility[key],
         label: (
-          <Label>
+          <Label
+            onClick={() => this.onChangeSortBy(key)}
+            highlight={shouldHighlight}
+          >
             {label}
             <Operations>
-              <StyledNavigationArrowDropUp />
-              <StyledNavigationArrowDropDown />
+              {shouldHighlight && sortBy.order === SORT_BY_METHOD.ASC ?
+                <HighlightArrowDropUp /> : <ArrowDropUp />
+              }
+              {shouldHighlight && sortBy.order === SORT_BY_METHOD.DESC ?
+                <HighlightArrowDropDown /> : <ArrowDropDown />
+              }
             </Operations>
           </Label>
         ),

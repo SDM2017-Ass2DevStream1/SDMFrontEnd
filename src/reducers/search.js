@@ -11,10 +11,7 @@ export const initialState = {
     term: '',
     limit: 15,
     page: 1,
-    sortBy: {
-      key: 'title',
-      order: 'ascend',
-    },
+    sortBy: {},
   },
   condition: {
     date: {
@@ -85,11 +82,15 @@ const reducer = createReducer()
   }))
 
   .when(types.SORT_SEARCH_RESULTS_BY, (state, { payload }) => {
-    const newState = Object.assign({}, state);
-    newState.query.sortBy.key = payload.key;
-    newState.query.sortBy.order = payload.order;
-    newState.query.page = 1;
-    return newState;
+    const newState = _.cloneDeep(state);
+    return _.merge(newState, {
+      query: {
+        page: initialState.query.page,
+        sortBy: {
+          ...payload,
+        },
+      },
+    });
   })
 
   .when(types.ADD_CONDITION, (state) => {

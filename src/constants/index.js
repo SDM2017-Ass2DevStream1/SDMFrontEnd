@@ -56,6 +56,11 @@ export const SEARCH_RESULTS_COLUMN = {
   METHODOLOGY: 'methodology',
 };
 
+export const SORT_BY_METHOD = {
+  ASC: 'asc',
+  DESC: 'desc',
+};
+
 export const SEARCH_CONDITION_FIELD = {
   AUTHORS: 'Authors',
   RATING: 'Credibility Rating',
