@@ -68,6 +68,7 @@ export const renderHeaderColumn = (options) => {
 export const renderRowColumn = (options) => {
   const opts = {
     ...{
+      key: '',
       value: '',
       flex: 1,
       visibility: true,
@@ -77,11 +78,18 @@ export const renderRowColumn = (options) => {
     ...options,
   };
   const {
-    visibility, forceShow, justifyContent, flex, value,
+    key, value, flex, visibility, forceShow, justifyContent,
   } = opts;
+
+  const props = {};
+
+  if (!_.isEmpty(key)) {
+    props.key = key;
+  }
 
   return (
     (forceShow || visibility) && <TableRowColumn
+      {...props}
       style={{
         ...columnStyles,
         justifyContent,

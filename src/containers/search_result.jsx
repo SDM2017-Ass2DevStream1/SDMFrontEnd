@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -243,37 +244,15 @@ class SearchResult extends Component {
     return items.map((item) => {
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
-          {renderRowColumn({
-            value: item[SEARCH_RESULTS_COLUMN.TITLE],
-            visibility: visibility[SEARCH_RESULTS_COLUMN.TITLE],
-            forceShow: true,
-          })}
-          {renderRowColumn({
-            value: item[SEARCH_RESULTS_COLUMN.AUTHORS],
-            visibility: visibility[SEARCH_RESULTS_COLUMN.AUTHORS],
-          })}
-          {renderRowColumn({
-            value: item[SEARCH_RESULTS_COLUMN.YEAR],
-            visibility: visibility[SEARCH_RESULTS_COLUMN.YEAR],
-            justifyContent: 'center',
-          })}
-          {renderRowColumn({
-            value: item[SEARCH_RESULTS_COLUMN.RATING],
-            visibility: visibility[SEARCH_RESULTS_COLUMN.RATING],
-            justifyContent: 'center',
-          })}
-          {renderRowColumn({
-            value: item[SEARCH_RESULTS_COLUMN.DESIGN],
-            visibility: visibility[SEARCH_RESULTS_COLUMN.DESIGN],
-          })}
-          {renderRowColumn({
-            value: item[SEARCH_RESULTS_COLUMN.METHOD],
-            visibility: visibility[SEARCH_RESULTS_COLUMN.METHOD],
-          })}
-          {renderRowColumn({
-            value: item[SEARCH_RESULTS_COLUMN.METHODOLOGY],
-            visibility: visibility[SEARCH_RESULTS_COLUMN.METHODOLOGY],
-          })}
+          {_.values(SEARCH_RESULTS_COLUMN).map(key => (
+            renderRowColumn({
+              key,
+              value: item[key],
+              flex: flex[key],
+              visibility: visibility[key],
+              forceShow: key === SEARCH_RESULTS_COLUMN.TITLE,
+            })
+          ))}
         </TableRow>
       );
     });
@@ -324,7 +303,6 @@ class SearchResult extends Component {
               label: 'SE Method',
             })}
             {renderHeaderColumn({
-              key: SEARCH_RESULTS_COLUMN.METHODOLOGY,
               flex: flex[SEARCH_RESULTS_COLUMN.METHODOLOGY],
               label: 'SE Methodology',
             })}
