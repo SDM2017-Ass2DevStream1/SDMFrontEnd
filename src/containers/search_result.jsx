@@ -5,27 +5,29 @@ import { connect } from 'react-redux';
 import {
   Table, TableHeader, TableBody, TableRow, Checkbox,
 } from 'material-ui';
-import Visibility from 'material-ui/svg-icons/action/visibility';
-import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
+import {
+  ActionVisibility, ActionVisibilityOff,
+  NavigationArrowDropDown, NavigationArrowDropUp,
+} from 'material-ui/svg-icons';
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
 import { SEARCH_RESULTS_COLUMN } from '../constants';
-import { BORDER } from '../constants/styles';
+import { BORDER, muiTheme } from '../constants/styles';
 import {
   ModuleTitle, TableHeaderColumn, TableRowColumn,
 } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
-const flex = {
-  [SEARCH_RESULTS_COLUMN.TITLE]: 5,
-  [SEARCH_RESULTS_COLUMN.AUTHORS]: 2,
-  [SEARCH_RESULTS_COLUMN.RATING]: 1,
-  [SEARCH_RESULTS_COLUMN.YEAR]: 1,
-  [SEARCH_RESULTS_COLUMN.DESIGN]: 2,
-  [SEARCH_RESULTS_COLUMN.METHOD]: 2,
-  [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 2,
+const flexOptions = {
+  [SEARCH_RESULTS_COLUMN.TITLE]: 6,
+  [SEARCH_RESULTS_COLUMN.AUTHORS]: 3,
+  [SEARCH_RESULTS_COLUMN.YEAR]: 2,
+  [SEARCH_RESULTS_COLUMN.RATING]: 2,
+  [SEARCH_RESULTS_COLUMN.DESIGN]: 3,
+  [SEARCH_RESULTS_COLUMN.METHOD]: 3,
+  [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 3,
 };
 
 const styles = {
@@ -71,8 +73,8 @@ const styles = {
 
 const VisibilityCheckbox = props => (
   <Checkbox
-    checkedIcon={<Visibility />}
-    uncheckedIcon={<VisibilityOff />}
+    checkedIcon={<ActionVisibility />}
+    uncheckedIcon={<ActionVisibilityOff />}
     {...styles.checkbox}
     {...props}
   />
@@ -225,7 +227,7 @@ class SearchResult extends Component {
             TableRowColumn({
               key,
               value: item[key],
-              flex: flex[key],
+              flex: flexOptions[key],
               visibility: visibility[key],
               forceShow: key === SEARCH_RESULTS_COLUMN.TITLE,
               justifyContent: [
@@ -241,11 +243,37 @@ class SearchResult extends Component {
   renderSearchResults() {
     const { search: { visibility } } = this.props;
 
+    const Label = styled.div`
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    `;
+    const Operations = styled.div`
+      display: flex;
+      flex-direction: column;
+    `;
+    const StyledNavigationArrowDropUp = styled(NavigationArrowDropUp)`
+      color: ${muiTheme.palette.accent3Color} !important;
+      margin-bottom: -8px;
+    `;
+    const StyledNavigationArrowDropDown = styled(NavigationArrowDropDown)`
+      color: ${muiTheme.palette.accent3Color} !important;
+      margin-top: -8px;
+    `;
+
     const CustomizedHeaderColumn = ({ key, label, ...rest }) => {
       return TableHeaderColumn({
-        flex: flex[key],
+        flex: flexOptions[key],
         visibility: visibility[key],
-        label,
+        label: (
+          <Label>
+            {label}
+            <Operations>
+              <StyledNavigationArrowDropUp />
+              <StyledNavigationArrowDropDown />
+            </Operations>
+          </Label>
+        ),
         ...rest,
       });
     };
@@ -279,7 +307,7 @@ class SearchResult extends Component {
             })}
             {CustomizedHeaderColumn({
               key: SEARCH_RESULTS_COLUMN.DESIGN,
-              label: 'SE Method',
+              label: 'Research Design',
             })}
             {CustomizedHeaderColumn({
               key: SEARCH_RESULTS_COLUMN.METHOD,
