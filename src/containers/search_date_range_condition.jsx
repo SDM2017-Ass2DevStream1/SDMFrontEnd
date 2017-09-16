@@ -37,15 +37,28 @@ const formatDate = (date) => {
 
 const CustomizedDatePicker = (props) => {
   const Span = styled.span`
-    display: inline-block;
-    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
   `;
+
+  const styles = {
+    style: {
+      marginLeft: '10px',
+    },
+    textFieldStyle: {
+      width: '5em',
+      cursor: 'pointer',
+    },
+  };
 
   return (
     <Span>
+      {props.hintText}
       <DatePicker
         openToYearSelection
         formatDate={formatDate}
+        {...styles}
         {...props}
       />
     </Span>
