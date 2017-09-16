@@ -31,8 +31,6 @@ const renderMenuItems = items => items.map(item => (
   <MenuItem key={item.type} value={item.type} primaryText={item.name} />
 ));
 
-console.log(renderMenuItems(SEARCH_CONDITION_TYPES));
-
 class SearchConditions extends Component {
   constructor(props) {
     super(props);
@@ -53,40 +51,44 @@ class SearchConditions extends Component {
       display: flex;
       align-items: center;
     `;
-
     const Span = Container.withComponent('span');
+    const Label = styled.label`
+      margin-right: 10px;
+      font-weight: bold;
+    `;
+    const ConditionSelectField = props => (
+      <SelectField
+        autoWidth
+        style={styles.conditionOptions}
+        {...props}
+      >
+        {props.children}
+      </SelectField>
+    );
 
-    return others.map(other => (
-      <Container key={other.type}>
-        <SelectField value={1} style={styles.conditionOptions}>
-          {SEARCH_CONDITION_TYPES.map(item => (
-            <MenuItem key={item.type} value={item.type} primaryText={item.name} />
-          ))}
-        </SelectField>
+    // return others.map(other => (
+    return (
+      <Container>
+        <ConditionSelectField value={1}>
+          {renderMenuItems(SEARCH_CONDITION_TYPES)}
+        </ConditionSelectField>
         <Span>
-          If
-          <SelectField
-            value={1}
-            style={{
-              ...styles.conditionOptions,
-              marginLeft: '10px',
-            }}
-          >
-            {SEARCH_CONDITION_FIELDS.map(item => (
-              <MenuItem key={item.type} value={item.type} primaryText={item.name} />
-            ))}
-          </SelectField>
+          <Label>If</Label>
+          <ConditionSelectField value={1}>
+            {renderMenuItems(SEARCH_CONDITION_FIELDS)}
+          </ConditionSelectField>
         </Span>
-        <SelectField value={1} style={styles.conditionOptions}>
+        <ConditionSelectField value={1}>
           <MenuItem value={1} primaryText="AND" />
           <MenuItem value={2} primaryText="OR" />
-        </SelectField>
-        <SelectField value={1} style={styles.conditionOptions}>
+        </ConditionSelectField>
+        <ConditionSelectField value={1}>
           <MenuItem value={1} primaryText="AND" />
           <MenuItem value={2} primaryText="OR" />
-        </SelectField>
+        </ConditionSelectField>
       </Container>
-    ));
+    );
+    // ));
   }
 
   render() {
