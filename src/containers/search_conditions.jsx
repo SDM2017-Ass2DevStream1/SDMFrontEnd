@@ -8,6 +8,7 @@ import {
 import { ContentAdd } from 'material-ui/svg-icons';
 import styled from 'styled-components';
 
+import { CONDITION_TYPES } from '../constants';
 import * as searchActions from '../actions/search';
 
 
@@ -50,8 +51,9 @@ class SearchConditions extends Component {
     return others.map(other => (
       <Container key={other.type}>
         <SelectField value={1} style={styles.conditionOptions}>
-          <MenuItem value={1} primaryText="AND" />
-          <MenuItem value={2} primaryText="OR" />
+          {CONDITION_TYPES.map(item => (
+            <MenuItem value={item.type} primaryText={item.name} />
+          ))}
         </SelectField>
         <Span>
           If

@@ -2,7 +2,10 @@ import _ from 'lodash';
 import moment from 'moment';
 import { createReducer } from 'redux-action-tools';
 
-import { SEARCH_RESULTS_COLUMN } from '../constants';
+import {
+  SEARCH_RESULTS_COLUMN, CONDITION_TYPES,
+  SEARCH_CONDITION_FIELD, SEARCH_FIELD_OPERATOR_MAP,
+} from '../constants';
 import * as types from '../constants/action_types';
 
 
@@ -95,7 +98,9 @@ const reducer = createReducer()
   .when(types.ADD_CONDITION, (state) => {
     const newState = _.cloneDeep(state);
     newState.condition.others.push({
-      type: 'test type',
+      types: CONDITION_TYPES,
+      fileds: SEARCH_CONDITION_FIELD,
+      operators: SEARCH_FIELD_OPERATOR_MAP[SEARCH_CONDITION_FIELD[0]],
     });
     return newState;
   })
