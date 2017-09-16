@@ -121,6 +121,9 @@ class SearchResult extends Component {
     }
 
     this.props.actions.sortSearchResultsBy(sortBy);
+    this.props.actions.fetchArticles({
+      ...this.props.search.query,
+    });
   }
 
   renderVisibility() {

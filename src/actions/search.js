@@ -1,17 +1,16 @@
 import axios from 'axios';
+import { Base64 } from 'js-base64';
 import { createAsyncAction } from 'redux-action-tools';
 
 import * as types from '../constants/action_types';
 
-
 export const fetchArticles = createAsyncAction(
   types.FETCH_ARTICLES,
-
-  (query) => {
-    return axios.get('/api/search', {
-      query,
-    });
-  },
+  query => axios.get('/api/search', {
+    params: {
+      query: Base64.encode(JSON.stringify(query)),
+    },
+  }),
 );
 
 export const updateSearchQuery = query => ({
