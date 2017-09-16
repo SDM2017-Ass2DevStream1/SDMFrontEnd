@@ -4,7 +4,7 @@ import { createReducer } from 'redux-action-tools';
 
 import {
   SEARCH_RESULTS_COLUMN, CONDITION_TYPES,
-  SEARCH_CONDITION_FIELD, SEARCH_FIELD_OPERATOR_MAP,
+  SEARCH_CONDITION_FIELDS, SEARCH_FIELD_OPERATOR_MAP,
 } from '../constants';
 import * as types from '../constants/action_types';
 
@@ -99,8 +99,8 @@ const reducer = createReducer()
     const newState = _.cloneDeep(state);
     newState.condition.others.push({
       types: CONDITION_TYPES,
-      fileds: SEARCH_CONDITION_FIELD,
-      operators: SEARCH_FIELD_OPERATOR_MAP[SEARCH_CONDITION_FIELD[0]],
+      fileds: SEARCH_CONDITION_FIELDS,
+      operators: SEARCH_FIELD_OPERATOR_MAP[SEARCH_CONDITION_FIELDS[0]],
     });
     return newState;
   })

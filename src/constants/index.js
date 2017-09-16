@@ -64,13 +64,33 @@ export const SORT_BY_METHOD = {
   DESC: 'desc',
 };
 
-export const SEARCH_CONDITION_FIELD = {
+const convertToOptions = (optionMapping) => {
+  return _.values(optionMapping).map((name, i) => {
+    const type = i + 1;
+    return { type, name };
+  });
+};
+
+const SEARCH_CONDITION_TYPE = {
+  AND: 'AND',
+  OR: 'OR',
+};
+
+export const SEARCH_CONDITION_TYPES = convertToOptions(
+  SEARCH_CONDITION_TYPE,
+);
+
+const SEARCH_CONDITION_FIELD = {
   AUTHORS: 'Authors',
   RATING: 'Credibility Rating',
   DESIGN: 'Research Design',
   METHOD: 'SE Method',
   METHODOLOGY: 'SE Methodology',
 };
+
+export const SEARCH_CONDITION_FIELDS = convertToOptions(
+  SEARCH_CONDITION_FIELD,
+);
 
 const SEARCH_CONDITION_OPRATOR = {
   CONTAINS: 'contains',
@@ -81,18 +101,6 @@ const SEARCH_CONDITION_OPRATOR = {
   IS_LESS_THAN_OR_EQUAL_TO: 'is less than or equal to', // if numeric
   IS_MORE_THAN_OR_EQUAL_TO: 'is more than or equal to', // if numeric
 };
-
-const convertToOptions = (optionMapping) => {
-  return _.values(optionMapping).map((name, i) => {
-    const type = i + 1;
-    return { type, name };
-  });
-};
-
-export const CONDITION_TYPES = [
-  { type: 1, name: 'AND' },
-  { type: 2, name: 'OR' },
-];
 
 export const SEARCH_FIELD_OPERATOR_MAP = {
   [SEARCH_CONDITION_FIELD.AUTHORS]: {
