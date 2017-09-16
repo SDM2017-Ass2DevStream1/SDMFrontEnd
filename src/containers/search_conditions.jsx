@@ -2,8 +2,11 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { RaisedButton } from 'material-ui';
-import AddIcon from 'material-ui/svg-icons/content/add';
+import {
+  RaisedButton, SelectField, MenuItem,
+} from 'material-ui';
+import { ContentAdd } from 'material-ui/svg-icons';
+import styled from 'styled-components';
 
 import * as searchActions from '../actions/search';
 
@@ -13,6 +16,11 @@ const styles = {
     marginLeft: '6px',
     marginTop: '-3px',
     marginRight: '-5px',
+  },
+  conditionOptions: {
+    width: 'auto',
+    fontSize: '14px',
+    marginRight: '20px',
   },
 };
 
@@ -32,8 +40,41 @@ class SearchConditions extends Component {
   }
 
   renderConditions(others) {
+    const Container = styled.li`
+      display: flex;
+      align-items: center;
+    `;
+
+    const Span = Container.withComponent('span');
+
     return others.map(other => (
-      <li key={other.type}>{other.type}</li>
+      <Container key={other.type}>
+        <SelectField value={1} style={styles.conditionOptions}>
+          <MenuItem value={1} primaryText="AND" />
+          <MenuItem value={2} primaryText="OR" />
+        </SelectField>
+        <Span>
+          If
+          <SelectField
+            value={1}
+            style={{
+              ...styles.conditionOptions,
+              marginLeft: '10px',
+            }}
+          >
+            <MenuItem value={1} primaryText="AND" />
+            <MenuItem value={2} primaryText="OR" />
+          </SelectField>
+        </Span>
+        <SelectField value={1} style={styles.conditionOptions}>
+          <MenuItem value={1} primaryText="AND" />
+          <MenuItem value={2} primaryText="OR" />
+        </SelectField>
+        <SelectField value={1} style={styles.conditionOptions}>
+          <MenuItem value={1} primaryText="AND" />
+          <MenuItem value={2} primaryText="OR" />
+        </SelectField>
+      </Container>
     ));
   }
 
@@ -44,7 +85,7 @@ class SearchConditions extends Component {
       return (
         <RaisedButton
           label="Add More Conditions"
-          icon={<AddIcon style={styles.buttonIcon} />}
+          icon={<ContentAdd style={styles.buttonIcon} />}
           onClick={this.onAddCondition}
         />
       );

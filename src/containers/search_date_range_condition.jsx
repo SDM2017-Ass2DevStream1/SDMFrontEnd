@@ -48,6 +48,7 @@ const CustomizedDatePicker = (props) => {
     },
     textFieldStyle: {
       width: '5em',
+      fontSize: '14px',
       cursor: 'pointer',
     },
   };
