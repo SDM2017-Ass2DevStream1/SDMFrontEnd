@@ -9,7 +9,8 @@ import { ContentAdd } from 'material-ui/svg-icons';
 import styled from 'styled-components';
 
 import {
-  SEARCH_CONDITION_TYPES, SEARCH_CONDITION_FIELDS, SEARCH_FIELD_OPERATOR_MAP,
+  SEARCH_CONDITION_TYPES, SEARCH_CONDITION_FIELDS,
+  SEARCH_FIELD_OPERATORS, SEARCH_CONDITION_FIELD_TYPE,
 } from '../constants';
 import * as searchActions from '../actions/search';
 
@@ -54,6 +55,7 @@ class SearchConditions extends Component {
     const Span = Container.withComponent('span');
     const Label = styled.label`
       margin-right: 10px;
+      font-size: 16px;
       font-weight: bold;
     `;
     const ConditionSelectField = props => (
@@ -79,12 +81,14 @@ class SearchConditions extends Component {
           </ConditionSelectField>
         </Span>
         <ConditionSelectField value={1}>
-          <MenuItem value={1} primaryText="AND" />
-          <MenuItem value={2} primaryText="OR" />
+          {renderMenuItems(
+            SEARCH_FIELD_OPERATORS[SEARCH_CONDITION_FIELD_TYPE.RATING].operators,
+          )}
         </ConditionSelectField>
         <ConditionSelectField value={1}>
-          <MenuItem value={1} primaryText="AND" />
-          <MenuItem value={2} primaryText="OR" />
+          {renderMenuItems(
+            SEARCH_FIELD_OPERATORS[SEARCH_CONDITION_FIELD_TYPE.RATING].options,
+          )}
         </ConditionSelectField>
       </Container>
     );
