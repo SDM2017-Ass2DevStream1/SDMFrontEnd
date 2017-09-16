@@ -4,8 +4,8 @@ import { createAsyncAction } from 'redux-action-tools';
 import * as types from '../constants/action_types';
 
 
-export const searchArticles = createAsyncAction(
-  types.SEARCH_ARTICLES,
+export const fetchArticles = createAsyncAction(
+  types.FETCH_ARTICLES,
 
   (query) => {
     return axios.get('/api/search', {

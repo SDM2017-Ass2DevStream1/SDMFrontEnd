@@ -10,9 +10,9 @@ describe('search reducer', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
 
-  it('should handle SEARCH_ARTICLES', () => {
+  it('should handle FETCH_ARTICLES', () => {
     expect(reducer(initialState, {
-      type: types.SEARCH_ARTICLES,
+      type: types.FETCH_ARTICLES,
       payload: {
         term: 'search term',
       },

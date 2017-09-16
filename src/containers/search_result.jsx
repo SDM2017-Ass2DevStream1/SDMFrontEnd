@@ -95,7 +95,7 @@ class SearchResult extends Component {
   }
 
   onPaginationChange(page) {
-    this.props.actions.searchArticles({
+    this.props.actions.fetchArticles({
       ...this.props.query,
       page,
     });

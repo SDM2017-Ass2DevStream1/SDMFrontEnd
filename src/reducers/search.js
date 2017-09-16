@@ -38,7 +38,7 @@ const updateQuery = (state, { payload }) => {
 };
 
 const reducer = createReducer()
-  .when(types.SEARCH_ARTICLES, updateQuery)
+  .when(types.FETCH_ARTICLES, updateQuery)
   .done((state, { payload: { data } }) => ({
     ...state,
     ...data,
