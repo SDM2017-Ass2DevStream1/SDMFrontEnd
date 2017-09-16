@@ -81,17 +81,16 @@ const reducer = createReducer()
     },
   }))
 
-  .when(types.SORT_SEARCH_RESULTS_BY, (state, { payload }) => {
-    const newState = _.cloneDeep(state);
-    return _.merge(newState, {
+  .when(types.SORT_SEARCH_RESULTS_BY, (state, { payload }) => (
+    _.merge({}, state, {
       query: {
         page: initialState.query.page,
         sortBy: {
           ...payload,
         },
       },
-    });
-  })
+    })
+  ))
 
   .when(types.ADD_CONDITION, (state) => {
     const newState = _.cloneDeep(state);
