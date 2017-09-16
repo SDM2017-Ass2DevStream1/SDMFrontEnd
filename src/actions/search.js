@@ -1,17 +1,16 @@
 import axios from 'axios';
+import { Base64 } from 'js-base64';
 import { createAsyncAction } from 'redux-action-tools';
 
 import * as types from '../constants/action_types';
 
-
-export const searchArticles = createAsyncAction(
-  types.SEARCH_ARTICLES,
-
-  (query) => {
-    return axios.get('/api/search', {
-      query,
-    });
-  },
+export const fetchArticles = createAsyncAction(
+  types.FETCH_ARTICLES,
+  query => axios.get('/api/search', {
+    params: {
+      query: Base64.encode(JSON.stringify(query)),
+    },
+  }),
 );
 
 export const updateSearchQuery = query => ({
@@ -41,9 +40,9 @@ export const resetDateRange = () => ({
   type: types.RESET_DATE_RANGE,
 });
 
-export const sortSearchResultsBy = payload => ({
+export const sortSearchResultsBy = sortBy => ({
   type: types.SORT_SEARCH_RESULTS_BY,
-  payload,
+  payload: sortBy,
 });
 
 export const addCondition = () => ({

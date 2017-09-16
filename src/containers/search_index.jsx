@@ -58,7 +58,7 @@ class SearchIndex extends Component {
 
   onSearchFormSubmit(e) {
     e.preventDefault();
-    this.props.actions.searchArticles({
+    this.props.actions.fetchArticles({
       ...this.props.query,
       term: this.searchInput.input.value,
     });

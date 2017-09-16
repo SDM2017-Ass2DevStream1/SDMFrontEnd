@@ -3,31 +3,31 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  Table, TableHeader, TableBody, TableRow, Checkbox, SelectField, MenuItem,
+  Table, TableHeader, TableBody, TableRow, Checkbox,
 } from 'material-ui';
-import Visibility from 'material-ui/svg-icons/action/visibility';
-import VisibilityOff from 'material-ui/svg-icons/action/visibility-off';
+import {
+  ActionVisibility, ActionVisibilityOff,
+  NavigationArrowDropDown, NavigationArrowDropUp,
+} from 'material-ui/svg-icons';
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
+import { SEARCH_RESULTS_COLUMN, SORT_BY_METHOD } from '../constants';
+import { BORDER, muiTheme } from '../constants/styles';
 import {
-  SEARCH_RESULTS_COLUMN, SEARCH_SORT_BY,
-} from '../constants';
-import { BORDER } from '../constants/styles';
-import {
-  ModuleTitle, renderHeaderColumn, renderRowColumn,
+  ModuleTitle, TableHeaderColumn, TableRowColumn,
 } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
-const flex = {
-  [SEARCH_RESULTS_COLUMN.TITLE]: 5,
-  [SEARCH_RESULTS_COLUMN.AUTHORS]: 2,
-  [SEARCH_RESULTS_COLUMN.RATING]: 1,
-  [SEARCH_RESULTS_COLUMN.YEAR]: 1,
-  [SEARCH_RESULTS_COLUMN.DESIGN]: 2,
-  [SEARCH_RESULTS_COLUMN.METHOD]: 2,
-  [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 2,
+const flexOptions = {
+  [SEARCH_RESULTS_COLUMN.TITLE]: 6,
+  [SEARCH_RESULTS_COLUMN.AUTHORS]: 3,
+  [SEARCH_RESULTS_COLUMN.YEAR]: 2,
+  [SEARCH_RESULTS_COLUMN.RATING]: 2,
+  [SEARCH_RESULTS_COLUMN.DESIGN]: 3,
+  [SEARCH_RESULTS_COLUMN.METHOD]: 3,
+  [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 3,
 };
 
 const styles = {
@@ -73,8 +73,8 @@ const styles = {
 
 const VisibilityCheckbox = props => (
   <Checkbox
-    checkedIcon={<Visibility />}
-    uncheckedIcon={<VisibilityOff />}
+    checkedIcon={<ActionVisibility />}
+    uncheckedIcon={<ActionVisibilityOff />}
     {...styles.checkbox}
     {...props}
   />
@@ -95,7 +95,7 @@ class SearchResult extends Component {
   }
 
   onPaginationChange(page) {
-    this.props.actions.searchArticles({
+    this.props.actions.fetchArticles({
       ...this.props.query,
       page,
     });
@@ -105,11 +105,24 @@ class SearchResult extends Component {
     this.props.actions.changeColumnVisibility(column, checked);
   }
 
-  onChangeSortBy(sortBy) {
+  onChangeSortBy(key) {
+    const { search: { query: { sortBy } } } = this.props;
+
+    if (sortBy.key === key) {
+      if (sortBy.order === SORT_BY_METHOD.ASC) {
+        sortBy.order = SORT_BY_METHOD.DESC;
+      } else {
+        delete sortBy.key;
+        delete sortBy.order;
+      }
+    } else {
+      sortBy.key = key;
+      sortBy.order = SORT_BY_METHOD.ASC;
+    }
+
     this.props.actions.sortSearchResultsBy(sortBy);
-    this.props.actions.searchArticles({
+    this.props.actions.fetchArticles({
       ...this.props.search.query,
-      sortBy,
     });
   }
 
@@ -169,53 +182,6 @@ class SearchResult extends Component {
     );
   }
 
-  renderSortBy() {
-    const { search: { query } } = this.props;
-
-    const Container = styled.div`
-      display: flex;
-      align-items: center;
-    `;
-
-    const options = [
-      {
-        value: SEARCH_SORT_BY.RELEVANCE,
-        primaryText: 'Relevance',
-      },
-      {
-        value: SEARCH_SORT_BY.DATE_NEWEST,
-        primaryText: 'Date: Newest',
-      },
-      {
-        value: SEARCH_SORT_BY.DATE_OLDEST,
-        primaryText: 'Date: Oldest',
-      },
-      {
-        value: SEARCH_SORT_BY.RATING_HIGHEST,
-        primaryText: 'Rating: Highest',
-      },
-    ];
-
-    return (
-      <Container>
-        <Label>Sort by: </Label>
-        <SelectField
-          value={query.sortBy}
-          onChange={(e, index, value) => { this.onChangeSortBy(value); }}
-          style={styles.sortBy}
-        >
-          {options.map(props => (
-            <MenuItem
-              key={`sortby-select-${props.value}`}
-              style={styles.sortBy}
-              {...props}
-            />
-          ))}
-        </SelectField>
-      </Container>
-    );
-  }
-
   renderSettings() {
     const Container = styled.div`
       padding-bottom: 20px;
@@ -232,7 +198,6 @@ class SearchResult extends Component {
         <ModuleTitle>Search Results</ModuleTitle>
         <Content>
           {this.renderVisibility()}
-          {this.renderSortBy()}
         </Content>
       </Container>
     );
@@ -245,12 +210,15 @@ class SearchResult extends Component {
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
           {_.values(SEARCH_RESULTS_COLUMN).map(key => (
-            renderRowColumn({
+            TableRowColumn({
               key,
               value: item[key],
-              flex: flex[key],
+              flex: flexOptions[key],
               visibility: visibility[key],
               forceShow: key === SEARCH_RESULTS_COLUMN.TITLE,
+              justifyContent: [
+                SEARCH_RESULTS_COLUMN.YEAR, SEARCH_RESULTS_COLUMN.RATING,
+              ].includes(key) && 'center',
             })
           ))}
         </TableRow>
@@ -259,7 +227,59 @@ class SearchResult extends Component {
   }
 
   renderSearchResults() {
-    const { search: { visibility } } = this.props;
+    const { search: { visibility, query: { sortBy } } } = this.props;
+    const { palette } = muiTheme;
+
+    const Label = styled.div`
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: ${props => props.highlight && palette.accent1Color || palette.accent3Color}
+    `;
+    const Operations = styled.div`
+      display: flex;
+      flex-direction: column;
+    `;
+    const ArrowDropUp = styled(NavigationArrowDropUp)`
+      color: ${palette.accent3Color} !important;
+      margin-bottom: -8px;
+    `;
+    const HighlightArrowDropUp = ArrowDropUp.extend`
+      color: ${palette.accent1Color} !important;
+    `;
+    const ArrowDropDown = styled(NavigationArrowDropDown)`
+      color: ${palette.accent3Color} !important;
+      margin-top: -8px;
+    `;
+    const HighlightArrowDropDown = ArrowDropDown.extend`
+      color: ${palette.accent1Color} !important;
+    `;
+
+    const CustomizedHeaderColumn = ({ key, label, ...rest }) => {
+      const shouldHighlight = sortBy.key === key;
+
+      return TableHeaderColumn({
+        flex: flexOptions[key],
+        visibility: visibility[key],
+        label: (
+          <Label
+            onClick={() => this.onChangeSortBy(key)}
+            highlight={shouldHighlight}
+          >
+            {label}
+            <Operations>
+              {shouldHighlight && sortBy.order === SORT_BY_METHOD.ASC ?
+                <HighlightArrowDropUp /> : <ArrowDropUp />
+              }
+              {shouldHighlight && sortBy.order === SORT_BY_METHOD.DESC ?
+                <HighlightArrowDropDown /> : <ArrowDropDown />
+              }
+            </Operations>
+          </Label>
+        ),
+        ...rest,
+      });
+    };
 
     return (
       <Table selectable={false} style={styles.table}>
@@ -269,41 +289,35 @@ class SearchResult extends Component {
               ...styles.headerRow,
             }}
           >
-            {renderHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.TITLE],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.TITLE],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.TITLE,
               label: 'Title',
               forceShow: true,
             })}
-            {renderHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.AUTHORS],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.AUTHORS],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.AUTHORS,
               label: 'Authors',
             })}
-            {renderHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.YEAR],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.YEAR],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.YEAR,
               label: 'Publish Year',
               justifyContent: 'center',
             })}
-            {renderHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.RATING],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.RATING],
-              label: 'Credibility Rating (0 to 5)',
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.RATING,
+              label: 'Credibility Rating (0-5)',
               justifyContent: 'center',
             })}
-            {renderHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.DESIGN],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.DESIGN],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.DESIGN,
+              label: 'Research Design',
+            })}
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.METHOD,
               label: 'SE Method',
             })}
-            {renderHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.METHOD],
-              visibility: visibility[SEARCH_RESULTS_COLUMN.METHOD],
-              label: 'SE Method',
-            })}
-            {renderHeaderColumn({
-              flex: flex[SEARCH_RESULTS_COLUMN.METHODOLOGY],
+            {CustomizedHeaderColumn({
+              key: SEARCH_RESULTS_COLUMN.METHODOLOGY,
               label: 'SE Methodology',
             })}
           </TableRow>

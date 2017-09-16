@@ -1,4 +1,7 @@
+import _ from 'lodash';
+
 import reducer, { initialState } from './search';
+import { SEARCH_RESULTS_COLUMN, SORT_BY_METHOD } from '../constants';
 import * as types from '../constants/action_types';
 
 
@@ -7,21 +10,36 @@ describe('search reducer', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
 
-  it('should update query whenever there is a search', () => {
-    expect(reducer({
-      query: {
-        page: 1,
-      },
-    }, {
-      type: types.SEARCH_ARTICLES,
+  it('should handle FETCH_ARTICLES', () => {
+    expect(reducer(initialState, {
+      type: types.FETCH_ARTICLES,
       payload: {
         term: 'search term',
       },
-    })).toEqual({
+    })).toEqual(_.merge({}, initialState, {
       query: {
-        page: 1,
         term: 'search term',
       },
-    });
+    }));
+  });
+
+  it('should handle SORT_SEARCH_RESULTS_BY', () => {
+    const sortBy = {
+      key: SEARCH_RESULTS_COLUMN.TITLE,
+      order: SORT_BY_METHOD.DESC,
+    };
+
+    expect(reducer(_.merge({}, initialState, {
+      query: {
+        page: 10,
+      },
+    }), {
+      type: types.SORT_SEARCH_RESULTS_BY,
+      payload: {
+        ...sortBy,
+      },
+    })).toEqual(_.merge({}, initialState, {
+      query: { sortBy },
+    }));
   });
 });

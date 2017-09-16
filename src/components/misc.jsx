@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import React from 'react';
 import {
-  Paper as MuiPaper, TableHeaderColumn, TableRowColumn,
+  Paper as MuiPaper,
+  TableHeaderColumn as MuiTableHeaderColumn,
+  TableRowColumn as MuiTableRowColumn,
 } from 'material-ui';
 import styled from 'styled-components';
 
@@ -33,14 +35,14 @@ const columnStyles = {
   display: 'flex',
   alignItems: 'center',
   lineHeight: 1.5,
-  padding: '10px 0',
+  padding: '10px',
   height: 'auto',
   minHeight: '48px',
   whiteSpace: 'normal',
   wordWrap: 'break-word',
 };
 
-export const renderHeaderColumn = (options) => {
+export const TableHeaderColumn = (options) => {
   const opts = _.merge({
     visibility: true,
     flex: 1,
@@ -52,20 +54,19 @@ export const renderHeaderColumn = (options) => {
   const { label, forceShow, justifyContent } = opts;
 
   return (
-    (forceShow || opts.visibility) && <TableHeaderColumn
+    (forceShow || opts.visibility) && <MuiTableHeaderColumn
       style={{
         ...columnStyles,
         justifyContent,
         flex: opts.flex,
       }}
-      title={label}
     >
       {label}
-    </TableHeaderColumn>
+    </MuiTableHeaderColumn>
   );
 };
 
-export const renderRowColumn = (options) => {
+export const TableRowColumn = (options) => {
   const opts = {
     ...{
       key: '',
@@ -88,7 +89,7 @@ export const renderRowColumn = (options) => {
   }
 
   return (
-    (forceShow || visibility) && <TableRowColumn
+    (forceShow || visibility) && <MuiTableRowColumn
       {...props}
       style={{
         ...columnStyles,
@@ -97,6 +98,6 @@ export const renderRowColumn = (options) => {
       }}
     >
       {value}
-    </TableRowColumn>
+    </MuiTableRowColumn>
   );
 };

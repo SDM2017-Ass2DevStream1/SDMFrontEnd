@@ -11,7 +11,7 @@ export const initialState = {
     term: '',
     limit: 15,
     page: 1,
-    sortBy: 'relevance',
+    sortBy: {},
   },
   condition: {
     date: {
@@ -38,7 +38,7 @@ const updateQuery = (state, { payload }) => {
 };
 
 const reducer = createReducer()
-  .when(types.SEARCH_ARTICLES, updateQuery)
+  .when(types.FETCH_ARTICLES, updateQuery)
   .done((state, { payload: { data } }) => ({
     ...state,
     ...data,
@@ -81,14 +81,17 @@ const reducer = createReducer()
     },
   }))
 
-  .when(types.SORT_SEARCH_RESULTS_BY, (state, { payload }) => ({
-    ...state,
-    query: {
-      ...state.query,
-      page: initialState.query.page,
-      sortBy: payload,
-    },
-  }))
+  .when(types.SORT_SEARCH_RESULTS_BY, (state, { payload }) => {
+    const newState = _.cloneDeep(state);
+    return _.merge(newState, {
+      query: {
+        page: initialState.query.page,
+        sortBy: {
+          ...payload,
+        },
+      },
+    });
+  })
 
   .when(types.ADD_CONDITION, (state) => {
     const newState = _.cloneDeep(state);

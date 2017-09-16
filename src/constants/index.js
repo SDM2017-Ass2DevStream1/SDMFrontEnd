@@ -56,11 +56,9 @@ export const SEARCH_RESULTS_COLUMN = {
   METHODOLOGY: 'methodology',
 };
 
-export const SEARCH_SORT_BY = {
-  RELEVANCE: 'relevance',
-  DATE_NEWEST: 'date_newest',
-  DATE_OLDEST: 'date_oldest',
-  RATING_HIGHEST: 'rating_highest',
+export const SORT_BY_METHOD = {
+  ASC: 'asc',
+  DESC: 'desc',
 };
 
 export const SEARCH_CONDITION_FIELD = {
