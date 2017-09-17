@@ -126,6 +126,12 @@ const reducer = createReducer()
     return newState;
   })
 
+  .when(types.REMOVE_CONDITION, (state) => {
+    const newState = _.cloneDeep(state);
+    newState.condition.others.pop();
+    return newState;
+  })
+
   .build(initialState);
 
 export default reducer;

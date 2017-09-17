@@ -42,4 +42,40 @@ describe('search reducer', () => {
       query: { sortBy },
     }));
   });
+
+  it('should handle ADD_CONDITION', () => {
+    expect(initialState.condition.others.length).toEqual(0);
+
+    const addedState = reducer(initialState, {
+      type: types.ADD_CONDITION,
+    });
+
+    expect(addedState.condition.others[0]).toEqual(
+      expect.objectContaining({
+        types: expect.any(Array),
+        fileds: expect.any(Array),
+        operators: expect.any(Array),
+        options: expect.any(Array),
+        select: {},
+      }),
+    );
+
+    const addedState2 = reducer(addedState, {
+      type: types.ADD_CONDITION,
+    });
+
+    expect(addedState2.condition.others.length).toEqual(2);
+  });
+
+  it('should handle REMOVE_CONDITION', () => {
+    const addedState = reducer(initialState, {
+      type: types.ADD_CONDITION,
+    });
+
+    expect(
+      reducer(addedState, {
+        type: types.REMOVE_CONDITION,
+      }).condition.others.length,
+    ).toEqual(0);
+  });
 });
