@@ -103,6 +103,12 @@ const reducer = createReducer()
   ))
 
   .when(types.SELECT_CONDITION, (state, { payload }) => {
+    const { type, value, index } = payload;
+    const newState = _.cloneDeep(state);
+    newState.condition.others[index].select = {
+      [type]: value,
+    };
+    return newState;
   })
 
   .when(types.ADD_CONDITION, (state) => {

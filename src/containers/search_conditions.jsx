@@ -36,8 +36,8 @@ class SearchConditions extends Component {
     this.onRemoveCondition = this.onRemoveCondition.bind(this);
   }
 
-  onSelect(type, value) {
-    this.props.actions.selectCondition(type, value);
+  onSelect(type, value, index) {
+    this.props.actions.selectCondition(type, value, index);
   }
 
   onAddCondition() {
@@ -67,7 +67,7 @@ class SearchConditions extends Component {
           autoWidth
           style={styles.conditionOptions}
           onChange={(e, index, value) => {
-            this.onSelect(type, i, value);
+            this.onSelect(type, value, i);
           }}
         >
           {renderMenuItems(item[`${type}s`])}
