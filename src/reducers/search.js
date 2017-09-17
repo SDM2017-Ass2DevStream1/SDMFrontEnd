@@ -16,6 +16,8 @@ export const initialState = {
     limit: 15,
     page: 1,
     sortBy: {}, // { type, order }
+    date: {}, // { from, to }
+    conditions: [], // [{ type, field, operator, option }]
   },
   condition: {
     date: {
@@ -78,9 +80,11 @@ const reducer = createReducer()
   }))
 
   .when(types.REMOVE_DATE_RANGE, (state) => {
-    const newState = _.cloneDeep(state);
-    delete newState.query.date;
-    return newState;
+    return _.cloneDeep({}, state, {
+      query: {
+        date: initialState.query.data,
+      },
+    });
   })
 
   .when(types.RESET_DATE_RANGE, state => ({
@@ -106,9 +110,9 @@ const reducer = createReducer()
     const { type, value, index } = payload;
     const newState = _.cloneDeep(state);
 
-    newState.condition.others[index].select = {
+    _.assign(newState.query.conditions[index], {
       [type]: value,
-    };
+    });
 
     return newState;
   })
@@ -119,12 +123,20 @@ const reducer = createReducer()
       SEARCH_CONDITION_FIELD_TYPE.RATING
     ];
 
+    // FIXME
     newState.condition.others.push({
       types: SEARCH_CONDITION_TYPES,
       fields: SEARCH_CONDITION_FIELDS,
       operators,
       options,
-      select: {},
+    });
+
+    // FIXME: options should be an integer or empty string
+    newState.query.conditions.push({
+      type: 1,
+      field: 1,
+      operator: 1,
+      option: 1,
     });
 
     return newState;

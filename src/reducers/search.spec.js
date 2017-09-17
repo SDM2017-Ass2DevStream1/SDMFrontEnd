@@ -56,7 +56,15 @@ describe('search reducer', () => {
         fields: expect.any(Array),
         operators: expect.any(Array),
         options: expect.any(Array),
-        select: {},
+      }),
+    );
+
+    expect(addedState.query.conditions[0]).toEqual(
+      expect.objectContaining({
+        type: 1,
+        field: 1,
+        operator: 1,
+        option: expect.anything(),
       }),
     );
 

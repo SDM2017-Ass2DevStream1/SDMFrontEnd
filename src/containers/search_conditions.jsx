@@ -24,6 +24,9 @@ const styles = {
     fontSize: '14px',
     marginRight: '20px',
   },
+  typeCondition: {
+    width: '85px',
+  },
   fieldCondition: {
     width: '165px',
   },
@@ -71,7 +74,12 @@ class SearchConditions extends Component {
     this.props.actions.removeCondition(index);
   }
 
-  renderConditions(others) {
+  renderConditions() {
+    const { search: {
+      query: { conditions },
+      condition: { others },
+    } } = this.props;
+
     const Container = styled.li`
       display: flex;
       align-items: center;
@@ -83,32 +91,37 @@ class SearchConditions extends Component {
       font-weight: bold;
     `;
 
-    const renderSelectField = (item, i, type) => (
-      <SelectField
-        value={item.select[type] || 1}
-        autoWidth
-        style={{
-          ...styles.conditionOptions,
-          ...styles[`${type}Condition`],
-        }}
-        onChange={(e, index, value) => {
-          this.onSelect(type, value, i);
-        }}
-      >
-        {renderMenuItems(item[`${type}s`])}
-      </SelectField>
-    );
+    const renderSelectField = (index, type) => {
+      const condition = conditions[index];
+      const other = others[index];
 
-    return others.map((item, i) => {
       return (
-        <Container key={i}>
-          {renderSelectField(item, i, 'type')}
+        <SelectField
+          value={condition[type] || 1}
+          autoWidth
+          style={{
+            ...styles.conditionOptions,
+            ...styles[`${type}Condition`],
+          }}
+          onChange={(e, i, value) => {
+            this.onSelect(type, value, index);
+          }}
+        >
+          {renderMenuItems(other[`${type}s`])}
+        </SelectField>
+      );
+    };
+
+    return others.map((item, index) => {
+      return (
+        <Container key={index}>
+          {renderSelectField(index, 'type')}
           <Span>
             <Label>If</Label>
-            {renderSelectField(item, i, 'field')}
+            {renderSelectField(index, 'field')}
           </Span>
-          {renderSelectField(item, i, 'operator')}
-          {renderSelectField(item, i, 'option')}
+          {renderSelectField(index, 'operator')}
+          {renderSelectField(index, 'option')}
           <AddOrRemove
             tooltip="add a new condition"
             onClick={this.onAddCondition}
@@ -117,7 +130,7 @@ class SearchConditions extends Component {
           </AddOrRemove>
           <AddOrRemove
             tooltip="remove this condition"
-            onClick={() => this.onRemoveCondition(i)}
+            onClick={() => this.onRemoveCondition(index)}
           >
             <ContentRemoveCircle />
           </AddOrRemove>
@@ -127,9 +140,7 @@ class SearchConditions extends Component {
   }
 
   render() {
-    const { search: { condition: { others } } } = this.props;
-
-    if (_.isEmpty(others)) {
+    if (_.isEmpty(this.props.search.condition.others)) {
       return (
         <RaisedButton
           label="Add More Conditions"
@@ -141,7 +152,7 @@ class SearchConditions extends Component {
 
     return (
       <ul>
-        {this.renderConditions(others)}
+        {this.renderConditions()}
       </ul>
     );
   }
