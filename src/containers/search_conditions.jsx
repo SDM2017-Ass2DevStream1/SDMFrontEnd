@@ -22,6 +22,12 @@ const styles = {
     fontSize: '14px',
     marginRight: '20px',
   },
+  fieldCondition: {
+    width: '165px',
+  },
+  operatorCondition: {
+    width: '205px',
+  },
 };
 
 const renderMenuItems = items => items.map(item => (
@@ -65,7 +71,10 @@ class SearchConditions extends Component {
         <SelectField
           value={item.select[type] || 1}
           autoWidth
-          style={styles.conditionOptions}
+          style={{
+            ...styles.conditionOptions,
+            ...styles[`${type}Condition`],
+          }}
           onChange={(e, index, value) => {
             this.onSelect(type, value, i);
           }}
@@ -81,7 +90,7 @@ class SearchConditions extends Component {
           {renderSelectField(item, i, 'type')}
           <Span>
             <Label>If</Label>
-            {renderSelectField(item, i, 'filed')}
+            {renderSelectField(item, i, 'field')}
           </Span>
           {renderSelectField(item, i, 'operator')}
           {renderSelectField(item, i, 'option')}

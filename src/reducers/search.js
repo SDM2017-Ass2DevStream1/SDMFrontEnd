@@ -25,8 +25,8 @@ export const initialState = {
 
     // the format of an item in others:
     // {
-    //   types, fileds, operators, options,
-    //   select: { type, filed, operator, option },
+    //   types, fields, operators, options,
+    //   select: { type, field, operator, option },
     // }
     others: [],
   },
@@ -118,7 +118,7 @@ const reducer = createReducer()
     ];
     newState.condition.others.push({
       types: SEARCH_CONDITION_TYPES,
-      fileds: SEARCH_CONDITION_FIELDS,
+      fields: SEARCH_CONDITION_FIELDS,
       operators,
       options,
       select: {},
