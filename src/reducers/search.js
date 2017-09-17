@@ -123,7 +123,6 @@ const reducer = createReducer()
       SEARCH_CONDITION_FIELD_TYPE.AUTHORS
     ];
 
-    // FIXME
     newState.condition.others.push({
       types: SEARCH_CONDITION_TYPES,
       fields: SEARCH_CONDITION_FIELDS,
@@ -131,12 +130,11 @@ const reducer = createReducer()
       options,
     });
 
-    // FIXME: options should be an integer or empty string
     newState.query.conditions.push({
       type: 1,
       field: 1,
       operator: 1,
-      option: 1,
+      option: options ? 1 : '',
     });
 
     return newState;

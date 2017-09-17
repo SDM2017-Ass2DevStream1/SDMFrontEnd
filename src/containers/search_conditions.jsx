@@ -98,7 +98,7 @@ class SearchConditions extends Component {
       const condition = conditions[index];
       const other = others[index];
 
-      if (type === 'option' && _.isEmpty(other.options)) {
+      if (type === 'option' && !other.options) {
         return (
           <TextField
             name="option"
