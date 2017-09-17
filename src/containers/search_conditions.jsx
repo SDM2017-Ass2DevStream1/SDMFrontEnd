@@ -123,17 +123,19 @@ class SearchConditions extends Component {
           {renderSelectField(index, 'operator')}
           {renderSelectField(index, 'option')}
           <AddOrRemove
-            tooltip="add a new condition"
-            onClick={this.onAddCondition}
-          >
-            <ContentAddCircle />
-          </AddOrRemove>
-          <AddOrRemove
             tooltip="remove this condition"
             onClick={() => this.onRemoveCondition(index)}
           >
             <ContentRemoveCircle />
           </AddOrRemove>
+          {others.length === index + 1 &&
+            <AddOrRemove
+              tooltip="add a new condition"
+              onClick={this.onAddCondition}
+            >
+              <ContentAddCircle />
+            </AddOrRemove>
+          }
         </Container>
       );
     });
