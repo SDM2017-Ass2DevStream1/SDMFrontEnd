@@ -55,7 +55,6 @@ describe('search reducer', () => {
         types: expect.any(Array),
         fields: expect.any(Array),
         operators: expect.any(Array),
-        options: expect.any(Array),
       }),
     );
 
