@@ -3,8 +3,9 @@ import moment from 'moment';
 import { createReducer } from 'redux-action-tools';
 
 import {
-  SEARCH_RESULTS_COLUMN, CONDITION_TYPES,
+  SEARCH_RESULTS_COLUMN, SEARCH_CONDITION_TYPES,
   SEARCH_CONDITION_FIELDS, SEARCH_FIELD_OPERATORS,
+  SEARCH_CONDITION_FIELD_TYPE,
 } from '../constants';
 import * as types from '../constants/action_types';
 
@@ -14,13 +15,19 @@ export const initialState = {
     term: '',
     limit: 15,
     page: 1,
-    sortBy: {},
+    sortBy: {}, // { type, order }
   },
   condition: {
     date: {
       from: moment('1950-01-01', 'YYYY-MM-DD').toDate(),
       to: moment().toDate(),
     },
+
+    // the format of an item in others:
+    // {
+    //   types, fileds, operators, options,
+    //   select: { type, filed, operator, option },
+    // }
     others: [],
   },
   items: [],
@@ -95,12 +102,20 @@ const reducer = createReducer()
     })
   ))
 
+  .when(types.SELECT_CONDITION, (state, { payload }) => {
+  })
+
   .when(types.ADD_CONDITION, (state) => {
     const newState = _.cloneDeep(state);
+    const { operators, options } = SEARCH_FIELD_OPERATORS[
+      SEARCH_CONDITION_FIELD_TYPE.RATING
+    ];
     newState.condition.others.push({
-      types: CONDITION_TYPES,
+      types: SEARCH_CONDITION_TYPES,
       fileds: SEARCH_CONDITION_FIELDS,
-      operators: SEARCH_FIELD_OPERATORS[SEARCH_CONDITION_FIELDS[0]],
+      operators,
+      options,
+      select: {},
     });
     return newState;
   })

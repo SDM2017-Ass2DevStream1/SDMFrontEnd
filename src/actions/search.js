@@ -45,6 +45,11 @@ export const sortSearchResultsBy = sortBy => ({
   payload: sortBy,
 });
 
+export const selectCondition = (type, value) => ({
+  type: types.SELECT_CONDITION,
+  payload: { type, value },
+});
+
 export const addCondition = () => ({
   type: types.ADD_CONDITION,
 });

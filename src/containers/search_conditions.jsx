@@ -8,10 +8,6 @@ import {
 import { ContentAdd } from 'material-ui/svg-icons';
 import styled from 'styled-components';
 
-import {
-  SEARCH_CONDITION_TYPES, SEARCH_CONDITION_FIELDS,
-  SEARCH_FIELD_OPERATORS, SEARCH_CONDITION_FIELD_TYPE,
-} from '../constants';
 import * as searchActions from '../actions/search';
 
 
@@ -35,8 +31,13 @@ const renderMenuItems = items => items.map(item => (
 class SearchConditions extends Component {
   constructor(props) {
     super(props);
+    this.onSelect = this.onSelect.bind(this);
     this.onAddCondition = this.onAddCondition.bind(this);
     this.onRemoveCondition = this.onRemoveCondition.bind(this);
+  }
+
+  onSelect(type, value) {
+    this.props.actions.selectCondition(type, value);
   }
 
   onAddCondition() {
@@ -58,41 +59,35 @@ class SearchConditions extends Component {
       font-size: 16px;
       font-weight: bold;
     `;
-    const ConditionSelectField = props => (
-      <SelectField
-        autoWidth
-        style={styles.conditionOptions}
-        {...props}
-      >
-        {props.children}
-      </SelectField>
-    );
 
-    // return others.map(other => (
-    return (
-      <Container>
-        <ConditionSelectField value={1}>
-          {renderMenuItems(SEARCH_CONDITION_TYPES)}
-        </ConditionSelectField>
-        <Span>
-          <Label>If</Label>
-          <ConditionSelectField value={1}>
-            {renderMenuItems(SEARCH_CONDITION_FIELDS)}
-          </ConditionSelectField>
-        </Span>
-        <ConditionSelectField value={1}>
-          {renderMenuItems(
-            SEARCH_FIELD_OPERATORS[SEARCH_CONDITION_FIELD_TYPE.RATING].operators,
-          )}
-        </ConditionSelectField>
-        <ConditionSelectField value={1}>
-          {renderMenuItems(
-            SEARCH_FIELD_OPERATORS[SEARCH_CONDITION_FIELD_TYPE.RATING].options,
-          )}
-        </ConditionSelectField>
-      </Container>
-    );
-    // ));
+    const renderSelectField = (item, i, type) => {
+      return (
+        <SelectField
+          value={item.select[type] || 1}
+          autoWidth
+          style={styles.conditionOptions}
+          onChange={(e, index, value) => {
+            this.onSelect(type, i, value);
+          }}
+        >
+          {renderMenuItems(item[`${type}s`])}
+        </SelectField>
+      );
+    };
+
+    return others.map((item, i) => {
+      return (
+        <Container key={i}>
+          {renderSelectField(item, i, 'type')}
+          <Span>
+            <Label>If</Label>
+            {renderSelectField(item, i, 'filed')}
+          </Span>
+          {renderSelectField(item, i, 'operator')}
+          {renderSelectField(item, i, 'option')}
+        </Container>
+      );
+    });
   }
 
   render() {
