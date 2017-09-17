@@ -72,10 +72,19 @@ describe('search reducer', () => {
       type: types.ADD_CONDITION,
     });
 
+    // Cannot remove a elem by passing an index outside the array.
+    // Thus, in this case, the lengh of others should still be one.
     expect(
       reducer(addedState, {
         type: types.REMOVE_CONDITION,
-        payload: 1,
+        payload: 2,
+      }).condition.others.length,
+    ).toEqual(1);
+
+    expect(
+      reducer(addedState, {
+        type: types.REMOVE_CONDITION,
+        payload: 0,
       }).condition.others.length,
     ).toEqual(0);
   });
