@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  RaisedButton, SelectField, MenuItem,
+  RaisedButton, SelectField, MenuItem, IconButton,
 } from 'material-ui';
-import { ContentAdd } from 'material-ui/svg-icons';
+import {
+  ContentAdd, ContentAddCircle, ContentRemoveCircle,
+} from 'material-ui/svg-icons';
 import styled from 'styled-components';
 
 import * as searchActions from '../actions/search';
@@ -66,23 +68,21 @@ class SearchConditions extends Component {
       font-weight: bold;
     `;
 
-    const renderSelectField = (item, i, type) => {
-      return (
-        <SelectField
-          value={item.select[type] || 1}
-          autoWidth
-          style={{
-            ...styles.conditionOptions,
-            ...styles[`${type}Condition`],
-          }}
-          onChange={(e, index, value) => {
-            this.onSelect(type, value, i);
-          }}
-        >
-          {renderMenuItems(item[`${type}s`])}
-        </SelectField>
-      );
-    };
+    const renderSelectField = (item, i, type) => (
+      <SelectField
+        value={item.select[type] || 1}
+        autoWidth
+        style={{
+          ...styles.conditionOptions,
+          ...styles[`${type}Condition`],
+        }}
+        onChange={(e, index, value) => {
+          this.onSelect(type, value, i);
+        }}
+      >
+        {renderMenuItems(item[`${type}s`])}
+      </SelectField>
+    );
 
     return others.map((item, i) => {
       return (
@@ -94,6 +94,12 @@ class SearchConditions extends Component {
           </Span>
           {renderSelectField(item, i, 'operator')}
           {renderSelectField(item, i, 'option')}
+          <IconButton tooltip="add a new condition">
+            <ContentAddCircle />
+          </IconButton>
+          <IconButton tooltip="remove this condition">
+            <ContentRemoveCircle />
+          </IconButton>
         </Container>
       );
     });
