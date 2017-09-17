@@ -30,7 +30,22 @@ const styles = {
   operatorCondition: {
     width: '205px',
   },
+  addAndRemove: {
+    width: '32px',
+    height: '32px',
+    marginTop: '-4px',
+    marginLeft: '-4px',
+  },
 };
+
+const AddOrRemove = props => (
+  <IconButton
+    iconStyle={styles.addAndRemove}
+    {...props}
+  >
+    {props.children}
+  </IconButton>
+);
 
 const renderMenuItems = items => items.map(item => (
   <MenuItem key={item.type} value={item.type} primaryText={item.name} />
@@ -52,8 +67,8 @@ class SearchConditions extends Component {
     this.props.actions.addCondition();
   }
 
-  onRemoveCondition() {
-    this.props.actions.removeCondition();
+  onRemoveCondition(index) {
+    this.props.actions.removeCondition(index);
   }
 
   renderConditions(others) {
@@ -94,12 +109,18 @@ class SearchConditions extends Component {
           </Span>
           {renderSelectField(item, i, 'operator')}
           {renderSelectField(item, i, 'option')}
-          <IconButton tooltip="add a new condition">
+          <AddOrRemove
+            tooltip="add a new condition"
+            onClick={this.onAddCondition}
+          >
             <ContentAddCircle />
-          </IconButton>
-          <IconButton tooltip="remove this condition">
+          </AddOrRemove>
+          <AddOrRemove
+            tooltip="remove this condition"
+            onClick={() => this.onRemoveCondition(i)}
+          >
             <ContentRemoveCircle />
-          </IconButton>
+          </AddOrRemove>
         </Container>
       );
     });

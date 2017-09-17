@@ -105,9 +105,11 @@ const reducer = createReducer()
   .when(types.SELECT_CONDITION, (state, { payload }) => {
     const { type, value, index } = payload;
     const newState = _.cloneDeep(state);
+
     newState.condition.others[index].select = {
       [type]: value,
     };
+
     return newState;
   })
 
@@ -116,6 +118,7 @@ const reducer = createReducer()
     const { operators, options } = SEARCH_FIELD_OPERATORS[
       SEARCH_CONDITION_FIELD_TYPE.RATING
     ];
+
     newState.condition.others.push({
       types: SEARCH_CONDITION_TYPES,
       fields: SEARCH_CONDITION_FIELDS,
@@ -123,12 +126,17 @@ const reducer = createReducer()
       options,
       select: {},
     });
+
     return newState;
   })
 
-  .when(types.REMOVE_CONDITION, (state) => {
+  .when(types.REMOVE_CONDITION, (state, { payload }) => {
     const newState = _.cloneDeep(state);
-    newState.condition.others.pop();
+    const { others } = newState.condition;
+
+    newState.condition.others = others.slice(0, payload)
+      .concat(others.slice(payload + 1));
+
     return newState;
   })
 

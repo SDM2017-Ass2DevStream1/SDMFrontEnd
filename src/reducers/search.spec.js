@@ -75,6 +75,7 @@ describe('search reducer', () => {
     expect(
       reducer(addedState, {
         type: types.REMOVE_CONDITION,
+        payload: 1,
       }).condition.others.length,
     ).toEqual(0);
   });
