@@ -117,7 +117,6 @@ class SearchConditions extends Component {
       return (
         <SelectField
           value={condition[type]}
-          autoWidth
           style={{
             ...styles.conditionOptions,
             ...styles[`${type}Condition`],

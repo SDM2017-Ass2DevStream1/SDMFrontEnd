@@ -110,9 +110,21 @@ const reducer = createReducer()
     const { type, value, index } = payload;
     const newState = _.cloneDeep(state);
 
-    _.assign(newState.query.conditions[index], {
-      [type]: value,
-    });
+    if (type === 'field') {
+      const { operators, options } = SEARCH_FIELD_OPERATORS[value];
+      _.assign(newState.query.conditions[index], {
+        field: value,
+        option: options ? 1 : '',
+      });
+      _.assign(newState.condition.others[index], {
+        operators,
+        options,
+      });
+    } else {
+      _.assign(newState.query.conditions[index], {
+        [type]: value,
+      });
+    }
 
     return newState;
   })
