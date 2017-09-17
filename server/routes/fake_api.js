@@ -5,7 +5,7 @@ const router = require('express').Router();
 const { Base64 } = require('js-base64');
 
 const {
-  RESEARCH_DESIGN, SE_METHODS, SE_METHODOLOGIES, SORT_BY_METHOD,
+  RESEARCH_DESIGN, SE_METHOD, SE_METHODOLOGY, SORT_BY_METHOD,
 } = require('../../src/constants');
 
 
@@ -38,10 +38,10 @@ router.get('/search', (req, res) => {
   const attrGenerator = (name) => {
     const options = {
       design: RESEARCH_DESIGN,
-      method: SE_METHODS,
-      methodology: SE_METHODOLOGIES,
+      method: SE_METHOD,
+      methodology: SE_METHODOLOGY,
     };
-    return _.sample(options[name].map(item => item.name));
+    return _.sample(_.values(options[name]));
   };
 
   const query = JSON.parse(Base64.decode(req.query.query));

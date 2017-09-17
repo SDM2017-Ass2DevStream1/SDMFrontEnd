@@ -42,4 +42,57 @@ describe('search reducer', () => {
       query: { sortBy },
     }));
   });
+
+  it('should handle ADD_CONDITION', () => {
+    expect(initialState.condition.others.length).toEqual(0);
+
+    const addedState = reducer(initialState, {
+      type: types.ADD_CONDITION,
+    });
+
+    expect(addedState.condition.others[0]).toEqual(
+      expect.objectContaining({
+        types: expect.any(Array),
+        fields: expect.any(Array),
+        operators: expect.any(Array),
+      }),
+    );
+
+    expect(addedState.query.conditions[0]).toEqual(
+      expect.objectContaining({
+        type: 1,
+        field: 1,
+        operator: 1,
+        option: expect.anything(),
+      }),
+    );
+
+    const addedState2 = reducer(addedState, {
+      type: types.ADD_CONDITION,
+    });
+
+    expect(addedState2.condition.others.length).toEqual(2);
+  });
+
+  it('should handle REMOVE_CONDITION', () => {
+    const addedState = reducer(initialState, {
+      type: types.ADD_CONDITION,
+    });
+
+    // Cannot remove a elem by passing an index outside the array.
+    // Thus, in this case, the lengh of others should still be one.
+    expect(
+      reducer(addedState, {
+        type: types.REMOVE_CONDITION,
+        payload: 2,
+      }).condition.others.length,
+    ).toEqual(1);
+
+    expect(
+      reducer(addedState, {
+        type: types.REMOVE_CONDITION,
+        payload: 0,
+      }).condition.others.length,
+    ).toEqual(0);
+  });
 });

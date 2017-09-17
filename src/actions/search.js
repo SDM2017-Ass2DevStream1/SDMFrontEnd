@@ -13,9 +13,9 @@ export const fetchArticles = createAsyncAction(
   }),
 );
 
-export const updateSearchQuery = query => ({
+export const updateSearchQuery = payload => ({
   type: types.UPDATE_SEARCH_QUERY,
-  payload: query,
+  payload,
 });
 
 export const setSearchCondition = condition => ({
@@ -40,15 +40,21 @@ export const resetDateRange = () => ({
   type: types.RESET_DATE_RANGE,
 });
 
-export const sortSearchResultsBy = sortBy => ({
+export const sortSearchResultsBy = payload => ({
   type: types.SORT_SEARCH_RESULTS_BY,
-  payload: sortBy,
+  payload,
+});
+
+export const selectCondition = (type, value, index) => ({
+  type: types.SELECT_CONDITION,
+  payload: { type, value, index },
 });
 
 export const addCondition = () => ({
   type: types.ADD_CONDITION,
 });
 
-export const removeCondition = () => ({
+export const removeCondition = payload => ({
   type: types.REMOVE_CONDITION,
+  payload,
 });
