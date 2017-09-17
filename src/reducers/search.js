@@ -114,6 +114,7 @@ const reducer = createReducer()
       const { operators, options } = SEARCH_FIELD_OPERATORS[value];
       _.assign(newState.query.conditions[index], {
         field: value,
+        operator: 1,
         option: options ? 1 : '',
       });
       _.assign(newState.condition.others[index], {
