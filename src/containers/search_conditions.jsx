@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  RaisedButton, SelectField, MenuItem, IconButton,
+  RaisedButton, SelectField, MenuItem, IconButton, TextField,
 } from 'material-ui';
 import {
   ContentAdd, ContentAddCircle, ContentRemoveCircle,
@@ -32,6 +32,9 @@ const styles = {
   },
   operatorCondition: {
     width: '205px',
+  },
+  optionCondition: {
+    width: '245px',
   },
   addAndRemove: {
     width: '32px',
@@ -95,9 +98,25 @@ class SearchConditions extends Component {
       const condition = conditions[index];
       const other = others[index];
 
+      if (type === 'option' && _.isEmpty(other.options)) {
+        return (
+          <TextField
+            name="option"
+            defaultValue={condition.option}
+            style={{
+              ...styles.conditionOptions,
+              ...styles.optionCondition,
+            }}
+            onBlur={(e) => {
+              this.onSelect(type, e.target.value, index);
+            }}
+          />
+        );
+      }
+
       return (
         <SelectField
-          value={condition[type] || 1}
+          value={condition[type]}
           autoWidth
           style={{
             ...styles.conditionOptions,

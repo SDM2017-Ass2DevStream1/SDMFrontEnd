@@ -120,7 +120,7 @@ const reducer = createReducer()
   .when(types.ADD_CONDITION, (state) => {
     const newState = _.cloneDeep(state);
     const { operators, options } = SEARCH_FIELD_OPERATORS[
-      SEARCH_CONDITION_FIELD_TYPE.RATING
+      SEARCH_CONDITION_FIELD_TYPE.AUTHORS
     ];
 
     // FIXME
