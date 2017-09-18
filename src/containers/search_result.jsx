@@ -30,6 +30,15 @@ const flexOptions = {
   [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 3,
 };
 
+const visibilityOptions = {
+  [SEARCH_RESULTS_COLUMN.AUTHORS]: 'Authors',
+  [SEARCH_RESULTS_COLUMN.YEAR]: 'Publish Year',
+  [SEARCH_RESULTS_COLUMN.RATING]: 'Credibility Rating',
+  [SEARCH_RESULTS_COLUMN.DESIGN]: 'Research Design',
+  [SEARCH_RESULTS_COLUMN.METHOD]: 'SE Method',
+  [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 'SE Methodology',
+};
+
 const styles = {
   table: {
     borderBottom: BORDER,
@@ -79,8 +88,12 @@ class SearchResult extends Component {
     });
   }
 
-  onChangeVisibility(column, checked) {
-    this.props.actions.changeColumnVisibility(column, checked);
+  onChangeVisibility(values) {
+    const columns = _.keys(_.pickBy(
+      visibilityOptions, item => values.includes(item),
+    ));
+
+    this.props.actions.setVisibleColumns(columns);
   }
 
   onChangeSortBy(key) {
@@ -97,16 +110,7 @@ class SearchResult extends Component {
       align-items: center;
     `;
 
-    const options = {
-      [SEARCH_RESULTS_COLUMN.AUTHORS]: 'Authors',
-      [SEARCH_RESULTS_COLUMN.YEAR]: 'Publish Year',
-      [SEARCH_RESULTS_COLUMN.RATING]: 'Credibility Rating',
-      [SEARCH_RESULTS_COLUMN.DESIGN]: 'Research Design',
-      [SEARCH_RESULTS_COLUMN.METHOD]: 'SE Method',
-      [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 'SE Methodology',
-    };
-
-    const values = _.values(_.pick(options, _.keys(_.pickBy(visibility))));
+    const values = _.values(_.pick(visibilityOptions, _.keys(_.pickBy(visibility))));
 
     return (
       <Container>
@@ -114,9 +118,10 @@ class SearchResult extends Component {
         <SelectField
           multiple
           value={values}
-          onChange={(e, key, payload) => this.onChangeVisibility(key, payload)}
+          hintText="Select visible columns"
+          onChange={(e, key, values) => this.onChangeVisibility(values)}
         >
-          {_.toPairs(options).map(([key, value]) => (
+          {_.toPairs(visibilityOptions).map(([key, value]) => (
             <MenuItem
               key={key}
               insetChildren

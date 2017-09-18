@@ -63,13 +63,24 @@ const reducer = createReducer()
     return { ...state, condition };
   })
 
-  .when(types.CHANGE_COLUMN_VISIBILITY, (state, { payload }) => ({
-    ...state,
-    visibility: {
-      ...state.visibility,
-      [payload.column]: payload.checked,
-    },
-  }))
+  .when(types.SET_VISIBLE_COLUMNS, (state, { payload }) => {
+    const visibility = _.assign(
+      _.reduce(_.keys(initialState.visibility), (obj, item) => {
+        obj[item] = false;
+        return obj;
+      }, {}),
+
+      _.reduce(payload, (obj, item) => {
+        obj[item] = true;
+        return obj;
+      }, {}),
+    );
+
+    return {
+      ...state,
+      visibility,
+    };
+  })
 
   .when(types.ADD_DATE_RANGE, state => ({
     ...state,

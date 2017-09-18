@@ -27,9 +27,9 @@ export const setSearchCondition = condition => ({
   payload: condition,
 });
 
-export const changeColumnVisibility = (column, checked) => ({
-  type: types.CHANGE_COLUMN_VISIBILITY,
-  payload: { column, checked },
+export const setVisibleColumns = payload => ({
+  type: types.SET_VISIBLE_COLUMNS,
+  payload,
 });
 
 export const addDateRange = () => ({
