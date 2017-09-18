@@ -2,10 +2,13 @@ import axios from 'axios';
 import { Base64 } from 'js-base64';
 import { createAsyncAction } from 'redux-action-tools';
 
+import { initialState } from '../reducers/search';
 import * as types from '../constants/action_types';
+
 
 export const fetchArticles = createAsyncAction(
   types.FETCH_ARTICLES,
+
   query => axios.get('/api/search', {
     params: {
       query: Base64.encode(JSON.stringify(query)),
@@ -40,10 +43,13 @@ export const resetDateRange = () => ({
   type: types.RESET_DATE_RANGE,
 });
 
-export const sortSearchResultsBy = payload => ({
-  type: types.SORT_SEARCH_RESULTS_BY,
-  payload,
-});
+export const sortSearchResultsBy = ({ query, sortBy }) => {
+  return fetchArticles({
+    ...query,
+    page: initialState.query.page,
+    sortBy,
+  });
+};
 
 export const selectCondition = (type, value, index) => ({
   type: types.SELECT_CONDITION,

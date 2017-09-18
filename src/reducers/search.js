@@ -95,17 +95,6 @@ const reducer = createReducer()
     },
   }))
 
-  .when(types.SORT_SEARCH_RESULTS_BY, (state, { payload }) => (
-    _.merge({}, state, {
-      query: {
-        page: initialState.query.page,
-        sortBy: {
-          ...payload,
-        },
-      },
-    })
-  ))
-
   .when(types.SELECT_CONDITION, (state, { payload }) => {
     const { type, value, index } = payload;
     const newState = _.cloneDeep(state);
