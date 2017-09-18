@@ -106,23 +106,7 @@ class SearchResult extends Component {
   }
 
   onChangeSortBy(key) {
-    const { search: { query, query: { sortBy } } } = this.props;
-
-    if (sortBy.key === key) {
-      if (sortBy.order === SORT_BY_METHOD.ASC) {
-        sortBy.order = SORT_BY_METHOD.DESC;
-      } else {
-        delete sortBy.key;
-        delete sortBy.order;
-      }
-    } else {
-      sortBy.key = key;
-      sortBy.order = SORT_BY_METHOD.ASC;
-    }
-
-    this.props.actions.sortSearchResultsBy({
-      query, sortBy,
-    });
+    this.props.actions.sortSearchResultsBy(key, this.props.search.query);
   }
 
   renderVisibility() {

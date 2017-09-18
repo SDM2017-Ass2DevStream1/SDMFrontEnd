@@ -3,6 +3,7 @@ import { Base64 } from 'js-base64';
 import { createAsyncAction } from 'redux-action-tools';
 
 import { initialState } from '../reducers/search';
+import { SORT_BY_METHOD } from '../constants';
 import * as types from '../constants/action_types';
 
 
@@ -43,7 +44,21 @@ export const resetDateRange = () => ({
   type: types.RESET_DATE_RANGE,
 });
 
-export const sortSearchResultsBy = ({ query, sortBy }) => {
+export const sortSearchResultsBy = (key, query) => {
+  const { sortBy } = query;
+
+  if (sortBy.key === key) {
+    if (sortBy.order === SORT_BY_METHOD.ASC) {
+      sortBy.order = SORT_BY_METHOD.DESC;
+    } else {
+      delete sortBy.key;
+      delete sortBy.order;
+    }
+  } else {
+    sortBy.key = key;
+    sortBy.order = SORT_BY_METHOD.ASC;
+  }
+
   return fetchArticles({
     ...query,
     page: initialState.query.page,
