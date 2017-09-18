@@ -4,9 +4,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   Table, TableHeader, TableBody, TableRow, Checkbox,
+  SelectField, MenuItem,
 } from 'material-ui';
 import {
-  ActionVisibility, ActionVisibilityOff,
   NavigationArrowDropDown, NavigationArrowDropUp,
 } from 'material-ui/svg-icons';
 import Pagination from 'react-ultimate-pagination-material-ui';
@@ -34,19 +34,6 @@ const styles = {
   table: {
     borderBottom: BORDER,
   },
-  checkbox: {
-    style: {
-      display: 'inline-block',
-      marginRight: '25px',
-      width: 'auto',
-    },
-    iconStyle: {
-      marginRight: '10px',
-    },
-    labelStyle: {
-      width: 'auto',
-    },
-  },
   headerRow: {
     display: 'flex',
     height: 'auto',
@@ -71,15 +58,6 @@ const styles = {
   },
 };
 
-const VisibilityCheckbox = props => (
-  <Checkbox
-    checkedIcon={<ActionVisibility />}
-    uncheckedIcon={<ActionVisibilityOff />}
-    {...styles.checkbox}
-    {...props}
-  />
-);
-
 const Label = styled.span`
   font-weight: bold;
   line-height: 24px;
@@ -101,7 +79,7 @@ class SearchResult extends Component {
     });
   }
 
-  onVisibilityCheck(column, checked) {
+  onChangeVisibility(column, checked) {
     this.props.actions.changeColumnVisibility(column, checked);
   }
 
@@ -119,48 +97,35 @@ class SearchResult extends Component {
       align-items: center;
     `;
 
-    const options = [
-      {
-        column: SEARCH_RESULTS_COLUMN.AUTHORS,
-        label: 'Authors',
-      },
-      {
-        column: SEARCH_RESULTS_COLUMN.YEAR,
-        label: 'Publish Year',
-      },
-      {
-        column: SEARCH_RESULTS_COLUMN.RATING,
-        label: 'Credibility Rating',
-      },
-      {
-        column: SEARCH_RESULTS_COLUMN.DESIGN,
-        label: 'Research Design',
-      },
-      {
-        column: SEARCH_RESULTS_COLUMN.METHOD,
-        label: 'SE Method',
-      },
-      {
-        column: SEARCH_RESULTS_COLUMN.METHODOLOGY,
-        label: 'SE Methodology',
-      },
-    ];
+    const options = {
+      [SEARCH_RESULTS_COLUMN.AUTHORS]: 'Authors',
+      [SEARCH_RESULTS_COLUMN.YEAR]: 'Publish Year',
+      [SEARCH_RESULTS_COLUMN.RATING]: 'Credibility Rating',
+      [SEARCH_RESULTS_COLUMN.DESIGN]: 'Research Design',
+      [SEARCH_RESULTS_COLUMN.METHOD]: 'SE Method',
+      [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 'SE Methodology',
+    };
+
+    const values = _.values(_.pick(options, _.keys(_.pickBy(visibility))));
 
     return (
       <Container>
-        <Label>Column Visibility: </Label>
-        {options.map(({ column, label }) => {
-          return (
-            <VisibilityCheckbox
-              key={`visibility-checkbox-${column}`}
-              label={label}
-              checked={visibility[column]}
-              onCheck={(e, checked) => {
-                this.onVisibilityCheck(column, checked);
-              }}
+        <Label>Visible Columns: </Label>
+        <SelectField
+          multiple
+          value={values}
+          onChange={(e, key, payload) => this.onChangeVisibility(key, payload)}
+        >
+          {_.toPairs(options).map(([key, value]) => (
+            <MenuItem
+              key={key}
+              insetChildren
+              checked={visibility[key]}
+              value={value}
+              primaryText={value}
             />
-          );
-        })}
+          ))}
+        </SelectField>
       </Container>
     );
   }
