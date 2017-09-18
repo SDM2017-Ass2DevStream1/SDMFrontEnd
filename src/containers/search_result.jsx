@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  Table, TableHeader, TableBody, TableRow, Checkbox,
-  SelectField, MenuItem,
+  Table, TableHeader, TableBody, TableRow, SelectField, MenuItem,
 } from 'material-ui';
 import {
   NavigationArrowDropDown, NavigationArrowDropUp,

@@ -76,6 +76,7 @@ const reducer = createReducer()
       }, {}),
     );
 
+    // FIXME: it is weird multiple selection will dispear after select one item.
     return {
       ...state,
       visibility,
