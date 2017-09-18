@@ -2,10 +2,14 @@ import axios from 'axios';
 import { Base64 } from 'js-base64';
 import { createAsyncAction } from 'redux-action-tools';
 
+import { initialState } from '../reducers/search';
+import { SORT_BY_METHOD } from '../constants';
 import * as types from '../constants/action_types';
+
 
 export const fetchArticles = createAsyncAction(
   types.FETCH_ARTICLES,
+
   query => axios.get('/api/search', {
     params: {
       query: Base64.encode(JSON.stringify(query)),
@@ -23,9 +27,9 @@ export const setSearchCondition = condition => ({
   payload: condition,
 });
 
-export const changeColumnVisibility = (column, checked) => ({
-  type: types.CHANGE_COLUMN_VISIBILITY,
-  payload: { column, checked },
+export const setVisibleColumns = payload => ({
+  type: types.SET_VISIBLE_COLUMNS,
+  payload,
 });
 
 export const addDateRange = () => ({
@@ -40,10 +44,27 @@ export const resetDateRange = () => ({
   type: types.RESET_DATE_RANGE,
 });
 
-export const sortSearchResultsBy = payload => ({
-  type: types.SORT_SEARCH_RESULTS_BY,
-  payload,
-});
+export const sortSearchResultsBy = (key, query) => {
+  const { sortBy } = query;
+
+  if (sortBy.key === key) {
+    if (sortBy.order === SORT_BY_METHOD.ASC) {
+      sortBy.order = SORT_BY_METHOD.DESC;
+    } else {
+      delete sortBy.key;
+      delete sortBy.order;
+    }
+  } else {
+    sortBy.key = key;
+    sortBy.order = SORT_BY_METHOD.ASC;
+  }
+
+  return fetchArticles({
+    ...query,
+    page: initialState.query.page,
+    sortBy,
+  });
+};
 
 export const selectCondition = (type, value, index) => ({
   type: types.SELECT_CONDITION,

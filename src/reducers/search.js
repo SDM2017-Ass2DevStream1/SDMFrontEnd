@@ -63,13 +63,25 @@ const reducer = createReducer()
     return { ...state, condition };
   })
 
-  .when(types.CHANGE_COLUMN_VISIBILITY, (state, { payload }) => ({
-    ...state,
-    visibility: {
-      ...state.visibility,
-      [payload.column]: payload.checked,
-    },
-  }))
+  .when(types.SET_VISIBLE_COLUMNS, (state, { payload }) => {
+    const visibility = _.assign(
+      _.reduce(_.keys(initialState.visibility), (obj, item) => {
+        obj[item] = false;
+        return obj;
+      }, {}),
+
+      _.reduce(payload, (obj, item) => {
+        obj[item] = true;
+        return obj;
+      }, {}),
+    );
+
+    // FIXME: it is weird multiple selection will dispear after select one item.
+    return {
+      ...state,
+      visibility,
+    };
+  })
 
   .when(types.ADD_DATE_RANGE, state => ({
     ...state,
@@ -94,17 +106,6 @@ const reducer = createReducer()
       date: initialState.condition.date,
     },
   }))
-
-  .when(types.SORT_SEARCH_RESULTS_BY, (state, { payload }) => (
-    _.merge({}, state, {
-      query: {
-        page: initialState.query.page,
-        sortBy: {
-          ...payload,
-        },
-      },
-    })
-  ))
 
   .when(types.SELECT_CONDITION, (state, { payload }) => {
     const { type, value, index } = payload;

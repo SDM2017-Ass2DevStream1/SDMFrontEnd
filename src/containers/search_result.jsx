@@ -3,10 +3,9 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  Table, TableHeader, TableBody, TableRow, Checkbox,
+  Table, TableHeader, TableBody, TableRow, SelectField, MenuItem,
 } from 'material-ui';
 import {
-  ActionVisibility, ActionVisibilityOff,
   NavigationArrowDropDown, NavigationArrowDropUp,
 } from 'material-ui/svg-icons';
 import Pagination from 'react-ultimate-pagination-material-ui';
@@ -30,22 +29,18 @@ const flexOptions = {
   [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 3,
 };
 
+const visibilityOptions = {
+  [SEARCH_RESULTS_COLUMN.AUTHORS]: 'Authors',
+  [SEARCH_RESULTS_COLUMN.YEAR]: 'Publish Year',
+  [SEARCH_RESULTS_COLUMN.RATING]: 'Credibility Rating',
+  [SEARCH_RESULTS_COLUMN.DESIGN]: 'Research Design',
+  [SEARCH_RESULTS_COLUMN.METHOD]: 'SE Method',
+  [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 'SE Methodology',
+};
+
 const styles = {
   table: {
     borderBottom: BORDER,
-  },
-  checkbox: {
-    style: {
-      display: 'inline-block',
-      marginRight: '25px',
-      width: 'auto',
-    },
-    iconStyle: {
-      marginRight: '10px',
-    },
-    labelStyle: {
-      width: 'auto',
-    },
   },
   headerRow: {
     display: 'flex',
@@ -71,15 +66,6 @@ const styles = {
   },
 };
 
-const VisibilityCheckbox = props => (
-  <Checkbox
-    checkedIcon={<ActionVisibility />}
-    uncheckedIcon={<ActionVisibilityOff />}
-    {...styles.checkbox}
-    {...props}
-  />
-);
-
 const Label = styled.span`
   font-weight: bold;
   line-height: 24px;
@@ -101,34 +87,16 @@ class SearchResult extends Component {
     });
   }
 
-  onVisibilityCheck(column, checked) {
-    this.props.actions.changeColumnVisibility(column, checked);
+  onChangeVisibility(values) {
+    const columns = _.keys(_.pickBy(
+      visibilityOptions, item => values.includes(item),
+    ));
+
+    this.props.actions.setVisibleColumns(columns);
   }
 
   onChangeSortBy(key) {
-    const { search: { query: { sortBy } } } = this.props;
-
-    if (sortBy.key === key) {
-      if (sortBy.order === SORT_BY_METHOD.ASC) {
-        sortBy.order = SORT_BY_METHOD.DESC;
-      } else {
-        delete sortBy.key;
-        delete sortBy.order;
-      }
-    } else {
-      sortBy.key = key;
-      sortBy.order = SORT_BY_METHOD.ASC;
-    }
-
-    this.props.actions.sortSearchResultsBy(sortBy);
-
-    // HACK: to confirm that sortSearchResultsBy has already updated
-    // the query props
-    _.delay(() => {
-      this.props.actions.fetchArticles({
-        ...this.props.search.query,
-      });
-    }, 0);
+    this.props.actions.sortSearchResultsBy(key, this.props.search.query);
   }
 
   renderVisibility() {
@@ -141,48 +109,27 @@ class SearchResult extends Component {
       align-items: center;
     `;
 
-    const options = [
-      {
-        column: SEARCH_RESULTS_COLUMN.AUTHORS,
-        label: 'Authors',
-      },
-      {
-        column: SEARCH_RESULTS_COLUMN.YEAR,
-        label: 'Publish Year',
-      },
-      {
-        column: SEARCH_RESULTS_COLUMN.RATING,
-        label: 'Credibility Rating',
-      },
-      {
-        column: SEARCH_RESULTS_COLUMN.DESIGN,
-        label: 'Research Design',
-      },
-      {
-        column: SEARCH_RESULTS_COLUMN.METHOD,
-        label: 'SE Method',
-      },
-      {
-        column: SEARCH_RESULTS_COLUMN.METHODOLOGY,
-        label: 'SE Methodology',
-      },
-    ];
+    const values = _.values(_.pick(visibilityOptions, _.keys(_.pickBy(visibility))));
 
     return (
       <Container>
-        <Label>Column Visibility: </Label>
-        {options.map(({ column, label }) => {
-          return (
-            <VisibilityCheckbox
-              key={`visibility-checkbox-${column}`}
-              label={label}
-              checked={visibility[column]}
-              onCheck={(e, checked) => {
-                this.onVisibilityCheck(column, checked);
-              }}
+        <Label>Visible Columns: </Label>
+        <SelectField
+          multiple
+          value={values}
+          hintText="Select visible columns"
+          onChange={(e, key, values) => this.onChangeVisibility(values)}
+        >
+          {_.toPairs(visibilityOptions).map(([key, value]) => (
+            <MenuItem
+              key={key}
+              insetChildren
+              checked={visibility[key]}
+              value={value}
+              primaryText={value}
             />
-          );
-        })}
+          ))}
+        </SelectField>
       </Container>
     );
   }

@@ -71,6 +71,6 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "styled-components": "^2.1.2",
-    "yargs": "^8.0.2"
+    "yargs": "^9.0.1"
   }
 }
