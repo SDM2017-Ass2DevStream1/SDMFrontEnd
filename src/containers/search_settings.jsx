@@ -2,7 +2,8 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { SelectField, MenuItem } from 'material-ui';
+import { SelectField, MenuItem, RaisedButton } from 'material-ui';
+import { ActionPrint } from 'material-ui/svg-icons';
 import styled from 'styled-components';
 
 import { SEARCH_RESULTS_COLUMN } from '../constants';
@@ -87,6 +88,13 @@ class SearchSettings extends Component {
         <ModuleTitle>Search Results</ModuleTitle>
         <Content>
           {this.renderVisibility()}
+          <RaisedButton
+            primary
+            label="Print"
+            labelPosition="before"
+            onClick={() => window.print()}
+            icon={<ActionPrint />}
+          />
         </Content>
       </Container>
     );

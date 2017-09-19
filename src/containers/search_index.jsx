@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Tabs, Tab, TextField, RaisedButton } from 'material-ui';
+import { ActionSearch } from 'material-ui/svg-icons';
 import { colors } from 'material-ui/styles';
 import styled from 'styled-components';
 
@@ -82,9 +83,11 @@ class SearchIndex extends Component {
                     defaultValue={query.term}
                   />
                   <RaisedButton
+                    secondary
                     type="submit"
                     label="Search"
-                    secondary
+                    labelPosition="before"
+                    icon={<ActionSearch />}
                   />
                 </SearchBarContainer>
 
