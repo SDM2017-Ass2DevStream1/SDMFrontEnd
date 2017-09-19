@@ -4,6 +4,7 @@ import {
   Paper as MuiPaper,
   TableHeaderColumn as MuiTableHeaderColumn,
   TableRowColumn as MuiTableRowColumn,
+  RaisedButton as MuiRaisedButton,
 } from 'material-ui';
 import styled from 'styled-components';
 
@@ -13,12 +14,12 @@ import { muiTheme } from '../constants/styles';
 export const Paper = ({ style, ...rest }) => {
   return (
     <MuiPaper
-      {...rest}
       style={{
         padding: '25px 30px',
         marginBottom: '40px',
         ...style,
       }}
+      {...rest}
     />
   );
 };
@@ -101,3 +102,16 @@ export const TableRowColumn = (options) => {
     </MuiTableRowColumn>
   );
 };
+
+export const IconButton = ({ overlayStyle, ...rest }) => (
+  <MuiRaisedButton
+    primary
+    labelPosition="before"
+    overlayStyle={{
+      display: 'flex',
+      alignItems: 'center',
+      ...overlayStyle,
+    }}
+    {...rest}
+  />
+);

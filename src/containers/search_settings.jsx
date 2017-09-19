@@ -2,13 +2,13 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { SelectField, MenuItem, RaisedButton } from 'material-ui';
-import { ActionPrint } from 'material-ui/svg-icons';
+import { SelectField, MenuItem } from 'material-ui';
+import { ActionPrint, ContentSave } from 'material-ui/svg-icons';
 import styled from 'styled-components';
 
 import { SEARCH_RESULTS_COLUMN } from '../constants';
 import { BORDER } from '../constants/styles';
-import { ModuleTitle } from '../components/misc';
+import { ModuleTitle, IconButton } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
@@ -28,6 +28,9 @@ class SearchSettings extends Component {
     ));
 
     this.props.actions.setVisibleColumns(columns);
+  }
+
+  onSave() {
   }
 
   renderVisibility() {
@@ -88,10 +91,14 @@ class SearchSettings extends Component {
         <ModuleTitle>Search Results</ModuleTitle>
         <Content>
           {this.renderVisibility()}
-          <RaisedButton
-            primary
+          <IconButton
+            label="Save"
+            onClick={this.onSave}
+            icon={<ContentSave />}
+          />
+          <IconButton
             label="Print"
-            labelPosition="before"
+            style={{ marginLeft: 10 }}
             onClick={() => window.print()}
             icon={<ActionPrint />}
           />

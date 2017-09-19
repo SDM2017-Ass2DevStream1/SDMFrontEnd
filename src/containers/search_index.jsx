@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Tabs, Tab, TextField, RaisedButton } from 'material-ui';
+import { Tabs, Tab, TextField } from 'material-ui';
 import { ActionSearch } from 'material-ui/svg-icons';
 import { colors } from 'material-ui/styles';
 import styled from 'styled-components';
@@ -11,7 +11,7 @@ import SearchResult from './search_result';
 import SearchConditions from './search_conditions';
 import SearchDateRangeCondition from './search_date_range_condition';
 import { muiTheme } from '../constants/styles';
-import { Paper, ModuleTitle } from '../components/misc';
+import { Paper, ModuleTitle, IconButton } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
@@ -82,11 +82,11 @@ class SearchIndex extends Component {
                     hintText="Search for articles"
                     defaultValue={query.term}
                   />
-                  <RaisedButton
+                  <IconButton
+                    primary={false}
                     secondary
                     type="submit"
                     label="Search"
-                    labelPosition="before"
                     icon={<ActionSearch />}
                   />
                 </SearchBarContainer>
