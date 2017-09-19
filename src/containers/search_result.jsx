@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  Table, TableHeader, TableBody, TableRow, SelectField, MenuItem,
+  Table, TableHeader, TableBody, TableRow,
 } from 'material-ui';
 import {
   NavigationArrowDropDown, NavigationArrowDropUp,
@@ -11,11 +11,10 @@ import {
 import Pagination from 'react-ultimate-pagination-material-ui';
 import styled from 'styled-components';
 
+import SearchSettings from './search_settings';
 import { SEARCH_RESULTS_COLUMN, SORT_BY_METHOD } from '../constants';
 import { BORDER, muiTheme } from '../constants/styles';
-import {
-  ModuleTitle, TableHeaderColumn, TableRowColumn,
-} from '../components/misc';
+import { TableHeaderColumn, TableRowColumn } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
@@ -27,15 +26,6 @@ const flexOptions = {
   [SEARCH_RESULTS_COLUMN.DESIGN]: 3,
   [SEARCH_RESULTS_COLUMN.METHOD]: 3,
   [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 3,
-};
-
-const visibilityOptions = {
-  [SEARCH_RESULTS_COLUMN.AUTHORS]: 'Authors',
-  [SEARCH_RESULTS_COLUMN.YEAR]: 'Publish Year',
-  [SEARCH_RESULTS_COLUMN.RATING]: 'Credibility Rating',
-  [SEARCH_RESULTS_COLUMN.DESIGN]: 'Research Design',
-  [SEARCH_RESULTS_COLUMN.METHOD]: 'SE Method',
-  [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 'SE Methodology',
 };
 
 const styles = {
@@ -66,13 +56,6 @@ const styles = {
   },
 };
 
-const Label = styled.span`
-  font-weight: bold;
-  line-height: 24px;
-  margin-right: 10px;
-  height: 24px;
-`;
-
 class SearchResult extends Component {
   constructor(props) {
     super(props);
@@ -87,72 +70,8 @@ class SearchResult extends Component {
     });
   }
 
-  onChangeVisibility(values) {
-    const columns = _.keys(_.pickBy(
-      visibilityOptions, item => values.includes(item),
-    ));
-
-    this.props.actions.setVisibleColumns(columns);
-  }
-
   onChangeSortBy(key) {
     this.props.actions.sortSearchResultsBy(key, this.props.search.query);
-  }
-
-  renderVisibility() {
-    const { search: { visibility } } = this.props;
-
-    const Container = styled.div`
-      margin-right: -25px;
-      flex: 1;
-      display: flex;
-      align-items: center;
-    `;
-
-    const values = _.values(_.pick(visibilityOptions, _.keys(_.pickBy(visibility))));
-
-    return (
-      <Container>
-        <Label>Visible Columns: </Label>
-        <SelectField
-          multiple
-          value={values}
-          hintText="Select visible columns"
-          onChange={(e, key, values) => this.onChangeVisibility(values)}
-        >
-          {_.toPairs(visibilityOptions).map(([key, value]) => (
-            <MenuItem
-              key={key}
-              insetChildren
-              checked={visibility[key]}
-              value={value}
-              primaryText={value}
-            />
-          ))}
-        </SelectField>
-      </Container>
-    );
-  }
-
-  renderSettings() {
-    const Container = styled.div`
-      padding-bottom: 20px;
-      border-bottom: ${BORDER};
-    `;
-
-    const Content = styled.div`
-      display: flex;
-      align-items: center;
-    `;
-
-    return (
-      <Container>
-        <ModuleTitle>Search Results</ModuleTitle>
-        <Content>
-          {this.renderVisibility()}
-        </Content>
-      </Container>
-    );
   }
 
   renderItems() {
@@ -305,7 +224,7 @@ class SearchResult extends Component {
   render() {
     return (
       <div>
-        {this.renderSettings()}
+        <SearchSettings />
         {this.renderSearchResults()}
         {this.renderPagination()}
       </div>
