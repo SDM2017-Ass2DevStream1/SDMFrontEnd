@@ -44,7 +44,13 @@ router.get('/search', (req, res) => {
     return _.sample(_.values(options[name]));
   };
 
-  const query = JSON.parse(Base64.decode(req.query.query));
+  let query;
+  try {
+    query = JSON.parse(Base64.decode(req.query.query));
+  } catch (err) {
+    query = {};
+  }
+
   const items = _.times(15, () => ({
     id: random.uuid(),
     title: lorem.sentence(),
