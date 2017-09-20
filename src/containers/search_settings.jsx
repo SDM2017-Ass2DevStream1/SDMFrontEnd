@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import { SelectField, MenuItem, RaisedButton } from 'material-ui';
 import { ActionPrint } from 'material-ui/svg-icons';
 import styled from 'styled-components';
+import {
+  ShareButtons, generateShareIcon,
+} from 'react-share';
 
 import { SEARCH_RESULTS_COLUMN } from '../constants';
 import { BORDER } from '../constants/styles';
@@ -83,11 +86,48 @@ class SearchSettings extends Component {
       align-items: center;
     `;
 
+    const {
+      FacebookShareButton,
+      EmailShareButton,
+    } = ShareButtons;
+
+    const FacebookShareButtonSetting = {
+      icon: generateShareIcon('facebook'),
+      isRound: true,
+      title: 'GitHub',
+      shareUrl: 'http://github.com',
+      size: 32,
+    };
+
+    const EmailShareButtonSetting = {
+      icon: generateShareIcon('email'),
+      isRound: true,
+      body: 'shared from http://github.com',
+      size: 32,
+      title: 'Sharing SERLER Search Result',
+      shareUrl: 'http://github.com',
+    };
+
     return (
       <Container>
         <ModuleTitle>Search Results</ModuleTitle>
         <Content>
           {this.renderVisibility()}
+
+          <FacebookShareButton
+            url={FacebookShareButtonSetting.shareUrl}
+            quote={FacebookShareButtonSetting.title}
+          >
+            <FacebookShareButtonSetting.icon size={FacebookShareButtonSetting.size} round />
+          </FacebookShareButton>
+          <EmailShareButton
+            url={EmailShareButtonSetting.shareUrl}
+            subject={EmailShareButtonSetting.title}
+            body={EmailShareButtonSetting.body}
+          >
+            <EmailShareButtonSetting.icon size={EmailShareButtonSetting.size} round />
+          </EmailShareButton>
+
           <RaisedButton
             primary
             label="Print"
