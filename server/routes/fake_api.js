@@ -2,7 +2,8 @@ const _ = require('lodash');
 const faker = require('faker');
 const moment = require('moment');
 const router = require('express').Router();
-const { Base64 } = require('js-base64');
+
+const { getSearchQuery } = require('../utils');
 
 const {
   RESEARCH_DESIGN, SE_METHOD, SE_METHODOLOGY, SORT_BY_METHOD,
@@ -45,12 +46,7 @@ router.get('/search', (req, res) => {
     return _.sample(_.values(options[name]));
   };
 
-  let query;
-  try {
-    query = JSON.parse(Base64.decode(req.query.query));
-  } catch (err) {
-    query = {};
-  }
+  const query = getSearchQuery(req.query.query);
 
   const items = _.times(15, () => ({
     id: random.uuid(),
