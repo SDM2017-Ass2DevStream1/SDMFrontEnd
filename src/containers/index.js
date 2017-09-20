@@ -1,5 +1,6 @@
 export { default as Header } from './header';
 export { default as Logged } from './logged';
+export { default as Categories } from './categories';
 export { default as SavedQueries } from './saved_queries';
 export {
   default as SearchDateRangeCondition,

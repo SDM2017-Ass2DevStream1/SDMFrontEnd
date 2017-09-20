@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import * as searchActions from '../actions/search';
 
 
-class SavedQueries extends Component {
+class Categories extends Component {
   render() {
     return (
-      <div>History</div>
+      <div>Categories</div>
     );
   }
 }
@@ -24,4 +24,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SavedQueries);
+)(Categories);

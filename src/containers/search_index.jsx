@@ -8,8 +8,8 @@ import { colors } from 'material-ui/styles';
 import styled from 'styled-components';
 
 import {
-  SavedQueries, SearchResult, SearchConditions,
-  SearchDateRangeCondition,
+  Categories, SavedQueries, SearchResult,
+  SearchConditions, SearchDateRangeCondition,
 } from '.';
 import { muiTheme } from '../constants/styles';
 import { Paper, ModuleTitle, IconButton } from '../components/misc';
@@ -99,6 +99,12 @@ class SearchIndex extends Component {
             </Paper>
 
             {!_.isEmpty(items) && <SearchResult />}
+          </TabContainer>
+        </Tab>
+
+        <Tab label="Categories">
+          <TabContainer>
+            <Categories />
           </TabContainer>
         </Tab>
 
