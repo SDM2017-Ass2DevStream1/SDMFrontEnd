@@ -2,7 +2,9 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { SelectField, MenuItem } from 'material-ui';
+import {
+  SelectField, MenuItem, Dialog, FlatButton,
+} from 'material-ui';
 import { ActionPrint, ContentSave } from 'material-ui/svg-icons';
 import styled from 'styled-components';
 
@@ -22,6 +24,16 @@ const visibilityOptions = {
 };
 
 class SearchSettings extends Component {
+  constructor(props) {
+    super(props);
+    this.onSaveQuery = this.onSaveQuery.bind(this);
+    this.onDialogClose = this.onDialogClose.bind(this);
+  }
+
+  state = {
+    dialogOpen: false,
+  }
+
   onChangeVisibility(values) {
     const columns = _.keys(_.pickBy(
       visibilityOptions, item => values.includes(item),
@@ -30,7 +42,16 @@ class SearchSettings extends Component {
     this.props.actions.setVisibleColumns(columns);
   }
 
-  onSave() {
+  onSaveQuery() {
+    this.setState({
+      dialogOpen: true,
+    });
+  }
+
+  onDialogClose() {
+    this.setState({
+      dialogOpen: false,
+    });
   }
 
   renderVisibility() {
@@ -86,6 +107,19 @@ class SearchSettings extends Component {
       align-items: center;
     `;
 
+    const DialogContent = styled.p`
+      line-height: 1.5;
+    `;
+
+    const dialogActions = [
+      <FlatButton
+        label="Submit"
+        primary
+        keyboardFocused
+        onClick={this.onDialogClose}
+      />,
+    ];
+
     return (
       <Container>
         <ModuleTitle>Search Results</ModuleTitle>
@@ -93,7 +127,7 @@ class SearchSettings extends Component {
           {this.renderVisibility()}
           <IconButton
             label="Save"
-            onClick={this.onSave}
+            onClick={this.onSaveQuery}
             icon={<ContentSave />}
           />
           <IconButton
@@ -103,6 +137,19 @@ class SearchSettings extends Component {
             icon={<ActionPrint />}
           />
         </Content>
+        <Dialog
+          title="Search Query Has Been Saved Successfully"
+          actions={dialogActions}
+          modal={false}
+          open={this.state.dialogOpen}
+          onRequestClose={this.onDialogClose}
+        >
+          <DialogContent>
+            The query you searched has been successfully saved as a history.
+            You can view all search histories and restore a specific search
+            resluts via <b>HISTORY Tab</b> at the top of header bar.
+          </DialogContent>
+        </Dialog>
       </Container>
     );
   }
