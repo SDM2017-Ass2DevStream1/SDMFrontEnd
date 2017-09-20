@@ -104,7 +104,7 @@ class SearchResult extends Component {
       return TableHeaderColumn({
         flex: flexOptions[key],
         visibility: visibility[key],
-        label: (
+        value: (
           <Label
             onClick={() => this.onChangeSortBy(key)}
             highlight={shouldHighlight}

@@ -9,7 +9,6 @@ import { ActionPrint, ContentSave } from 'material-ui/svg-icons';
 import styled from 'styled-components';
 
 import { SEARCH_RESULTS_COLUMN } from '../constants';
-import { BORDER } from '../constants/styles';
 import { ModuleTitle, IconButton } from '../components/misc';
 import * as searchActions from '../actions/search';
 
@@ -99,7 +98,6 @@ class SearchSettings extends Component {
   render() {
     const Container = styled.div`
       padding-bottom: 20px;
-      border-bottom: ${BORDER};
     `;
 
     const Content = styled.div`

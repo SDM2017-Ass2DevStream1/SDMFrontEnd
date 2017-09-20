@@ -62,7 +62,7 @@ export const SEARCH_RESULTS_COLUMN = {
 export const SAVED_QUERIES_COLUMN = {
   QUERY: 'query',
   DATE: 'date',
-  OPTS: 'opts',
+  ACTIONS: 'actions',
 };
 
 export const SORT_BY_METHOD = {

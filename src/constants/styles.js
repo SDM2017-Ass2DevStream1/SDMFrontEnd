@@ -22,6 +22,7 @@ export const tableStyles = {
     display: 'flex',
     height: 'auto',
     marginBottom: '-1px',
+    borderTop: BORDER,
   },
   bodyRow: {
     display: 'flex',

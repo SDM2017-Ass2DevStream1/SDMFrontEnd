@@ -47,12 +47,12 @@ export const TableHeaderColumn = (options) => {
   const opts = _.merge({
     visibility: true,
     flex: 1,
-    label: '',
+    value: '',
     justifyContent: 'flex-start',
     forceShow: false,
   }, options);
 
-  const { label, forceShow, justifyContent } = opts;
+  const { value, forceShow, justifyContent } = opts;
 
   return (
     (forceShow || opts.visibility) && <MuiTableHeaderColumn
@@ -62,7 +62,7 @@ export const TableHeaderColumn = (options) => {
         flex: opts.flex,
       }}
     >
-      {label}
+      {value}
     </MuiTableHeaderColumn>
   );
 };

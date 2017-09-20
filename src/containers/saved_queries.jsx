@@ -7,13 +7,14 @@ import {
 
 import { SAVED_QUERIES_COLUMN } from '../constants';
 import { tableStyles } from '../constants/styles';
+import { TableHeaderColumn, TableRowColumn } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
 const flexOptions = {
-  [SAVED_QUERIES_COLUMN.QUERY]: 6,
-  [SAVED_QUERIES_COLUMN.DATE]: 3,
-  [SAVED_QUERIES_COLUMN.OPTS]: 2,
+  [SAVED_QUERIES_COLUMN.QUERY]: 5,
+  [SAVED_QUERIES_COLUMN.DATE]: 1,
+  [SAVED_QUERIES_COLUMN.ACTION]: 1,
 };
 
 class SavedQueries extends Component {
@@ -22,6 +23,18 @@ class SavedQueries extends Component {
       <Table selectable={false} style={tableStyles.table}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
           <TableRow style={tableStyles.headerRow}>
+            {TableHeaderColumn({
+              flex: flexOptions[SAVED_QUERIES_COLUMN.QUERY],
+              value: 'Query',
+            })}
+            {TableHeaderColumn({
+              flex: flexOptions[SAVED_QUERIES_COLUMN.DATE],
+              value: 'Date Last Run',
+            })}
+            {TableHeaderColumn({
+              flex: flexOptions[SAVED_QUERIES_COLUMN.ACTIONS],
+              value: 'Actions',
+            })}
           </TableRow>
         </TableHeader>
       </Table>
