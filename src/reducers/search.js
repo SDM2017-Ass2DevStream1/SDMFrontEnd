@@ -32,8 +32,10 @@ export const initialState = {
     // }
     others: [],
   },
-  items: [],
-  total: 0,
+  results: {
+    items: [],
+    total: 0,
+  },
   visibility: {
     [SEARCH_RESULTS_COLUMN.AUTHORS]: true,
     [SEARCH_RESULTS_COLUMN.YEAR]: true,
@@ -53,7 +55,9 @@ const reducer = createReducer()
   .when(types.FETCH_ARTICLES, updateQuery)
   .done((state, { payload: { data } }) => ({
     ...state,
-    ...data,
+    results: {
+      ...data,
+    },
   }))
 
   .when(types.UPDATE_SEARCH_QUERY, updateQuery)

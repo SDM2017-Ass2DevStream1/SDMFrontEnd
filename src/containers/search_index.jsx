@@ -67,7 +67,7 @@ class SearchIndex extends Component {
   }
 
   render() {
-    const { search: { query, items } } = this.props;
+    const { search: { query, results } } = this.props;
 
     return (
       // https://stackoverflow.com/questions/37928419/how-to-resize-material-uis-tabs
@@ -98,7 +98,7 @@ class SearchIndex extends Component {
               </form>
             </Paper>
 
-            {!_.isEmpty(items) && <SearchResult />}
+            {!_.isEmpty(results.items) && <SearchResult />}
           </TabContainer>
         </Tab>
 

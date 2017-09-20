@@ -75,9 +75,9 @@ class SearchResult extends Component {
   }
 
   renderItems() {
-    const { search: { items, visibility } } = this.props;
+    const { search: { results, visibility } } = this.props;
 
-    return items.map((item) => {
+    return results.items.map((item) => {
       return (
         <TableRow key={item.id} style={styles.bodyRow}>
           {_.values(SEARCH_RESULTS_COLUMN).map(key => (
@@ -205,7 +205,7 @@ class SearchResult extends Component {
   }
 
   renderPagination() {
-    const { search: { query, total } } = this.props;
+    const { search: { query, results: { total } } } = this.props;
     const Div = styled.div`
       margin-top: 25px;
     `;
