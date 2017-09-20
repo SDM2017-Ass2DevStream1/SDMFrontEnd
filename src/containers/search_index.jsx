@@ -7,9 +7,10 @@ import { ActionSearch } from 'material-ui/svg-icons';
 import { colors } from 'material-ui/styles';
 import styled from 'styled-components';
 
-import SearchResult from './search_result';
-import SearchConditions from './search_conditions';
-import SearchDateRangeCondition from './search_date_range_condition';
+import {
+  SavedQueries, SearchResult, SearchConditions,
+  SearchDateRangeCondition,
+} from '.';
 import { muiTheme } from '../constants/styles';
 import { Paper, ModuleTitle, IconButton } from '../components/misc';
 import * as searchActions from '../actions/search';
@@ -103,7 +104,7 @@ class SearchIndex extends Component {
 
         <Tab label="History">
           <TabContainer>
-            History
+            <SavedQueries />
           </TabContainer>
         </Tab>
       </Tabs>
