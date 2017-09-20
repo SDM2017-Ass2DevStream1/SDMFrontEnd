@@ -59,6 +59,12 @@ export const SEARCH_RESULTS_COLUMN = {
   METHODOLOGY: 'methodology',
 };
 
+export const SAVED_QUERIES_COLUMN = {
+  QUERY: 'query',
+  DATE: 'date',
+  OPTS: 'opts',
+};
+
 export const SORT_BY_METHOD = {
   ASC: 'asc',
   DESC: 'desc',
