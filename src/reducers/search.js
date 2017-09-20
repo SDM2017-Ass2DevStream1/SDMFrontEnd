@@ -28,11 +28,14 @@ export const initialState = {
     // the format of an item in others:
     // {
     //   types, fields, operators, options,
-    //   select: { type, field, operator, option },
     // }
     others: [],
   },
   results: {
+    items: [],
+    total: 0,
+  },
+  savedQueries: {
     items: [],
     total: 0,
   },
