@@ -3,7 +3,7 @@ const faker = require('faker');
 const moment = require('moment');
 const router = require('express').Router();
 
-const { getSearchQuery } = require('../utils');
+const { decodeQuery } = require('../utils');
 
 const {
   RESEARCH_DESIGN, SE_METHOD, SE_METHODOLOGY, SORT_BY_METHOD,
@@ -46,7 +46,7 @@ router.get('/search', (req, res) => {
     return _.sample(_.values(options[name]));
   };
 
-  const query = getSearchQuery(req.query.query);
+  const query = decodeQuery(req.query.query);
 
   const items = _.times(15, () => ({
     id: random.uuid(),

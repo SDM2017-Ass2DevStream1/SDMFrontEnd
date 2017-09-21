@@ -1,8 +1,7 @@
-import _ from 'lodash';
 import axios from 'axios';
-import { Base64 } from 'js-base64';
 import { createAsyncAction } from 'redux-action-tools';
 
+import { encodeQuery } from '../utils';
 import { initialState } from '../reducers/search';
 import { SORT_BY_METHOD } from '../constants';
 import * as types from '../constants/action_types';
@@ -13,7 +12,7 @@ export const fetchArticles = createAsyncAction(
 
   query => axios.get('/api/search', {
     params: {
-      query: _.isObject(query) ? Base64.encode(JSON.stringify(query)) : query,
+      query: encodeQuery(query),
     },
   }),
 );

@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { encodeQuery } from '../utils';
 import {
   RESEARCH_DESIGN, SE_METHOD, SE_METHODOLOGY,
+  SEARCH_CONDITION_FIELD_TYPE,
 } from '../constants';
 import { ModuleTitle, StyledLink } from '../components/misc';
 import * as searchActions from '../actions/search';
@@ -14,14 +16,17 @@ import * as searchActions from '../actions/search';
 
 const listData = {
   design: {
+    field: SEARCH_CONDITION_FIELD_TYPE.DESIGN,
     title: 'Research Design',
     items: RESEARCH_DESIGN,
   },
   method: {
+    field: SEARCH_CONDITION_FIELD_TYPE.METHOD,
     title: 'SE Method',
     items: SE_METHOD,
   },
   methodology: {
+    field: SEARCH_CONDITION_FIELD_TYPE.METHODOLOGY,
     title: 'SE Methodology',
     items: SE_METHODOLOGY,
   },
@@ -30,9 +35,18 @@ const listData = {
 const Link = StyledLink.withComponent('a');
 
 class Categories extends Component {
-  onRedirect(e, i) {
+  onRedirect(e, field, option) {
     e.preventDefault();
-    this.props.history.push('/search/eyJwYWdlIjo0fQ%3D%3D');
+    this.props.history.push(`/search/${encodeQuery({
+      conditions: [
+        {
+          type: 1, // AND
+          field,
+          operator: 3, // is equel to
+          option,
+        },
+      ],
+    })}`);
   }
 
   renderModule(data) {
@@ -51,7 +65,7 @@ class Categories extends Component {
         <ModuleTitle>{data.title}</ModuleTitle>
         <List>
           {_.values(data.items).map((item, i) => (
-            <Link key={i} onClick={e => this.onRedirect(e, i)}>
+            <Link key={i} onClick={e => this.onRedirect(e, data.field, i + 1)}>
               {item}
             </Link>
           ))}
