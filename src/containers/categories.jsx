@@ -2,13 +2,12 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
   RESEARCH_DESIGN, SE_METHOD, SE_METHODOLOGY,
 } from '../constants';
-import { ModuleTitle } from '../components/misc';
+import { ModuleTitle, StyledLink } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
@@ -28,33 +27,29 @@ const listData = {
 };
 
 class Categories extends Component {
-  renderItems(data) {
+  renderModule(data) {
     const Container = styled.div`
       margin-bottom: 30px;
     `;
 
-    const List = styled.ul`
+    const List = styled.div`
       font-size: 14px;
       line-height: 2;
       margin-left: -25px;
-    `;
-
-    const Item = styled.li`
-      display: inline-block;
-      margin-left: 25px;
     `;
 
     return (
       <Container>
         <ModuleTitle>{data.title}</ModuleTitle>
         <List>
-          {_.values(data.items).map((item, i) => {
-            return (
-              <Item key={i}>
-                <Link to="/search/eyJwYWdlIjo0fQ%3D%3D">{item}</Link>
-              </Item>
-            );
-          })}
+          {_.values(data.items).map((item, i) => (
+            <StyledLink
+              key={i}
+              to="/search/eyJwYWdlIjo0fQ%3D%3D"
+            >
+              {item}
+            </StyledLink>
+          ))}
         </List>
       </Container>
     );
@@ -63,9 +58,9 @@ class Categories extends Component {
   render() {
     return (
       <div>
-        {this.renderItems(listData.design)}
-        {this.renderItems(listData.method)}
-        {this.renderItems(listData.methodology)}
+        {this.renderModule(listData.design)}
+        {this.renderModule(listData.method)}
+        {this.renderModule(listData.methodology)}
       </div>
     );
   }

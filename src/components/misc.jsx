@@ -6,6 +6,8 @@ import {
   TableRowColumn as MuiTableRowColumn,
   RaisedButton as MuiRaisedButton,
 } from 'material-ui';
+import { colors } from 'material-ui/styles';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { muiTheme } from '../constants/styles';
@@ -115,3 +117,24 @@ export const IconButton = ({ overlayStyle, ...rest }) => (
     {...rest}
   />
 );
+
+export const StyledLink = styled(Link)`
+  position: relative;
+  display: inline-block;
+  margin-left: 25px;
+  text-decoration: none;
+  color: ${colors.lightBlue500};
+  &:after {
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    width: 0;
+    height: 1px;
+    content: '';
+    background: ${colors.lightBlue500};
+    transition: width .5s ease;
+  }
+  &:hover&:after {
+    width: 100%
+  }
+`;
