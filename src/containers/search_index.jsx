@@ -56,6 +56,12 @@ class SearchIndex extends Component {
   constructor(props) {
     super(props);
     this.onSearchFormSubmit = this.onSearchFormSubmit.bind(this);
+
+    const { match: { params } } = props;
+
+    if (!_.isEmpty(params)) {
+      this.props.actions.fetchArticles(params);
+    }
   }
 
   onSearchFormSubmit(e) {

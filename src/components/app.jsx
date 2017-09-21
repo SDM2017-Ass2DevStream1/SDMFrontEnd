@@ -14,6 +14,7 @@ const App = () => (
         <section id="content">
           <Switch>
             <Route exact path="/" component={SearchIndex} />
+            <Route exact path="/search/:query" component={SearchIndex} />
           </Switch>
         </section>
       </div>
