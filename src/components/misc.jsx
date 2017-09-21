@@ -119,6 +119,7 @@ export const IconButton = ({ overlayStyle, ...rest }) => (
 );
 
 export const StyledLink = styled(Link)`
+  cursor: pointer;
   position: relative;
   display: inline-block;
   margin-left: 25px;

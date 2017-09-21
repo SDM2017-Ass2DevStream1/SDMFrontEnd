@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
@@ -26,7 +27,14 @@ const listData = {
   },
 };
 
+const Link = StyledLink.withComponent('a');
+
 class Categories extends Component {
+  onRedirect(e, i) {
+    e.preventDefault();
+    this.props.history.push('/search/eyJwYWdlIjo0fQ%3D%3D');
+  }
+
   renderModule(data) {
     const Container = styled.div`
       margin-bottom: 30px;
@@ -43,12 +51,9 @@ class Categories extends Component {
         <ModuleTitle>{data.title}</ModuleTitle>
         <List>
           {_.values(data.items).map((item, i) => (
-            <StyledLink
-              key={i}
-              to="/search/eyJwYWdlIjo0fQ%3D%3D"
-            >
+            <Link key={i} onClick={e => this.onRedirect(e, i)}>
               {item}
-            </StyledLink>
+            </Link>
           ))}
         </List>
       </Container>
@@ -77,4 +82,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Categories);
+)(withRouter(Categories));
