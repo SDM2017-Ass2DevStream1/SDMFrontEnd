@@ -4,7 +4,10 @@ import {
   Paper as MuiPaper,
   TableHeaderColumn as MuiTableHeaderColumn,
   TableRowColumn as MuiTableRowColumn,
+  RaisedButton as MuiRaisedButton,
 } from 'material-ui';
+import { colors } from 'material-ui/styles';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { muiTheme } from '../constants/styles';
@@ -13,12 +16,12 @@ import { muiTheme } from '../constants/styles';
 export const Paper = ({ style, ...rest }) => {
   return (
     <MuiPaper
-      {...rest}
       style={{
         padding: '25px 30px',
         marginBottom: '40px',
         ...style,
       }}
+      {...rest}
     />
   );
 };
@@ -46,12 +49,12 @@ export const TableHeaderColumn = (options) => {
   const opts = _.merge({
     visibility: true,
     flex: 1,
-    label: '',
+    value: '',
     justifyContent: 'flex-start',
     forceShow: false,
   }, options);
 
-  const { label, forceShow, justifyContent } = opts;
+  const { value, forceShow, justifyContent } = opts;
 
   return (
     (forceShow || opts.visibility) && <MuiTableHeaderColumn
@@ -61,7 +64,7 @@ export const TableHeaderColumn = (options) => {
         flex: opts.flex,
       }}
     >
-      {label}
+      {value}
     </MuiTableHeaderColumn>
   );
 };
@@ -101,3 +104,38 @@ export const TableRowColumn = (options) => {
     </MuiTableRowColumn>
   );
 };
+
+export const IconButton = ({ overlayStyle, ...rest }) => (
+  <MuiRaisedButton
+    primary
+    labelPosition="before"
+    overlayStyle={{
+      display: 'flex',
+      alignItems: 'center',
+      ...overlayStyle,
+    }}
+    {...rest}
+  />
+);
+
+export const StyledLink = styled(Link)`
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  margin-left: 25px;
+  text-decoration: none;
+  color: ${colors.lightBlue500};
+  &:after {
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    width: 0;
+    height: 1px;
+    content: '';
+    background: ${colors.lightBlue500};
+    transition: width .5s ease;
+  }
+  &:hover&:after {
+    width: 100%
+  }
+`;

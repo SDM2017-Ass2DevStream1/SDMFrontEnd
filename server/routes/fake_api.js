@@ -2,10 +2,12 @@ const _ = require('lodash');
 const faker = require('faker');
 const moment = require('moment');
 const router = require('express').Router();
-const { Base64 } = require('js-base64');
+
+const { decodeQuery } = require('../utils');
 
 const {
   RESEARCH_DESIGN, SE_METHOD, SE_METHODOLOGY, SORT_BY_METHOD,
+  SEARCH_FIELD_OPERATORS, SEARCH_CONDITION_FIELD_TYPE,
 } = require('../../src/constants');
 
 
@@ -44,7 +46,8 @@ router.get('/search', (req, res) => {
     return _.sample(_.values(options[name]));
   };
 
-  const query = JSON.parse(Base64.decode(req.query.query));
+  const query = decodeQuery(req.query.query);
+
   const items = _.times(15, () => ({
     id: random.uuid(),
     title: lorem.sentence(),
@@ -70,6 +73,34 @@ router.get('/search', (req, res) => {
   res.jsonp({
     items,
     total: 200,
+  });
+});
+
+router.get('/saved_queries', (req, res) => {
+  const items = _.times(15, () => {
+    const item = {
+      id: random.uuid(),
+      term: lorem[_.sample(['word', 'words'])](),
+      conditions: [],
+    };
+
+    _.times(_.random(4), () => {
+      const field = _.sample(_.values(SEARCH_CONDITION_FIELD_TYPE));
+      const { operators, options } = SEARCH_FIELD_OPERATORS[field];
+      item.conditions.push({
+        type: _.sample([1, 2]),
+        field,
+        operator: _.sample(operators).type,
+        option: options ? _.sample(options).type : lorem.words(),
+      });
+    });
+
+    return item;
+  });
+
+  res.jsonp({
+    items,
+    total: 50,
   });
 });
 

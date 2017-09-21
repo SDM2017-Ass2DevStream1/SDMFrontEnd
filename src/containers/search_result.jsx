@@ -13,7 +13,7 @@ import styled from 'styled-components';
 
 import SearchSettings from './search_settings';
 import { SEARCH_RESULTS_COLUMN, SORT_BY_METHOD } from '../constants';
-import { BORDER, muiTheme } from '../constants/styles';
+import { muiTheme, tableStyles } from '../constants/styles';
 import { TableHeaderColumn, TableRowColumn } from '../components/misc';
 import * as searchActions from '../actions/search';
 
@@ -26,34 +26,6 @@ const flexOptions = {
   [SEARCH_RESULTS_COLUMN.DESIGN]: 3,
   [SEARCH_RESULTS_COLUMN.METHOD]: 3,
   [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 3,
-};
-
-const styles = {
-  table: {
-    borderBottom: BORDER,
-  },
-  headerRow: {
-    display: 'flex',
-    height: 'auto',
-    marginBottom: '-1px',
-  },
-  bodyRow: {
-    display: 'flex',
-    height: 'auto',
-  },
-  column: {
-    display: 'flex',
-    alignItems: 'center',
-    lineHeight: 1.5,
-    padding: '10px 0',
-    height: 'auto',
-    minHeight: '48px',
-    whiteSpace: 'normal',
-    wordWrap: 'break-word',
-  },
-  sortBy: {
-    fontSize: '14px',
-  },
 };
 
 class SearchResult extends Component {
@@ -75,11 +47,11 @@ class SearchResult extends Component {
   }
 
   renderItems() {
-    const { search: { items, visibility } } = this.props;
+    const { search: { results, visibility } } = this.props;
 
-    return items.map((item) => {
+    return results.items.map((item) => {
       return (
-        <TableRow key={item.id} style={styles.bodyRow}>
+        <TableRow key={item.id} style={tableStyles.bodyRow}>
           {_.values(SEARCH_RESULTS_COLUMN).map(key => (
             TableRowColumn({
               key,
@@ -132,7 +104,7 @@ class SearchResult extends Component {
       return TableHeaderColumn({
         flex: flexOptions[key],
         visibility: visibility[key],
-        label: (
+        value: (
           <Label
             onClick={() => this.onChangeSortBy(key)}
             highlight={shouldHighlight}
@@ -153,13 +125,9 @@ class SearchResult extends Component {
     };
 
     return (
-      <Table selectable={false} style={styles.table}>
+      <Table selectable={false} style={tableStyles.table}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-          <TableRow
-            style={{
-              ...styles.headerRow,
-            }}
-          >
+          <TableRow style={tableStyles.headerRow}>
             {CustomizedHeaderColumn({
               key: SEARCH_RESULTS_COLUMN.TITLE,
               label: 'Title',
@@ -205,7 +173,7 @@ class SearchResult extends Component {
   }
 
   renderPagination() {
-    const { search: { query, total } } = this.props;
+    const { search: { query, results: { total } } } = this.props;
     const Div = styled.div`
       margin-top: 25px;
     `;

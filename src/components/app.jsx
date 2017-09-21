@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { MuiThemeProvider } from 'material-ui/styles';
 
 import { muiTheme } from '../constants/styles';
@@ -12,9 +12,8 @@ const App = () => (
       <div>
         <Header />
         <section id="content">
-          <Switch>
-            <Route exact path="/" component={SearchIndex} />
-          </Switch>
+          <Route exact path="/" component={SearchIndex} />
+          <Route path="/search/:query" component={SearchIndex} />
         </section>
       </div>
     </MuiThemeProvider>

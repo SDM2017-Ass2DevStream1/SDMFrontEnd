@@ -2,13 +2,14 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { SelectField, MenuItem, RaisedButton } from 'material-ui';
-import { ActionPrint } from 'material-ui/svg-icons';
+import {
+  SelectField, MenuItem, Dialog, FlatButton,
+} from 'material-ui';
+import { ActionPrint, ContentSave } from 'material-ui/svg-icons';
 import styled from 'styled-components';
 
 import { SEARCH_RESULTS_COLUMN } from '../constants';
-import { BORDER } from '../constants/styles';
-import { ModuleTitle } from '../components/misc';
+import { ModuleTitle, IconButton } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
@@ -22,12 +23,34 @@ const visibilityOptions = {
 };
 
 class SearchSettings extends Component {
+  constructor(props) {
+    super(props);
+    this.onSaveQuery = this.onSaveQuery.bind(this);
+    this.onDialogClose = this.onDialogClose.bind(this);
+  }
+
+  state = {
+    dialogOpen: false,
+  }
+
   onChangeVisibility(values) {
     const columns = _.keys(_.pickBy(
       visibilityOptions, item => values.includes(item),
     ));
 
     this.props.actions.setVisibleColumns(columns);
+  }
+
+  onSaveQuery() {
+    this.setState({
+      dialogOpen: true,
+    });
+  }
+
+  onDialogClose() {
+    this.setState({
+      dialogOpen: false,
+    });
   }
 
   renderVisibility() {
@@ -75,7 +98,6 @@ class SearchSettings extends Component {
   render() {
     const Container = styled.div`
       padding-bottom: 20px;
-      border-bottom: ${BORDER};
     `;
 
     const Content = styled.div`
@@ -83,19 +105,49 @@ class SearchSettings extends Component {
       align-items: center;
     `;
 
+    const DialogContent = styled.p`
+      line-height: 1.5;
+    `;
+
+    const dialogActions = [
+      <FlatButton
+        label="Submit"
+        primary
+        keyboardFocused
+        onClick={this.onDialogClose}
+      />,
+    ];
+
     return (
       <Container>
         <ModuleTitle>Search Results</ModuleTitle>
         <Content>
           {this.renderVisibility()}
-          <RaisedButton
-            primary
+          <IconButton
+            label="Save"
+            onClick={this.onSaveQuery}
+            icon={<ContentSave />}
+          />
+          <IconButton
             label="Print"
-            labelPosition="before"
+            style={{ marginLeft: 10 }}
             onClick={() => window.print()}
             icon={<ActionPrint />}
           />
         </Content>
+        <Dialog
+          title="Search Query Has Been Saved Successfully"
+          actions={dialogActions}
+          modal={false}
+          open={this.state.dialogOpen}
+          onRequestClose={this.onDialogClose}
+        >
+          <DialogContent>
+            The query you searched has been successfully saved as a history.
+            You can view all search histories and restore a specific search
+            resluts via <b>HISTORY Tab</b> at the top of header bar.
+          </DialogContent>
+        </Dialog>
       </Container>
     );
   }

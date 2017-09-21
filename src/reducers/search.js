@@ -28,12 +28,17 @@ export const initialState = {
     // the format of an item in others:
     // {
     //   types, fields, operators, options,
-    //   select: { type, field, operator, option },
     // }
     others: [],
   },
-  items: [],
-  total: 0,
+  results: {
+    items: [],
+    total: 0,
+  },
+  savedQueries: {
+    items: [],
+    total: 0,
+  },
   visibility: {
     [SEARCH_RESULTS_COLUMN.AUTHORS]: true,
     [SEARCH_RESULTS_COLUMN.YEAR]: true,
@@ -53,7 +58,9 @@ const reducer = createReducer()
   .when(types.FETCH_ARTICLES, updateQuery)
   .done((state, { payload: { data } }) => ({
     ...state,
-    ...data,
+    results: {
+      ...data,
+    },
   }))
 
   .when(types.UPDATE_SEARCH_QUERY, updateQuery)

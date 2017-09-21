@@ -15,17 +15,17 @@ export const RESEARCH_DESIGN = {
 export const SE_METHOD = {
   TDD: 'TDD',
   BDD: 'BDD',
-  PAIR_PROGRAMMING: 'pair programming',
-  PLANNING_POKER: 'planning poker',
-  DAILY_STANDUP_MEETING: 'daily standup meetings',
-  STORY_BOARDS: 'story boards',
-  USER_STORY_MAPPING: 'user story mapping',
-  CONTINUOUS_INTEGRATION: 'continuous integration',
-  RETROSPECTIVES: 'retrospectives',
-  BURN_DOWN_CHARTS: 'burn down charts',
-  REQUIREMENTS_PRIORITISATION: 'requirements prioritisation',
-  VERSION_CONTROL: 'version control',
-  CODE_SHARING: 'code sharing',
+  PAIR_PROGRAMMING: 'Pair Programming',
+  PLANNING_POKER: 'Planning Poker',
+  DAILY_STANDUP_MEETING: 'Daily Standup Meetings',
+  STORY_BOARDS: 'Story Boards',
+  USER_STORY_MAPPING: 'User Story Mapping',
+  CONTINUOUS_INTEGRATION: 'Continuous Integration',
+  RETROSPECTIVES: 'Retrospectives',
+  BURN_DOWN_CHARTS: 'Burn Down Charts',
+  REQUIREMENTS_PRIORITISATION: 'Requirements Prioritisation',
+  VERSION_CONTROL: 'Version Control',
+  CODE_SHARING: 'Code Sharing',
 };
 
 export const SE_METHODOLOGY = {
@@ -35,13 +35,13 @@ export const SE_METHODOLOGY = {
   XP: 'XP',
   RATIONAL_UNIFIED_PROCESS: 'Rational Unified Process',
   CRYSTAL: 'Crystal',
-  CLEAN_ROOM: 'Clean room',
+  CLEAN_ROOM: 'Clean Room',
   FEATURE_DRIVEN_DEVELOPMENT: 'Feature Driven Development',
   MODEL_DRIVEN_DEVELOPMENT: 'Model Driven Development',
   DOMAIN_DRIVEN_DEVELOPMENT: 'Domain Driven Development',
-  FORMAL_METHODS: 'Formal methods',
+  FORMAL_METHODS: 'Formal Methods',
   PROBLEM_DRIVEN_DEVELOPMENT: 'Problem Driven Development',
-  CLOUD_COMPUTING: 'Cloud computing',
+  CLOUD_COMPUTING: 'Cloud Computing',
   SERVICE_ORIENTED_DEVELOPMENT: 'Service Oriented Development',
   ASPECT_ORIENTED_DEVELOPMENT: 'Aspect Oriented Development',
   VALUSE_DRIVEN_DEVELOPMENT: 'Valuse Driven Development',
@@ -57,6 +57,12 @@ export const SEARCH_RESULTS_COLUMN = {
   DESIGN: 'design',
   METHOD: 'method',
   METHODOLOGY: 'methodology',
+};
+
+export const SAVED_QUERIES_COLUMN = {
+  QUERY: 'query',
+  DATE: 'date',
+  ACTIONS: 'actions',
 };
 
 export const SORT_BY_METHOD = {
