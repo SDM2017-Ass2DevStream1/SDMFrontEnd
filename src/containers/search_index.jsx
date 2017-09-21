@@ -60,7 +60,7 @@ class SearchIndex extends Component {
     const { match: { params } } = props;
 
     if (!_.isEmpty(params)) {
-      this.props.actions.fetchArticles(params);
+      this.props.actions.fetchArticles(params.query);
     }
   }
 
