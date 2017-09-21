@@ -2,12 +2,13 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import {
   RESEARCH_DESIGN, SE_METHOD, SE_METHODOLOGY,
 } from '../constants';
 import { ModuleTitle } from '../components/misc';
-import styled from 'styled-components';
 import * as searchActions from '../actions/search';
 
 
@@ -24,7 +25,7 @@ const listData = {
     title: 'SE Methodology',
     items: SE_METHODOLOGY,
   },
-}
+};
 
 class Categories extends Component {
   renderItems(data) {
@@ -48,7 +49,11 @@ class Categories extends Component {
         <ModuleTitle>{data.title}</ModuleTitle>
         <List>
           {_.values(data.items).map((item, i) => {
-            return <Item key={i}>{item}</Item>;
+            return (
+              <Item key={i}>
+                <Link to="/search/eyJwYWdlIjo0fQ%3D%3D">{item}</Link>
+              </Item>
+            );
           })}
         </List>
       </Container>

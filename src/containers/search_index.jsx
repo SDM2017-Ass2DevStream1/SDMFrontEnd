@@ -57,6 +57,7 @@ class SearchIndex extends Component {
     super(props);
     this.onSearchFormSubmit = this.onSearchFormSubmit.bind(this);
 
+    console.log(props.match);
     const { match: { params } } = props;
 
     if (!_.isEmpty(params)) {
