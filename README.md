@@ -68,3 +68,21 @@ module.exports = {
   useFakeApi: true,
 };
 ```
+
+
+## Syncing your local branch with the master
+### 1. Configuring the upstream
+Following this tutorial: https://help.github.com/articles/configuring-a-remote-for-a-fork/
+
+### 2. Syncing the local branch
+```
+git checkout master
+git fetch --all
+git rebase upstream/master
+git push
+```
+
+Note that, each time when you develop a future, you should use a separated branch.
+```
+git checkout -b [the new branche nanme]
+```
