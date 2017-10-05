@@ -16,19 +16,26 @@ import { Paper, ModuleTitle, IconButton } from '../components/misc';
 import * as searchActions from '../actions/search';
 
 
+const commonTabStyles = {
+  marginLeft: '300px',
+  position: 'relative',
+  zIndex: 9999,
+};
+
 const styles = {
   tab: {
     tabItemContainerStyle: {
-      width: '300px',
-      marginLeft: '100px',
+      width: '400px',
+      marginTop: '-48px',
+      ...commonTabStyles,
     },
     style: {
       background: muiTheme.palette.primary1Color,
     },
     inkBarStyle: {
-      marginLeft: '100px',
       height: '3px',
       background: colors.amber300,
+      ...commonTabStyles,
     },
     contentContainerStyle: {
       background: '#fff',
