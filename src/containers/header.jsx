@@ -8,9 +8,27 @@ import Logged from './logged';
 import * as userActions from '../actions/user';
 
 
+const commonBarStyles = {
+  display: 'flex',
+  height: '120px',
+};
+
 const styles = {
   title: {
     cursor: 'pointer',
+  },
+
+  appBar: {
+    style: {
+      boxShadow: 'none',
+      ...commonBarStyles,
+    },
+    titleStyle: {
+      ...commonBarStyles,
+    },
+    iconStyleLeft: {
+      display: 'none',
+    },
   },
 };
 
@@ -44,13 +62,8 @@ class Header extends Component {
     return (
       <AppBar
         title={<Logo />}
-        style={{
-          boxShadow: 'none',
-        }}
-        iconStyleLeft={{
-          display: 'none',
-        }}
         iconElementRight={user ? <Logged /> : <Login />}
+        {...styles.appBar}
       />
     );
   }
