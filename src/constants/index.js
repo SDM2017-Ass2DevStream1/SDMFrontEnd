@@ -5,7 +5,7 @@ import _ from 'lodash';
 // be used both on the front & back ends. All the names here was given
 // by Jim (see: SDM INFS809 Assignment 2 Supporting Documentation).
 export const RESEARCH_DESIGN = {
-  CASE_STUDY: 'Case study',
+  CASE_STUDY: 'Case Study',
   FIELD_OBSERVATION: 'Field Observation',
   EXPERIMENT: 'Experiment',
   INTERVIEW: 'Interview',
