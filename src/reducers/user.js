@@ -4,7 +4,7 @@ import {
 } from '../constants/action_types';
 
 
-const initialState = null;
+export const initialState = null;
 
 const reducer = createReducer()
   .when(GET_CURRENT_USER)
