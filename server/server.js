@@ -7,6 +7,7 @@ const _ = require('lodash');
 const kit = require('nokit');
 const http = require('http');
 const chalk = require('chalk');
+const Raven = require('raven');
 const express = require('express');
 const compression = require('compression');
 const bodyPaser = require('body-parser');
@@ -15,6 +16,10 @@ const { argv } = require('yargs');
 const cfg = require('./config');
 const routes = require('./routes');
 
+
+Raven
+  .config('https://948bf30d5848446e9be83bdc8483a700:c925b1e6a4c8415d986a49df3195d788@sentry.io/220530')
+  .install();
 
 class Server {
   constructor(options) {
@@ -36,11 +41,14 @@ class Server {
     app.set('views', `${__dirname}/views`);
     app.set('view engine', 'ejs');
 
+    app.use(Raven.requestHandler());
     // compresses the content in gzip
     app.use(compression());
     app.use(bodyPaser());
     app.use('/static', express.static(`${__dirname}/../dist`));
     app.use(routes);
+
+    app.use(Raven.errorHandler());
 
     this.app = app;
   }
