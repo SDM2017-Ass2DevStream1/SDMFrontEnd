@@ -1,3 +1,4 @@
+const kit = require('nokit');
 const router = require('express').Router();
 
 const cfg = require('../config');
@@ -11,6 +12,7 @@ router.use('/api', cfg.useFakeApi ? require('./fake_api') : require('./api'));
 router.use('*', (req, res) => {
   res.render('index', {
     assetUrl,
+    isProduction: kit.isProduction(),
   });
 });
 

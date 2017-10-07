@@ -17,9 +17,7 @@ const cfg = require('./config');
 const routes = require('./routes');
 
 
-Raven
-  .config('https://948bf30d5848446e9be83bdc8483a700:c925b1e6a4c8415d986a49df3195d788@sentry.io/220530')
-  .install();
+Raven.config(cfg.sentry).install();
 
 class Server {
   constructor(options) {
@@ -48,7 +46,9 @@ class Server {
     app.use('/static', express.static(`${__dirname}/../dist`));
     app.use(routes);
 
-    app.use(Raven.errorHandler());
+    if (kit.isProduction()) {
+      app.use(Raven.errorHandler());
+    }
 
     this.app = app;
   }

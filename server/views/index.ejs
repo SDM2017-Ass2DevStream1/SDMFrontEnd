@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
     <link rel="shortcut icon" href="<%= assetUrl('favicon.ico') %>">
     <link rel="stylesheet" href="<%= assetUrl('main.css') %>">
-    <script src="https://cdn.ravenjs.com/3.17.0/raven.min.js" crossorigin="anonymous"></script>
-    <script>
-      Raven.config('https://5df44196d1d94540a73b05cf62855b20@sentry.io/220526').install();
-    </script>
+    <% if (isProduction) { %>
+      <script src="https://cdn.ravenjs.com/3.17.0/raven.min.js" crossorigin="anonymous"></script>
+      <script>
+        Raven.config('https://5df44196d1d94540a73b05cf62855b20@sentry.io/220526').install();
+      </script>
+    <% } %>
   </head>
   <body>
     <div id="app"></div>
