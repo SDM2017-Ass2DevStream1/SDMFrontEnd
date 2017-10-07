@@ -124,7 +124,7 @@ class SearchSettings extends Component {
         <Content>
           {this.renderVisibility()}
           <IconButton
-            label="Save"
+            label="Save Results"
             onClick={this.onSaveQuery}
             icon={<ContentSave />}
           />

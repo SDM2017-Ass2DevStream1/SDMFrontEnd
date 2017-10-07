@@ -98,15 +98,23 @@ class SearchConditions extends Component {
       const condition = conditions[index];
       const other = others[index];
 
+      if (index === 0 && type === 'type') return null;
+
       if (type === 'option' && !other.options) {
+        const textFiledStyles = {
+          ...styles.conditionOptions,
+          ...styles.optionCondition,
+        };
+
+        if (index === 0 && type === 'option') {
+          textFiledStyles.width = '350px';
+        }
+
         return (
           <TextField
             name="option"
             defaultValue={condition.option}
-            style={{
-              ...styles.conditionOptions,
-              ...styles.optionCondition,
-            }}
+            style={textFiledStyles}
             onBlur={(e) => {
               this.onSelect(type, e.target.value, index);
             }}
