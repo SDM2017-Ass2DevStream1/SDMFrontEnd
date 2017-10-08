@@ -6,6 +6,7 @@ import {
   SelectField, MenuItem, Dialog, FlatButton,
 } from 'material-ui';
 import { ActionPrint, ContentSave } from 'material-ui/svg-icons';
+import { ShareButtons, generateShareIcon } from 'react-share';
 import styled from 'styled-components';
 
 import { SEARCH_RESULTS_COLUMN } from '../constants';
@@ -21,6 +22,12 @@ const visibilityOptions = {
   [SEARCH_RESULTS_COLUMN.METHOD]: 'SE Method',
   [SEARCH_RESULTS_COLUMN.METHODOLOGY]: 'SE Methodology',
 };
+
+const FacebookShareButton = styled(ShareButtons.FacebookShareButton)`
+  margin-right: 10px;
+  cursor: pointer;
+`;
+const FacebookShareIcon = generateShareIcon('facebook');
 
 class SearchSettings extends Component {
   constructor(props) {
@@ -123,14 +130,20 @@ class SearchSettings extends Component {
         <ModuleTitle>Search Results</ModuleTitle>
         <Content>
           {this.renderVisibility()}
+          <FacebookShareButton
+            url={location.href}
+            quote="Search results from Serler"
+          >
+            <FacebookShareIcon size={36} />
+          </FacebookShareButton>
           <IconButton
             label="Save Results"
+            style={{ marginRight: 10 }}
             onClick={this.onSaveQuery}
             icon={<ContentSave />}
           />
           <IconButton
             label="Print"
-            style={{ marginLeft: 10 }}
             onClick={() => window.print()}
             icon={<ActionPrint />}
           />
