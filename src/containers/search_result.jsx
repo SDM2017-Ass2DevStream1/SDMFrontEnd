@@ -110,12 +110,14 @@ class SearchResult extends Component {
             highlight={shouldHighlight}
           >
             {label}
-            <Operations>
+            <Operations key={`options-${key}`}>
               {shouldHighlight && sortBy.order === SORT_BY_METHOD.ASC ?
-                <HighlightArrowDropUp /> : <ArrowDropUp />
+                <HighlightArrowDropUp key={`highlight-arrow-drop-up-${key}`} /> :
+                <ArrowDropUp key={`arrow-drop-up-${key}`} />
               }
               {shouldHighlight && sortBy.order === SORT_BY_METHOD.DESC ?
-                <HighlightArrowDropDown /> : <ArrowDropDown />
+                <HighlightArrowDropDown key={`highlight-arrow-drop-down-${key}`} /> :
+                <ArrowDropDown key={`arrow-drop-down-${key}`} />
               }
             </Operations>
           </Label>
