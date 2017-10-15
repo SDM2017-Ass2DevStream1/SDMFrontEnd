@@ -6,7 +6,7 @@
     "dev": "NODE_ENV=development webpack --watch --progress --colors",
     "dev-server": "NODE_ENV=development nodemon ./server/server.js",
     "prod": "yarn && NODE_ENV=production webpack --progress --colors",
-    "prod-server": "npm run prod && NODE_ENV=production pm2 start ./server/server.js -i max -- --port=80",
+    "prod-server": "npm run prod && sudo NODE_ENV=production pm2 start ./server/server.js -i max -- --port=80",
     "lint": "eslint **/*.js **/*.jsx",
     "test": "jest --maxWorkers=4",
     "test:watch": "npm test -- --watch",
